@@ -35,7 +35,8 @@ if(isset($_POST["id"])) {
 		"id" => $id,
 		"nombre" => $nombres,
 		"apellidos" => $apellidos,
-		"otros" => $email,$fechaNacimiento,
+		"email" => $email,
+		"fechaNacimiento" => $fechaNacimiento,
 	);
 	sendResponse(200, json_encode($resultado));
 	return true;

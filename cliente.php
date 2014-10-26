@@ -10,7 +10,8 @@ foreach($data as $key=>$value) { $content .= $key.'='.$value.'&'; }
 $curl = curl_init($url);
 curl_setopt($curl, CURLOPT_HEADER, false);
 curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
-curl_setopt($curl, CURLOPT_POST, true);
+//curl_setopt($curl, CURLOPT_POST, true);
+curl_setopt($curl, CURLOPT_CUSTOMREQUEST, "DELETE");
 curl_setopt($curl, CURLOPT_POSTFIELDS, $content);
 
 $json_response = curl_exec($curl);
