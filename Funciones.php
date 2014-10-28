@@ -29,6 +29,8 @@ class Funciones {
 		return true;
 	}
 	
+	$stmt->close();
+	
 }
 
 ?>

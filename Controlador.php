@@ -43,9 +43,7 @@ function mostrar() {
 			sendResponse(200, json_encode($resultado));
 			return true;
 		} 
-		*/
-		$stmt->close();
-	
+		*/	
 	}
 
 // Modificado debido a cambio en forma en que se realizan consultas
