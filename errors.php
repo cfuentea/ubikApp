@@ -56,6 +56,6 @@ function sendResponse($status = 200, $body = '', $content_type = 'text/html')
     $status_header = 'HTTP/1.1 ' . $status . ' ' . getStatusCodeMessage($status);
     header($status_header);
     header('Content-Type: application/json');
-    echo $body;
+    return $body;
 }
 ?>
