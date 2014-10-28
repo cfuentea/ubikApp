@@ -12,13 +12,13 @@ function __autoload($className) {
 
 function mostrar() {
 
-	if(!isset($_POST["id"])) {
+	if(!isset($_POST['method'])) {
 		sendResponse(400, 'Invalid request'); 
 		return false;
 	} 
 		else 
 	{
-		switch($_POST['action']) {
+		switch($_POST['method']) {
 			case 'getUsers':
 				print $users->getUsers();		
 			break;
