@@ -4,10 +4,10 @@
  * Modificar una vez cambiado de sistema
  * Carlos Fuentealba F. - carlos@dev.cl
  */
-$HostDB = "127.0.0.1";
-$UserDB = "root"; 
-$PassDB = ""; 
-$NameDB = "ubikApp"; 
+$HostDB = "localhost";
+$UserDB = "ubikapp_user"; 
+$PassDB = "1q2w3e4r"; 
+$NameDB = "ubikapp_main"; 
 
 function mycon() 
 { 
