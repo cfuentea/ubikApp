@@ -13,8 +13,8 @@ function obtenerUsuario($idUsuario) {
 function addUsuario($datoJSON) {
 	$link = mycon();
 	$dato = json_decode($datoJSON, true);
-        $query = 'INSERT INTO Usuario (nombres, apellidos, email, Comuna_id) 
-			VALUES 
+    $query = 'INSERT INTO Usuario (nombres, apellidos, email, Comuna_id) 
+				VALUES 
 			("'.$dato["nombre"].'","'.$dato["apellido"].'","'.$dato["email"].'",'.$dato["idComuna"].')';
         $resultado = mysql_query($query,$link);
         return '{"resultado":"ok"}';
