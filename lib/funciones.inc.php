@@ -1,7 +1,7 @@
 <?php
 include('db.inc.php');
 
-function obtenerUsuario($idUsuario) {
+function getUsuario($idUsuario) {
 	$link = mycon();
 	$query = 'SELECT id, nombres, apellidos,email,fechaNacimiento FROM Usuario WHERE id = '.$idUsuario.'';
 	$resultado = mysql_query($query,$link);
@@ -13,9 +13,16 @@ function obtenerUsuario($idUsuario) {
 function addUsuario($datoJSON) {
 	$link = mycon();
 	$dato = json_decode($datoJSON, true);
+	
+	$nombre = $dato['nombre'];
+	$apellido = $dato['apellido'];
+	$email = $dato['email'];
+	$idComuna = $dato['idComuna'];
+	
     $query = 'INSERT INTO Usuario (nombres, apellidos, email, Comuna_id) 
 				VALUES 
-			("'.$dato["nombre"].'","'.$dato["apellido"].'","'.$dato["email"].'",'.$dato["idComuna"].')';
+			("'.$nombre.'","'.$apellido.'","'.$email.'",'.$idComuna.')';
+			
         $resultado = mysql_query($query,$link);
         return '{"resultado":"ok"}';
         mysql_close($link);
