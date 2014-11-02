@@ -19,12 +19,19 @@ if(!isset($_POST)) {
 } else {
 	switch($_POST['metodo']) {
 
-		case "getUsuario":
-			echo getUsuario($_POST['id']);
+		case "readUsuario":
+			echo readUsuario($_POST['id']);
 			break;
 		
-		case "addUsuario":
-			echo addUsuario($_POST['datos']);
+		case "createUsuario":
+			echo createUsuario($_POST['datos']);
+			break;
+		
+		case "updateUsuario":
+			echo updateUsuario($_POST['id'],$_POST['datos']);
+			break;
+		case "deleteUsuario":
+			echo deleteUsuario($_POST['id']);
 			break;
 	}
 }
