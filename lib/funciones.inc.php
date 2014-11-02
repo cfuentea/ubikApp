@@ -24,7 +24,7 @@ function createUsuario($datoJSON) {
 	$apellido = $arr['apellido'];
 	$email = $arr['email'];
 	$fechaNacimiento = $arr['fechaNacimiento'];
-	$idComuna = $arr['idComuna'];
+	$Comuna_id = $arr['Comuna_id'];
 	$password = $arr['password'];
 	$fechaRegistro = "now()";
 		
@@ -32,7 +32,7 @@ function createUsuario($datoJSON) {
     		(nombres, apellidos, email, fechaNacimiento, Comuna_id, password, fechaRegistro) 
 				VALUES 
 			("'.$nombre.'","'.$apellido.'","'.$email.'","'.$fechaNacimiento.'",
-			  '.$idComuna.',"'.$password.'",'.$fechaRegistro.')';
+			  '.$Comuna_id.',"'.$password.'",'.$fechaRegistro.')';
 			
     $resultado = mysql_query($query,$link);
     return '{"resultado":"ok"}';
@@ -48,7 +48,7 @@ function updateUsuario($idUsuario,$datoJSON) {
 	$apellido = $arr['apellido'];
 	$email = $arr['email'];
 	$fechaNacimiento = $arr['fechaNacimiento'];
-	$idComuna = $arr['idComuna'];
+	$Comuna_id = $arr['Comuna_id'];
 	$password = $arr['password'];
 	
 	$query = 'UPDATE Usuario SET 
@@ -56,7 +56,7 @@ function updateUsuario($idUsuario,$datoJSON) {
 				apellidos = "'.$apellido.'",
 				email = "'.$email.'",
 				fechaNacimiento = "'.$fechaNacimiento.'",
-				Comuna_id = '.$idComuna.',
+				Comuna_id = '.$Comuna_id.',
 				password = "'.$password.'"
 			WHERE
 				id = '.$idUsuario.'';
