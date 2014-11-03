@@ -16,7 +16,12 @@ function readUsuario($idUsuario) {
 }
 
 function createUsuario($datoJSON) {
-
+	
+	/* Como funcion adicional, el resultado debe entregar el ID del usuario que creó
+	 * para esto, debemos definir un ID único (podría ser el email) con el cual
+	 * verificar cual es el ID del usuario recién creado
+	 */
+	 
 	$link = mycon();
 	$arr = json_decode($datoJSON, true);
 	
