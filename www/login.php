@@ -1,34 +1,39 @@
 <?php
-// Mostramos errores
+include('../lib/db.inc.php');
 
+// Mostramos errores
 ini_set('display_errors',1);
 ini_set('display_startup_errors',1);
 error_reporting(-1);
 
-include('../ws/lib/db.inc.php');
 
-
-$session = session_id();
 if(empty($session)) session_start();
+$_SESSION['userId'] = 0;
+$session = session_id();
 
-//echo $_POST['rut'].' '.$_POST['password'].'<br />';
-//echo 'SID: '.SID.'<br />session_id(): '.session_id().'<br />COOKIE: '.$_COOKIE['PHPSESSID'];
+if($_SESSION['userId']!=0) {
+	header('Location: index.php');
+	exit;
+}
 
 function loginClientes($rut,$pwd) {
 	$link = mycon();
-	$query = 'SELECT count(*), rut as cant FROM Empresa WHERE rut = "'.$rut.'" AND password = "'.$pwd.'"';
+	$query = 'SELECT count(*) as cant, rut FROM Empresa WHERE rut = "'.$rut.'" AND password = "'.$pwd.'"';
 	$resultado = mysql_query($query,$link);
 	$a = mysql_fetch_assoc($resultado);
 	
-	return $a['cant'];
+	return $a['rut'];
 	
 	mysql_close($link);
 }
 
 if($_POST) {
-	if(loginClientes($_POST['rut'],$_POST['password']) == 1) {
-		$_SESSION['userId'] = "hola que tal";
-		header("Location: index.php");
+	
+	$login = loginClientes($_POST['rut'],$_POST['password']);
+	
+	if($login>0) {	
+		$_SESSION['userId'] = $login;
+		header('Location: index.php');
 		exit;
 	}
 }
@@ -89,7 +94,7 @@ if($_POST) {
                                     <label>
                                         <?php
                                         if($_POST) {
-											if(loginClientes($_POST['rut'],$_POST['password']) == 0) {
+											if(empty($login)) {
 												echo "<span style='color:red'>Error en rut / contrase&ntilde;a</span>";
 											} else {
 												echo "<span></span>";
