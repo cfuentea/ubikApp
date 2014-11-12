@@ -1,4 +1,6 @@
 <?php
+include('../lib/funciones.inc.php');
+
 session_start();
 
 if($_SESSION['userId']==0) {
@@ -18,8 +20,8 @@ if($_SESSION['userId']==0) {
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="description" content="">
     <meta name="author" content="">
-
-    <title>UbikApp - Panel de control</title>
+	
+	<title>UbikApp - Panel de control</title>
 
     <!-- Bootstrap Core CSS -->
     <link href="css/bootstrap.min.css" rel="stylesheet">
@@ -45,10 +47,31 @@ if($_SESSION['userId']==0) {
         <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
         <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
     <![endif]-->
-
+	
 </head>
 
 <body>
+	
+	<!-- script Google Maps -->
+	
+	<script type="text/javascript" src="http://maps.google.com/maps/api/js?sensor=false&language=es&callback=iniciar"></script>
+
+	<script>
+	function iniciar() {
+	var mapOptions = {
+	center: new google.maps.LatLng(25.80, -80.30),
+	zoom: 10,
+	mapTypeId: google.maps.MapTypeId.ROADMAP};
+	var place = new google.maps.LatLng(23.1368,-82.3816);
+	var marker = new google.maps.Marker({
+        position: place
+        , title: 'La Universidad de la Habana'
+        , map: mapa
+        , });
+	var mapa = new google.maps.Map(document.getElementById("mapa"),mapOptions);}		
+	</script>
+
+	<!-- fin script Google Maps -->
 
     <div id="wrapper">
 
@@ -64,7 +87,6 @@ if($_SESSION['userId']==0) {
                 <a class="navbar-brand" href="index.html">UbikApp</a>
             </div>
             <!-- /.navbar-header -->
-
             <ul class="nav navbar-top-links navbar-right">
                 <!-- /.dropdown -->
                 <li class="dropdown">
@@ -188,7 +210,7 @@ if($_SESSION['userId']==0) {
         <div id="page-wrapper">
             <div class="row">
                 <div class="col-lg-12">
-                    <h1 class="page-header">Panel de Control</h1>
+                    <h1 class="page-header">Panel de Control - <?=readCliente($_SESSION['userId']);?></h1>
                 </div>
                 <!-- /.col-lg-12 -->
             </div>
@@ -221,6 +243,7 @@ if($_SESSION['userId']==0) {
                         <!-- /.panel-heading -->
                         <div class="panel-body">
                             <div id="morris-area-chart"></div>
+                            <div id="mapa" style="width:500px;height:250px;"></div>
                         </div>
                         <!-- /.panel-body -->
                     </div>

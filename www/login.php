@@ -1,5 +1,5 @@
 <?php
-include('../lib/db.inc.php');
+include('../lib/funciones.inc.php');
 
 // Mostramos errores
 ini_set('display_errors',1);
@@ -8,29 +8,12 @@ error_reporting(-1);
 
 
 if(empty($session)) session_start();
-$_SESSION['userId'] = 0;
-$session = session_id();
 
-if($_SESSION['userId']!=0) {
-	header('Location: index.php');
-	exit;
-}
-
-function loginClientes($rut,$pwd) {
-	$link = mycon();
-	$query = 'SELECT count(*) as cant, rut FROM Empresa WHERE rut = "'.$rut.'" AND password = "'.$pwd.'"';
-	$resultado = mysql_query($query,$link);
-	$a = mysql_fetch_assoc($resultado);
+if(!$_SESSION) $_SESSION['userId'] = 0;
+if($_SESSION['userId']!=0)	header('Location: index.php');
 	
-	return $a['rut'];
-	
-	mysql_close($link);
-}
-
 if($_POST) {
-	
 	$login = loginClientes($_POST['rut'],$_POST['password']);
-	
 	if($login>0) {	
 		$_SESSION['userId'] = $login;
 		header('Location: index.php');
@@ -49,7 +32,7 @@ if($_POST) {
     <meta name="description" content="">
     <meta name="author" content="">
 
-    <title>UbikApp - Panel de clientes</title>
+    <title>UbikApp - Inicio de Sesi&oacute;n</title>
 
     <!-- Bootstrap Core CSS -->
     <link href="css/bootstrap.min.css" rel="stylesheet">

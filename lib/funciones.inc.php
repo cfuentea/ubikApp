@@ -82,4 +82,27 @@ function deleteUsuario($idUsuario) {
 
 }
 
+function readCliente($rut) {
+	
+	$link = mycon();
+	$query = 'SELECT nombreFantasia FROM Empresa WHERE rut = "'.$rut.'"';
+	$resultado = mysql_query($query,$link);
+	$row = mysql_fetch_assoc($resultado);
+	
+	return $row['nombreFantasia']; 
+
+	mysql_close($link);
+}
+
+function loginClientes($rut,$pwd) {
+	$link = mycon();
+	$query = 'SELECT count(*) as cant, rut FROM Empresa WHERE rut = "'.$rut.'" AND password = "'.$pwd.'"';
+	$resultado = mysql_query($query,$link);
+	$a = mysql_fetch_assoc($resultado);
+	
+	return $a['rut'];
+	
+	mysql_close($link);
+}
+
 ?>
