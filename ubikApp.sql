@@ -211,7 +211,7 @@ CREATE TABLE `Empresa` (
   `fechaIngreso` datetime DEFAULT NULL,
   `password` varchar(255) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -220,7 +220,7 @@ CREATE TABLE `Empresa` (
 
 LOCK TABLES `Empresa` WRITE;
 /*!40000 ALTER TABLE `Empresa` DISABLE KEYS */;
-INSERT INTO `Empresa` VALUES (1,'UbikApp','UbikApp Inc.','123','Lira 140','+56226686318','+56226686318','Paulina Bulboa','paulibulboa@gmail.com','2014-11-09 21:53:05','123');
+INSERT INTO `Empresa` VALUES (1,'UbikApp','UbikApp Inc.','123','Lira 140','+56226686318','+56226686318','Paulina Bulboa','paulibulboa@gmail.com','2014-11-09 21:53:05','123'),(2,'Apple','Apple Inc.','1-2','Republica 54',NULL,NULL,'Steve Jobs','steve@apple.com','2014-11-11 02:31:17','1');
 /*!40000 ALTER TABLE `Empresa` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -334,7 +334,7 @@ CREATE TABLE `Usuario` (
 
 LOCK TABLES `Usuario` WRITE;
 /*!40000 ALTER TABLE `Usuario` DISABLE KEYS */;
-INSERT INTO `Usuario` VALUES (1,'Paulina','Bulboa','paulibulboa@gmail.com','2010-10-07',70,NULL,NULL,'2014-10-24 22:06:17','2014-10-24 22:06:27'),(2,'Carlos','Fuentealba','carlosfuentealba@gmail.com','2007-05-10',70,NULL,NULL,'2014-10-29 01:10:30',NULL),(15,'Pedrito','Urdemales','pedro@dev.cl','1960-05-10',70,'facil123',NULL,'2014-11-02 14:13:41',NULL);
+INSERT INTO `Usuario` VALUES (1,'Paulina','Bulboa','paulibulboa@gmail.com','2010-10-07',70,NULL,NULL,'2014-10-24 22:06:17','2014-10-24 22:06:27'),(2,'Carlos','Fuentealba','carlosfuentealba@gmail.com','2007-05-10',70,NULL,NULL,'2014-10-29 01:10:30',NULL),(15,'Pedron','Urdemales','pedro@dev.cl','1960-05-10',70,'facil123',NULL,'2014-11-02 14:13:41',NULL);
 /*!40000 ALTER TABLE `Usuario` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -405,4 +405,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2014-11-10 23:17:14
+-- Dump completed on 2014-11-12 21:44:16

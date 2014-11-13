@@ -9,7 +9,6 @@ if($_SESSION['userId']==0) {
 }
 
 ?>
-
 <!DOCTYPE html>
 <html lang="en">
 
@@ -20,8 +19,8 @@ if($_SESSION['userId']==0) {
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="description" content="">
     <meta name="author" content="">
-	
-	<title>UbikApp - Panel de control</title>
+
+    <title>UbikApp - Dashboard</title>
 
     <!-- Bootstrap Core CSS -->
     <link href="css/bootstrap.min.css" rel="stylesheet">
@@ -29,14 +28,8 @@ if($_SESSION['userId']==0) {
     <!-- MetisMenu CSS -->
     <link href="css/plugins/metisMenu/metisMenu.min.css" rel="stylesheet">
 
-    <!-- Timeline CSS -->
-    <link href="css/plugins/timeline.css" rel="stylesheet">
-
     <!-- Custom CSS -->
     <link href="css/sb-admin-2.css" rel="stylesheet">
-
-    <!-- Morris Charts CSS -->
-    <link href="css/plugins/morris.css" rel="stylesheet">
 
     <!-- Custom Fonts -->
     <link href="font-awesome-4.1.0/css/font-awesome.min.css" rel="stylesheet" type="text/css">
@@ -47,12 +40,12 @@ if($_SESSION['userId']==0) {
         <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
         <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
     <![endif]-->
-	
+
 </head>
 
 <body>
 	
-	<!-- script Google Maps -->
+		<!-- script Google Maps -->
 	
 	<script type="text/javascript" src="http://maps.google.com/maps/api/js?sensor=false&language=es&callback=iniciar"></script>
 
@@ -183,7 +176,7 @@ if($_SESSION['userId']==0) {
                             <!-- /input-group -->
                         </li>
                         <li>
-                            <a class="active" href="index.php"><i class="fa fa-dashboard fa-fw"></i> Panel de Control</a>
+                            <a href="index.php"><i class="fa fa-dashboard fa-fw"></i> Panel de Control</a>
                         </li>
                         <li>
                             <a href="#"><i class="fa fa-bar-chart-o fa-fw"></i> Men&uacute; Campa&ntilde;as<span class="fa arrow"></span></a>
@@ -193,6 +186,18 @@ if($_SESSION['userId']==0) {
                                 </li>
                                 <li>
                                     <a href="morris.html">Editar Campa&ntilde;a</a>
+                                </li>
+                            </ul>
+                            <!-- /.nav-second-level -->
+                        </li>
+                        <li>
+                            <a href="#"><i class="fa fa-bar-chart-o fa-fw"></i> Men&uacute; Sucursales<span class="fa arrow"></span></a>
+                            <ul class="nav nav-second-level">
+                                <li>
+                                    <a href="flot.html">Ingresar Sucursal</a>
+                                </li>
+                                <li>
+                                    <a href="morris.html">Editar Sucursal</a>
                                 </li>
                             </ul>
                             <!-- /.nav-second-level -->
@@ -243,7 +248,7 @@ if($_SESSION['userId']==0) {
                         <!-- /.panel-heading -->
                         <div class="panel-body">
                             <div id="morris-area-chart"></div>
-                            <div id="mapa" style="width:500px;height:250px;"></div>
+							 <div id="mapa" style="width:500px;height:250px;"></div>
                         </div>
                         <!-- /.panel-body -->
                     </div>
