@@ -20,7 +20,7 @@ if($_SESSION['userId']==0) {
     <meta name="description" content="">
     <meta name="author" content="">
 
-    <title>UbikApp - Dashboard</title>
+    <title>UbikApp - A&ntilde;adir Sucursal</title>
 
     <!-- Bootstrap Core CSS -->
     <link href="css/bootstrap.min.css" rel="stylesheet">
@@ -170,7 +170,7 @@ if($_SESSION['userId']==0) {
         <div id="page-wrapper">
             <div class="row">
                 <div class="col-lg-12">
-                    <h1 class="page-header">Panel de Control - <?=readCliente($_SESSION['userId']);?></h1>
+                    <h1 class="page-header">Ingresar Sucursal - <?=readCliente($_SESSION['userId']);?></h1>
                 </div>
                 <!-- /.col-lg-12 -->
             </div>

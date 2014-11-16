@@ -20,7 +20,7 @@ if($_SESSION['userId']==0) {
     <meta name="description" content="">
     <meta name="author" content="">
 
-    <title>UbikApp - Dashboard</title>
+    <title>UbikApp - A&ntilde;adir Campa&ntilde;a</title>
 
     <!-- Bootstrap Core CSS -->
     <link href="css/bootstrap.min.css" rel="stylesheet">
@@ -45,27 +45,6 @@ if($_SESSION['userId']==0) {
 
 <body>
 	
-		<!-- script Google Maps -->
-	
-	<script type="text/javascript" src="http://maps.google.com/maps/api/js?sensor=false&language=es&callback=iniciar"></script>
-
-	<script>
-	function iniciar() {
-	var mapOptions = {
-	center: new google.maps.LatLng(25.80, -80.30),
-	zoom: 10,
-	mapTypeId: google.maps.MapTypeId.ROADMAP};
-	var place = new google.maps.LatLng(23.1368,-82.3816);
-	var marker = new google.maps.Marker({
-        position: place
-        , title: 'La Universidad de la Habana'
-        , map: mapa
-        , });
-	var mapa = new google.maps.Map(document.getElementById("mapa"),mapOptions);}		
-	</script>
-
-	<!-- fin script Google Maps -->
-
     <div id="wrapper">
 
         <!-- Navigation -->
@@ -170,7 +149,7 @@ if($_SESSION['userId']==0) {
         <div id="page-wrapper">
             <div class="row">
                 <div class="col-lg-12">
-                    <h1 class="page-header">Panel de Control - <?=readCliente($_SESSION['userId']);?></h1>
+                    <h1 class="page-header">Ingresar Campa&ntilde;a #123</h1>
                 </div>
                 <!-- /.col-lg-12 -->
             </div>
