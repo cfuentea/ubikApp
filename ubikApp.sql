@@ -125,7 +125,7 @@ CREATE TABLE `Categoria` (
   `ownerEdicion` varchar(100) DEFAULT NULL,
   `fechaEdicion` datetime DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -134,6 +134,7 @@ CREATE TABLE `Categoria` (
 
 LOCK TABLES `Categoria` WRITE;
 /*!40000 ALTER TABLE `Categoria` DISABLE KEYS */;
+INSERT INTO `Categoria` VALUES (1,'Ropa','Categoria de ropa','admin','2014-11-16 20:22:21',NULL,NULL),(2,'Tecnología','Articulos tecnologicos','admin','2014-11-16 20:22:45',NULL,NULL),(3,'Menaje','Articulos de menaje','admin','2014-11-16 20:23:08',NULL,NULL),(4,'Alimentación','Articulos de alimentación','admin','2014-11-16 20:24:02',NULL,NULL);
 /*!40000 ALTER TABLE `Categoria` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -405,4 +406,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2014-11-12 21:44:16
+-- Dump completed on 2014-11-17 23:18:02

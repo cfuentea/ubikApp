@@ -2,7 +2,7 @@
 include('../lib/funciones.inc.php');
 
 session_start();
-$_SESSION['pagina'] = "addSucursal";
+$_SESSION['pagina'] = "editSucursal";
 
 if($_SESSION['userId']==0) {
 	header('Location: login.php');
@@ -21,7 +21,7 @@ if($_SESSION['userId']==0) {
     <meta name="description" content="">
     <meta name="author" content="">
 
-    <title>UbikApp - A&ntilde;adir Sucursales</title>
+    <title>UbikApp - Editar Sucursal</title>
 
     <!-- Bootstrap Core CSS -->
     <link href="css/bootstrap.min.css" rel="stylesheet">
@@ -150,7 +150,7 @@ if($_SESSION['userId']==0) {
         <div id="page-wrapper">
             <div class="row">
                 <div class="col-lg-12">
-                    <h1 class="page-header">A&ntilde;adir Sucursal</h1>
+                    <h1 class="page-header">Editar Sucursal</h1>
                 </div>
                 <!-- /.col-lg-12 -->
             </div>

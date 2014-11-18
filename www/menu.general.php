@@ -13,16 +13,16 @@
                             <!-- /input-group -->
                         </li>
                         <li>
-                            <a href="index.php"><i class="fa fa-dashboard fa-fw"></i> Panel de Control</a>
+                            <a href="index.php"<?=sitioActualBold('indice')?><i class="fa fa-dashboard fa-fw"></i> Panel de Control</a>
                         </li>
                         <li>
                             <a href="#"><i class="fa fa-bar-chart-o fa-fw"></i> Men&uacute; Campa&ntilde;as<span class="fa arrow"></span></a>
                             <ul class="nav nav-second-level">
                                 <li>
-                                    <a href="addCampana.php">Ingresar Campa&ntilde;a</a>
+                                    <a href="addCampana.php" <?=sitioActualBold('addCampana')?>Ingresar Campa&ntilde;a</a>
                                 </li>
                                 <li>
-                                    <a href="morris.html">Editar Campa&ntilde;a</a>
+                                    <a href="editCampana.php" <?=sitioActualBold('editCampana')?>Editar Campa&ntilde;a</a>
                                 </li>
                             </ul>
                             <!-- /.nav-second-level -->
@@ -31,10 +31,10 @@
                             <a href="#"><i class="fa fa-bar-chart-o fa-fw"></i> Men&uacute; Sucursales<span class="fa arrow"></span></a>
                             <ul class="nav nav-second-level">
                                 <li>
-                                    <a href="addSucursal.php">Ingresar Sucursal</a>
+                                    <a href="addSucursal.php" <?=sitioActualBold('addSucursal')?>Ingresar Sucursal</a>
                                 </li>
                                 <li>
-                                    <a href="morris.html">Editar Sucursal</a>
+                                    <a href="editSucursal.php" <?=sitioActualBold('editSucursal')?>Editar Sucursal</a>
                                 </li>
                             </ul>
                             <!-- /.nav-second-level -->

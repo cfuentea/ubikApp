@@ -105,4 +105,16 @@ function loginClientes($rut,$pwd) {
 	mysql_close($link);
 }
 
+function sitioActual() {
+	return $_SESSION['pagina'];
+}
+
+function sitioActualBold($sesion) {
+	if($sesion == $_SESSION['pagina']) {
+		return ' style="font-weight: bold" >&raquo; ';
+	} else {
+		return ' >';
+	}
+}
+
 ?>
