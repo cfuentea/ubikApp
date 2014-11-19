@@ -125,7 +125,7 @@ CREATE TABLE `Categoria` (
   `ownerEdicion` varchar(100) DEFAULT NULL,
   `fechaEdicion` datetime DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -134,7 +134,7 @@ CREATE TABLE `Categoria` (
 
 LOCK TABLES `Categoria` WRITE;
 /*!40000 ALTER TABLE `Categoria` DISABLE KEYS */;
-INSERT INTO `Categoria` VALUES (1,'Ropa','Categoria de ropa','admin','2014-11-16 20:22:21',NULL,NULL),(2,'Tecnología','Articulos tecnologicos','admin','2014-11-16 20:22:45',NULL,NULL),(3,'Menaje','Articulos de menaje','admin','2014-11-16 20:23:08',NULL,NULL),(4,'Alimentación','Articulos de alimentación','admin','2014-11-16 20:24:02',NULL,NULL);
+INSERT INTO `Categoria` VALUES (1,'Ropa','Categoria de ropa','admin','2014-11-16 20:22:21',NULL,NULL),(2,'Tecnolog&iacute;a','Articulos tecnologicos','admin','2014-11-16 20:22:45',NULL,NULL),(3,'Menaje','Articulos de menaje','admin','2014-11-16 20:23:08',NULL,NULL),(4,'Alimentaci&oacute;n','Articulos de alimentación','admin','2014-11-16 20:24:02',NULL,NULL),(5,'Deporte','Articulos de deporte','admin','2014-11-18 20:52:12',NULL,NULL);
 /*!40000 ALTER TABLE `Categoria` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -282,18 +282,19 @@ DROP TABLE IF EXISTS `Sucursal`;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `Sucursal` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
+  `idEmpresa` int(11) DEFAULT NULL,
   `nombre` varchar(50) DEFAULT NULL,
   `dirección` varchar(100) DEFAULT NULL,
   `Comuna_id` int(11) NOT NULL,
   `tipoSucursal` varchar(45) DEFAULT NULL,
   `fechaIngreso` datetime DEFAULT NULL,
   `ownerIngreso` varchar(45) DEFAULT NULL,
-  `latitud` int(11) DEFAULT NULL,
-  `longitud` int(11) DEFAULT NULL,
+  `latitud` varchar(20) DEFAULT NULL,
+  `longitud` varchar(20) DEFAULT NULL,
   PRIMARY KEY (`id`),
   KEY `fk_sucursalEmpresa_comuna1_idx` (`Comuna_id`),
   CONSTRAINT `fk_sucursalEmpresa_comuna1` FOREIGN KEY (`Comuna_id`) REFERENCES `Comuna` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -302,6 +303,7 @@ CREATE TABLE `Sucursal` (
 
 LOCK TABLES `Sucursal` WRITE;
 /*!40000 ALTER TABLE `Sucursal` DISABLE KEYS */;
+INSERT INTO `Sucursal` VALUES (1,NULL,'Sucursal A','Lira 123',70,'Ventas','2014-11-18 21:48:32','admin','-33.444625','-70.640579');
 /*!40000 ALTER TABLE `Sucursal` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -406,4 +408,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2014-11-17 23:18:02
+-- Dump completed on 2014-11-18 21:51:25
