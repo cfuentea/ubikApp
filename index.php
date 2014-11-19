@@ -13,6 +13,10 @@ header('Content-Type: application/json');
 
 // Verificar que existan los parametros requeridos
 
+if($_GET['metodo'] == "readCategoria") {
+	echo readCategoria();
+}
+
 if(!isset($_POST)) {
 	sendResponse(400,'Invalid request');
 	return false;
@@ -33,9 +37,9 @@ if(!isset($_POST)) {
 		case "deleteUsuario":
 			echo deleteUsuario($_POST['id']);
 			break;
-		case "readCategoria":
+/*		case "readCategoria":
 			echo readCategoria();
-			break;
+			break;*/
 	}
 }
 
