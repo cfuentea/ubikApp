@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <title>.:: UbikApp ::.</title>
+
+    <!-- Bootstrap Core CSS -->
+    <link href="css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- Custom CSS -->
+    <link href="css/sb-admin.css" rel="stylesheet">
+
+    <!-- Morris Charts CSS -->
+    <link href="css/plugins/morris.css" rel="stylesheet">
+
+    <!-- Custom Fonts -->
+    <link href="font-awesome-4.1.0/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+
+
+	<link href='http://fonts.googleapis.com/css?family=Marcellus' rel='stylesheet' type='text/css'>	
+	<script type='text/javascript' src='http://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js'></script>
+	<!--<script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?sensor=true"></script>-->
+	<script type="text/javascript" src="http://maps.googleapis.com/maps/api/js?sensor=TRUE"></script>
+	<style>
+	
+	* { margin: 0; padding: 0; }
+	html { height: 100%; }
+	body { background-image: url(images/old_map.png); font-size: 16px; font-family: 'Marcellus', serif; height: 100%; position: relative; }
+	header { background-color: rgba(0,0,0,.88); height: 80px; width: 100%; position: fixed; z-index: 99; box-shadow: 0px 2px 3px #333333; }
+	header > h1 { color: #FFFFFF; font-family: 'Marcellus', serif; font-size: 1.2em; font-weight: normal; margin: 30px 60px; }
+	
+	#mapa { position: absolute; background: transparent; height: 100%; width: 100%; top: 0; left: 0; right: 0; bottom: 0; }
+	#informacion { position: absolute; background: rgba(0,16,27,.85); z-index: 200; top: 70%; width: 30%; padding: 12px; }
+	
+	#informacion h2,
+	#informacion h3 { color: #FFFFFF; text-shadow: 1px 1px 1px #000000; font-weight: normal; font-size: .9em; }
+	
+	#informacion h2 { font-size: 1.1em; margin-bottom: 10px; }
+	
+	#informacion h3 span { color: #FF5555; }
+	
+	</style>
+	<script type="text/javascript">
+	
+	function informacion (coordenadas) {
+		$("#latitude").html(coordenadas.Lat);
+		$("#longitude").html(coordenadas.Lng);
+	}
+	
+	function iniciar() {
+		var coordenadas = {
+			Lat: 0,
+			Lng: 0
+		};
+
+		function localizacion (posicion) {
+			coordenadas = {
+				Lat: posicion.coords.latitude,
+				Lng: posicion.coords.longitude
+			}
+
+			informacion(coordenadas);
+
+			var mapOptions = {
+				zoom: 16,
+				center: new google.maps.LatLng(coordenadas.Lat, coordenadas.Lng),
+				disableDefaultUI: true,
+				mapTypeId: google.maps.MapTypeId.ROADMAP
+			}
+
+			var map = new google.maps.Map(document.getElementById('mapa'), mapOptions);
+			
+			var infowindow = new google.maps.InfoWindow({
+				map: map,
+				position: new google.maps.LatLng(coordenadas.Lat, coordenadas.Lng),
+				content: 'Aqui Estoy !'
+            });
+		}
+
+		
+		function errores (error) {
+			alert('Ha ocurrido un error al intentar obtener la información');
+		}
+		
+		if (navigator.geolocation) {
+			navigator.geolocation.getCurrentPosition(localizacion,errores);
+		} else {
+			alert("Tu dispositivo no soporta o no tiene habilitada la 'Geolocalización'");
+		}
+		
+	}
+	</script>
+
+
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+        <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+        <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+
+</head>
+
+<body onload="iniciar()">
+
+    <div id="wrapper">
+
+        <!-- Navigation -->
+        <nav class="navbar navbar-inverse navbar-fixed-top" role="navigation">
+            <!-- Brand and toggle get grouped for better mobile display -->
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-ex1-collapse">
+                    <span class="sr-only">Toggle navigation</span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                <a class="navbar-brand" href="index.html">UbikApp</a>
+            </div>
+            <!-- Top Menu Items -->
+            
+            <!-- Sidebar Menu Items - These collapse to the responsive navigation menu on small screens -->
+            <div class="collapse navbar-collapse navbar-ex1-collapse">
+                <ul class="nav navbar-nav side-nav">
+                   <li class="active">
+                        <a href="index.html"><i class="fa fa-fw fa-dashboard"></i> Inicio </a>
+                    </li>
+                    
+                    <li>
+                        <a href="notificaciones.html"><i class="fa fa-fw fa-table"></i> Notificaciones</a>
+                    </li>
+                    <li>
+                        <a href="categorias.html"><i class="fa fa-fw fa-edit"></i> Mis Categorias</a>
+                    </li>
+                    <li>
+                        <a href="usadas.html"><i class="fa fa-fw fa-desktop"></i> Promos Usadas</a>
+                    </li>
+                    <li>
+                        <a href="configuracion.html"><i class="fa fa-fw fa-wrench"></i> Configuracion</a>
+                    </li>
+                </ul>
+            </div>
+            <!-- /.navbar-collapse -->
+        </nav>
+
+        <div id="page-wrapper">
+
+            <div class="container-fluid">
+                            
+				<!--<header>
+					<h1>Mi Ubicacion</h1>
+				</header>
+				<div id="informacion">
+					<h2>Tu posición actual es:</h2>
+					<h3>Latitud: <span id="latitude"></span></h3>
+					<h3>Longitud: <span id="longitude"></span></h3>
+				</div>-->
+				<div id="mapa"></div>
+
+            </div>
+            <!-- /.container-fluid -->
+
+        </div>
+        <!-- /#page-wrapper -->
+
+    </div>
+    <!-- /#wrapper -->
+
+    <!-- jQuery -->
+    <script src="js/jquery.js"></script>
+
+    <!-- Bootstrap Core JavaScript -->
+    <script src="js/bootstrap.min.js"></script>
+
+</body>
+
+</html>
+  

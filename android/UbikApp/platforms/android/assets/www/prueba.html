@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Ejemplo de Notification</title>
+
+    <script type="text/javascript" charset="utf-8" src="cordova.js"></script>
+    <script type="text/javascript" charset="utf-8">
+
+    // Espere a que PhoneGap inicie
+    //
+    document.addEventListener("deviceready", onDeviceReady, false);
+
+    // PhoneGap esta listo
+    //
+    function onDeviceReady() {
+        // vacio
+    }
+
+    // alerta cerrada
+    function alertDismissed() {
+        // hacer algo aquí        
+    }
+
+    // Muestra un cuadro de dialogo personalizado
+    //
+    function showAlert() {
+    navigator.notification.alert(
+    'Eres el ganador!</br>Probando HTML5',     // mensaje (message)
+    alertDismissed,         // función 'callback' (alertCallback)
+    'UbikApp Notificacion',            // titulo (title)
+    'Ver Detalle'                // nombre del botón (buttonName)
+    );
+    
+    }
+
+    </script>
+  </head>
+  <body>
+    <p><a href="#" onclick="showAlert(); return false;">Mostrar cuadro de dialogo</a></p>
+  </body>
+</html>
