@@ -33,6 +33,9 @@ if(!isset($_POST)) {
 		case "deleteUsuario":
 			echo deleteUsuario($_POST['id']);
 			break;
+		case "readCategoria":
+			echo readCategoria();
+			break;
 	}
 }
 

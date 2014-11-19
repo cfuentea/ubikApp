@@ -15,6 +15,25 @@ function readUsuario($idUsuario) {
 	mysql_close($link);
 }
 
+function readCategoria() {
+	
+	$link = mycon();
+	
+	$query = 'SELECT 
+				id, nombre, descripcion
+			  FROM Categoria ';
+	
+	$resultado = mysql_query($query,$link);
+	$arr = array();
+	
+	while($row = mysql_fetch_assoc($resultado)) { 
+		$arr[] = $row;
+	}
+	return json_encode($arr);
+	
+	mysql_close($link);
+}
+
 function createUsuario($datoJSON) {
 	
 	/* Como funcion adicional, el resultado debe entregar el ID del usuario que creó
@@ -133,6 +152,24 @@ function readCategorias() {
 	}
 	
 	mysql_close($link);
+}
+
+function readSucursal($idEmpresa) {
+	$link = mycon();
+	$query = "SELECT id, nombre FROM Sucursal WHERE idEmpresa = ".$idEmpresa."";
+	$resultado = mysql_query($query,$link);
+	
+	while($row = mysql_fetch_assoc($resultado)) {
+		echo '
+			<div class="checkbox">
+			<label>
+               	<input type="checkbox" value="'.$row['id'].'" name="'.$row['nombre'].'">'.$row['nombre'].'
+           	</label>
+           	</div>
+           	';
+	}
+	
+	mysql_close($link);	
 }
 
 ?>
