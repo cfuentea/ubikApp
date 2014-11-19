@@ -164,61 +164,56 @@ if($_SESSION['userId']==0) {
                                 
                             </div>
                         </div>
+                        
+                        <?php print_r($_GET); ?>
                         <!-- /.panel-heading -->
+                        <form role="form" action="addCampana.php" method="get">
+                        
                         <div class="panel-body">
                         
                         <div class="form-group">
                         	<label>Nombre de campaña</label>
-                        	<input class="form-control" placeholder="Promoci&oacute;n imperdible!">
+                        	<input name="nombre" class="form-control" placeholder="Promoci&oacute;n imperdible!">
                         </div>
                         <div class="form-group">
                         	<label>Descripci&oacute;n</label>
-                        	<textarea class="form-control" placeholder="Este producto es un producto revolucionario..." rows="3"></textarea>
+                        	<textarea name="descripcion" class="form-control" placeholder="Este producto es un producto revolucionario..." rows="3"></textarea>
                         </div>
                         <div class="form-group">
                         	<label>Fecha de inicio</label>
-                        	<input class="form-control" placeholder="AAAA-mm-dd hh:mm:ss">
+                        	<input type="date" name="fechaInicio" class="form-control" placeholder="AAAA-mm-dd hh:mm:ss">
                         </div>
                         <div class="form-group">
                         	<label>Fecha de fin</label>
-                        	<input class="form-control" placeholder="AAAA-mm-dd hh:mm:ss">
+                        	<input type="date" name="fechaFin" min="2000-01-02 00:00:00" class="form-control" placeholder="AAAA-mm-dd hh:mm:ss">
                         </div>
                         <div class="form-group">
                         	<label>Categorias</label>
-                        	<div class="checkbox">
-                        		<label>
-                        			<input type="checkbox" value="">Checkbox 1
-                        		</label>
-                        	</div>
-                        	<div class="checkbox">
-                        		<label>
-                        		<input type="checkbox" value="">Checkbox 2
-                        		</label>
-                        	</div>
-                        	<div class="checkbox">
-                        		<label>
-                        			<input type="checkbox" value="">Checkbox 3
-                        		</label>
-                        	</div>
+                        	<?=readCategorias();?>
                         </div>
                         <div class="form-group">
                         	<label>Tiendas & Sucursales</label>
                         	<div class="checkbox">
                         		<label>
-                        			<input type="checkbox" value="">Checkbox 1
+                        			<input type="checkbox" value="a">Checkbox 1
                         		</label>
                         	</div>
                         	<div class="checkbox">
                         		<label>
-                        		<input type="checkbox" value="">Checkbox 2
+                        		<input type="checkbox" value="b">Checkbox 2
                         		</label>
                         	</div>
                         	<div class="checkbox">
                         		<label>
-                        			<input type="checkbox" value="">Checkbox 3
+                        			<input type="checkbox" value="c">Checkbox 3
                         		</label>
                         	</div>
                         </div>
+                        <input type="submit" class="btn btn-lg btn-success btn-block" value="Enviar">
+                                <!-- <a href="index.html" class="btn btn-lg btn-success btn-block">Login</a>-->
+                            </fieldset>
+                        </form>
+                    </div>
                            Aqui debe ir el contenido
                         <!-- /.panel-body -->
                     </div>

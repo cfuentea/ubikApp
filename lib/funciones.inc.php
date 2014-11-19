@@ -117,4 +117,22 @@ function sitioActualBold($sesion) {
 	}
 }
 
+function readCategorias() {
+	$link = mycon();
+	$query = "SELECT id, nombre FROM Categoria";
+	$resultado = mysql_query($query,$link);
+	
+	while($row = mysql_fetch_assoc($resultado)) {
+		echo '
+			<div class="checkbox">
+			<label>
+               	<input type="checkbox" value="'.$row['id'].'" name="'.$row['nombre'].'">'.$row['nombre'].'
+           	</label>
+           	</div>
+           	';
+	}
+	
+	mysql_close($link);
+}
+
 ?>
