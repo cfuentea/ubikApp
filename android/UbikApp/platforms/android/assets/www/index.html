@@ -31,42 +31,78 @@
         <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
     [endif]-->
     
-    
-	<script type="text/javascript" charset="utf-8" src="cordova.js"></script>
+    <script type="text/javascript" src="http://code.jquery.com/jquery-2.1.1.min.js"></script>
+	<script type="text/javascript" src="cordova.js"></script>
+
     <script type="text/javascript" charset="utf-8">
 	
 	    // Espere a que PhoneGap inicie
 	    //
 	    document.addEventListener("deviceready", onDeviceReady, false);
 	
+		var database = null;
+	
 	    // PhoneGap esta listo
 	    //
 	    function onDeviceReady() {
 	        // vacio
+	        
+	        alert(device.model + "  -  " + device.uuid);
+	        
+	        alert("Paso0");
+	        try{
+	        	database = window.openDatabase("UbikappDB", "1.0", "UbikappDB", 1024*1024);
+	        	alert("Paso0.1");
+	        	database.transaction(PopulateDatabase, errorDB, successDB);
+	        }catch(e){
+	        	alert(e.message);
+	        }
+	        alert("Paso1");
+	    }
+	    
+	    function PopulateDatabase(tx){
+	    	alert("Paso2");
+	    	tx.executeSql("Create Table IF NOT EXISTS usuario(nombres text, apellidos text, mail text, fecha date, comuna text)");
+			//tx.executeSql();	    	
+	    }
+	    
+	    function errorDB(error){
+	    	alert("Error DB :" + error);
+	    }
+	    
+	    function successDB(){
+	    	alert("Bienvenido !");
+	    	location.href= "configuracion.html";
 	    }
 	
 	    // alerta cerrada
 	    function alertDismissed() {
-	        // hacer algo aqu�        
+	        // hacer algo aquí 
+	        location.href = "notificaciones.html";       
 	    }
-	
+
+
 	    // Muestra un cuadro de dialogo personalizado
 	    //
 	    function showAlert() {
 	    navigator.notification.alert(
-	    'Felicitaciones, tienes una PROMO por ver',     // mensaje (message)
-	    alertDismissed,         // funci�n 'callback' (alertCallback)
+	    'Felicitaciones, tienes una PROMO',     // mensaje (message)
+	    alertDismissed,         // función 'callback' (alertCallback)
 	    'UbikApp Notificacion',            // titulo (title)
-	    'Detalle'                // nombre del bot�n (buttonName)
+	    'Detalle'                // nombre del botón (buttonName)
 	    );
 	    
 	    }
 		
 
-		var myVar=setInterval(function () {showAlert()}, 10000);
+		//var myVar=setInterval(function () {showAlert()}, 10000);
 
+       
+       
+       
+    </script>   
+    
 
-    </script>    
 
 </head>
 
@@ -162,7 +198,7 @@
                 <div align="center">
                 	<img src="UbikApp_small.png">
                 	<p>IPCIISA 2014</p>
-                	<p>PBulboa | CFuentealba | CYañez</p>
+                	<p>PBulboa | CFuentealba | CYaÃ±ez</p>
                 </div>
 				-->
 
@@ -278,7 +314,7 @@
                 <div align="center">
                 	<img src="UbikApp_small.png">            
                 	<p>@IPCIISA 2014</p>
-                	<p>PBulboa | CFuentealba | CYañez</p>
+                	<p>PBulboa | CFuentealba | CYanez</p>
                 </div>
                 <br>
 
