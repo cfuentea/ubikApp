@@ -8,7 +8,7 @@ include('lib/funciones.inc.php');
 //ini_set('display_errors',1);
 //ini_set('display_startup_errors',1);
 //error_reporting(-1);
-//header('Content-Type: application/json');
+header('Content-Type: application/json');
 
 
 // Verificar que existan los parametros requeridos
@@ -36,6 +36,9 @@ if(!isset($_POST)) {
 			break;
 		case "deleteUsuario":
 			echo deleteUsuario($_POST['id']);
+			break;
+		case "readCampana":
+			echo readCampana();
 			break;
 /*		case "readCategoria":
 			echo readCategoria();

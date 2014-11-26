@@ -177,7 +177,7 @@ if($_SESSION['userId']==0) {
                         </div>
                         <div class="form-group">
                         	<label>Descripci&oacute;n</label>
-                        	<textarea name="descripcion" class="form-control" placeholder="Este producto es un producto revolucionario..." rows="3"></textarea>
+                        	<textarea name="descripcion" class="form-control" placeholder="Descripci&oacute;n del producto" rows="3"></textarea>
                         </div>
                         <div class="form-group">
                         	<label>Fecha de inicio</label>

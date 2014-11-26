@@ -1,6 +1,60 @@
 <?php
 include('db.inc.php');
 
+/* Inicio CRUD Campana */
+
+function readCampana() {
+	$link = mycon();
+
+	// La query debe mostrar la campanaña y las sucursales asociadas, sin embargo debe existir cierta logica para
+	// saber cual campaña se debe seleccionar (deben existir mas de una activa y quizás chocan con los criterios
+	$query = 'SELECT
+				id, Empresa_id, nombre, descripcion, fechaIngreso, distanciaCampana, fechaInicio, fechaFin, Estado_id
+			  FROM Campana
+			  WHERE Estado_id = 1';
+	$resultado = mysql_query($query,$link);
+	$row = mysql_fetch_assoc($resultado);
+	
+	$a = array_merge($row,array('Sucursales' => readCampanaSucursal()));
+	
+	return json_encode($a);
+	mysql_close($link);
+}
+
+function readCampanaSucursal() {
+	$link = mycon();
+	
+	$query = 'SELECT a.id, a.Sucursal_id, b.nombre, a.Campana_id
+			FROM CampanaSucursal a, Sucursal b
+			WHERE a.Campana_id = 1';
+	$resultado = mysql_query($query,$link);
+	//$row = mysql_fetch_assoc($resultado);
+	
+	$arr = array();
+	
+	while($row = mysql_fetch_assoc($resultado)) { 
+		$arr[] = $row;
+	}
+	return $arr;
+}
+
+function createCampana() {
+// no se requiere
+}
+
+function updateCampana() {
+// no se requiere
+}
+
+function deleteCampana() {
+// no se requiere
+}
+
+/* Fin CRUD Campana */
+
+
+/* Inicio CRUD Usuarios */
+
 function readUsuario($idUsuario) {
 	$link = mycon();
 	

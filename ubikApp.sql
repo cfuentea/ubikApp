@@ -41,7 +41,7 @@ CREATE TABLE `Campana` (
   KEY `fk_Campana_Empresa1_idx` (`Empresa_id`),
   CONSTRAINT `fk_Campana_Empresa1` FOREIGN KEY (`Empresa_id`) REFERENCES `Empresa` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
   CONSTRAINT `fk_Campana_estado1` FOREIGN KEY (`Estado_id`) REFERENCES `Estado` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -50,6 +50,7 @@ CREATE TABLE `Campana` (
 
 LOCK TABLES `Campana` WRITE;
 /*!40000 ALTER TABLE `Campana` DISABLE KEYS */;
+INSERT INTO `Campana` VALUES (1,1,'Celulares Gratis','Ve por tu celular a nuestra tienda en Santiago Centro! te va a gustar.','2014-11-26 20:00:03',500,'2014-11-28 00:00:00','2014-11-30 00:00:00',NULL,NULL,NULL,0,1);
 /*!40000 ALTER TABLE `Campana` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -237,7 +238,7 @@ CREATE TABLE `Estado` (
   `nombreEstado` varchar(100) DEFAULT NULL,
   `descripcion` varchar(255) DEFAULT NULL COMMENT 'Esta tabla mantendrá todos los códigos de estados para los distintos tipos de datos.\nel orden de los códigos son:\n000 - 099: Códigos de usuario\n100 - 199: Códigos de Campañas\n200 - 299: Códigos de Empresas',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -246,6 +247,7 @@ CREATE TABLE `Estado` (
 
 LOCK TABLES `Estado` WRITE;
 /*!40000 ALTER TABLE `Estado` DISABLE KEYS */;
+INSERT INTO `Estado` VALUES (1,'Habilitada','Opcion habilitada'),(2,'Deshabilitado','Opcion deshabilitada');
 /*!40000 ALTER TABLE `Estado` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -294,7 +296,7 @@ CREATE TABLE `Sucursal` (
   PRIMARY KEY (`id`),
   KEY `fk_sucursalEmpresa_comuna1_idx` (`Comuna_id`),
   CONSTRAINT `fk_sucursalEmpresa_comuna1` FOREIGN KEY (`Comuna_id`) REFERENCES `Comuna` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -303,7 +305,7 @@ CREATE TABLE `Sucursal` (
 
 LOCK TABLES `Sucursal` WRITE;
 /*!40000 ALTER TABLE `Sucursal` DISABLE KEYS */;
-INSERT INTO `Sucursal` VALUES (1,NULL,'Sucursal A','Lira 123',70,'Ventas','2014-11-18 21:48:32','admin','-33.444625','-70.640579');
+INSERT INTO `Sucursal` VALUES (1,1,'Sucursal A','Lira 123',70,'Ventas','2014-11-18 21:48:32','admin','-33.444625','-70.640579'),(2,1,'Sucursal B','Lira 500',70,'Atencion','2014-11-18 21:52:48','admin','-33.449199','-70.639003');
 /*!40000 ALTER TABLE `Sucursal` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -408,4 +410,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2014-11-18 21:51:25
+-- Dump completed on 2014-11-26 20:04:59
