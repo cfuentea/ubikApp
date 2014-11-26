@@ -4,7 +4,7 @@ $(function(){
 	var localDBUbikApp = {
 		init: function () {
 			
-			//this.initDatabase();
+			this.initDatabase();
 			
 			// Button and link actions
 			/*$('#clear').on('click', function(){ 
@@ -49,9 +49,9 @@ $(function(){
 			var that = this;
 			UbikAppDB.transaction(
 		        function (transaction) {
-		        	transaction.executeSql('CREATE TABLE IF NOT EXISTS usuario();', [], that.nullDataHandler, that.errorHandler);
-		        	transaction.executeSql('CREATE TABLE IF NOT EXISTS categoria();', [], that.nullDataHandler, that.errorHandler);
-		        	transaction.executeSql('CREATE TABLE IF NOT EXISTS promos();', [], that.nullDataHandler, that.errorHandler);
+		        	transaction.executeSql('CREATE TABLE IF NOT EXISTS usuario(nombres text, apellidos text, mail text, fecha date, comuna int, uuid text, nick text);', [], that.nullDataHandler, that.errorHandler);
+		        	transaction.executeSql('CREATE TABLE IF NOT EXISTS categoria(id int, nombre text, direccion text);', [], that.nullDataHandler, that.errorHandler);
+		        	transaction.executeSql('CREATE TABLE IF NOT EXISTS promos(id int, nombre text, descripcion text, inicio date, fin date);', [], that.nullDataHandler, that.errorHandler);
 		        }
 		    );
 			//this.insertUsuario();			
