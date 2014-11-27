@@ -45,36 +45,14 @@
 	    // PhoneGap esta listo
 	    //
 	    function onDeviceReady() {
-	        // vacio
-	        
-	        alert(device.model + "  -  " + device.uuid);
-	        
-	        alert("Paso0");
-	        try{
-	        	database = window.openDatabase("UbikappDB", "1.0", "UbikappDB", 1024*1024);
-	        	alert("Paso0.1");
-	        	database.transaction(PopulateDatabase, errorDB, successDB);
-	        }catch(e){
-	        	alert(e.message);
-	        }
-	        alert("Paso1");
+	       
+	       
+	       //Se inicializa BDD SQLite UbikApp
+ 		   //localDBUbikApp.init();
+       
 	    }
-	    
-	    function PopulateDatabase(tx){
-	    	alert("Paso2");
-	    	//tx.executeSql("Create Table IF NOT EXISTS usuario(nombres text, apellidos text, mail text, fecha date, comuna text)");
-			tx.executeSql("Drop Table usuario");
-			//tx.executeSql();	    	
-	    }
-	    
-	    function errorDB(error){
-	    	alert("Error DB :" + error);
-	    }
-	    
-	    function successDB(){
-	    	alert("Bienvenido !");
-	    	location.href= "configuracion.html";
-	    }
+
+		//insertUsuario();
 	
 	    // alerta cerrada
 	    function alertDismissed() {
@@ -127,7 +105,7 @@
             <!-- Top Menu Items -->
             <ul class="nav navbar-right top-nav">
                 <li class="dropdown">
-                    <a href="#" class="dropdown-toggle" data-toggle="dropdown"><i class="fa fa-user"></i> Walter White <b class="caret"></b></a>
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown"><i class="fa fa-user"></i> <span id="dispositivo"> <b class="caret"></b></a>
                     <ul class="dropdown-menu">                        
                         <li>
                             <a href="configuracion.html"><i class="fa fa-fw fa-gear"></i> Configuracion</a>
@@ -204,7 +182,7 @@
 				-->
 
                 <div class="row">
-                	<a href="notificaciones.html">
+                	<a href="notificaciones.html"  style="text-decoration: none;">
 	                    <div class="col-lg-3 col-md-6">
 	                        <div class="panel panel-primary">
 	                            <div class="panel-heading">
@@ -214,7 +192,7 @@
 	                                    </div>
 	                                    <div class="col-xs-9 text-right">
 	                                        <div class="huge">4</div>
-	                                        <div>Notificaciones !</div>
+	                                        <div>Notificaciones</div>
 	                                    </div>
 	                                </div>
 	                            </div>
@@ -230,7 +208,7 @@
 	                        </div>
 	                    </div>
                     </a>
-                    <a href="categorias.html">
+                    <a href="categorias.html" style="text-decoration: none;">
 	                    <div class="col-lg-3 col-md-6">
 	                        <div class="panel panel-green">
 	                            <div class="panel-heading">
@@ -240,7 +218,7 @@
 	                                    </div>
 	                                    <div class="col-xs-9 text-right">
 	                                        <div class="huge">5</div>
-	                                        <div>Categorias !</div>
+	                                        <div>Categorias</div>
 	                                    </div>
 	                                </div>
 	                            </div>
@@ -256,7 +234,7 @@
 	                        </div>
 	                    </div>
 	                </a>
-	                <a href="usadas.html">    	
+	                <a href="usadas.html" style="text-decoration: none;">
 	                    <div class="col-lg-3 col-md-6">
 	                        <div class="panel panel-yellow">
 	                            <div class="panel-heading">
@@ -266,7 +244,7 @@
 	                                    </div>
 	                                    <div class="col-xs-9 text-right">
 	                                        <div class="huge">2</div>
-	                                        <div>Promos Usadas !</div>
+	                                        <div>Promos Usadas</div>
 	                                    </div>
 	                                </div>
 	                            </div>
@@ -282,7 +260,7 @@
 	                        </div>
 	                    </div>
 	                </a>
-	                <a href="geo.html">    	
+	                <a href="geo.html" style="text-decoration: none;">
 	                    <div class="col-lg-3 col-md-6">
 	                        <div class="panel panel-red">
 	                            <div class="panel-heading">
@@ -333,6 +311,9 @@
 
     <!-- Bootstrap Core JavaScript -->
     <script src="js/bootstrap.min.js"></script>
+
+	<script src="js/db_ubikapp.js" type="text/javascript" charset="utf-8"></script>
+
 
     <!-- Morris Charts JavaScript 
     <script src="js/plugins/morris/raphael.min.js"></script>

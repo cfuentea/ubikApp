@@ -5,22 +5,15 @@ $(function(){
 		init: function () {
 			
 			this.initDatabase();
-			
-			// Button and link actions
-			/*$('#clear').on('click', function(){ 
-				localDBUbikApp.dropTables(); 
-			});
-			
-		 	$('#update').on('click', function(){ 
-		 		localDBUbikApp.updateSetting(); 
-		 	});*/
 
+			this.selectAll();
+			
 		},
 
 		initDatabase: function() {
 			try {
 			    if (!window.openDatabase) {
-			        alert('UbikApp no soportado por dispositivo');
+			        alert('BDD UbikApp no soportado por dispositivo');
 			    } else {
 			        var shortName = 'UbikAppDB',
 			        	version = '1.0',
@@ -28,8 +21,9 @@ $(function(){
 						maxSize = 1024*1024;
 						
 			        UbikAppDB = openDatabase(shortName, version, displayName, maxSize);
-					this.createTables();
+					//this.createTables();
 					//this.selectAll();
+					//this.insertUsuario();
 			    }
 			} catch(e) {
 			    if (e === 2) {
@@ -50,7 +44,7 @@ $(function(){
 			UbikAppDB.transaction(
 		        function (transaction) {
 		        	transaction.executeSql('CREATE TABLE IF NOT EXISTS usuario(nombres text, apellidos text, mail text, fecha date, comuna int, uuid text, nick text);', [], that.nullDataHandler, that.errorHandler);
-		        	transaction.executeSql('CREATE TABLE IF NOT EXISTS categoria(id int, nombre text, direccion text);', [], that.nullDataHandler, that.errorHandler);
+		        	transaction.executeSql('CREATE TABLE IF NOT EXISTS categoria(id int, nombre text, descripcion text);', [], that.nullDataHandler, that.errorHandler);
 		        	transaction.executeSql('CREATE TABLE IF NOT EXISTS promos(id int, nombre text, descripcion text, inicio date, fin date);', [], that.nullDataHandler, that.errorHandler);
 		        }
 		    );
@@ -66,7 +60,11 @@ $(function(){
 				//var data = ['1','none','#B3B4EF','Helvetica','Porsche 911 GT3'];  
 				
 				//transaction.executeSql("INSERT INTO example(id, fname, bgcolor, font, favcar) VALUES (?, ?, ?, ?, ?)", [data[0], data[1], data[2], data[3], data[4]]);
-			    transaction.executeSql("INSERT INTO usuario() VALUES ()", []);
+			        
+			        //if !existeUsuario{
+			            transaction.executeSql("INSERT INTO usuario(nombres, apellidos, mail, fecha, comuna, uuid, nick) VALUES (?, ?, ?, ?, ?, ?, ?)", ["Cristian", "Yanez", "cyanez@ubikapp.cl", new Date(), 100, "123456789", "TaylerD"]);
+			        //}			        
+			        
 			    }
 			);				
 		},
@@ -123,7 +121,30 @@ $(function(){
 			
 			//this.selectAll();		    
 	    },
-	    
+
+	    existeUsuario: function() {
+            var that = this;
+            UbikAppDB.transaction(
+                function (transaction) {
+                    transaction.executeSql("SELECT * FROM usuario where uuid = ?;", [device.uuid], that.existHandler, that.errorHandler);
+            
+                }
+            );  
+        },
+        
+        existHandler: function( transaction, result ) {
+            // Handle the results
+            var i=0,
+                row;
+                
+            for (i ; i<results.rows.length; i++) {
+                
+                return true;
+                        
+            }
+            return false;
+        },
+        
 	    selectAllUsuario: function() {
 	    	var that = this;
 			UbikAppDB.transaction(
@@ -142,7 +163,23 @@ $(function(){
 		    for (i ; i<results.rows.length; i++) {
 		        
 		    	row = results.rows.item(i);
-		        
+		    	
+		    	try{
+	                $("#dispositivo").html(row['nick']);
+
+	                $("#nombres").val(row['nombres']);
+	                $("#apellidos").val(row['apellidos']);
+	                $("#correo").val(row['mail']);
+	                $("#fecha").val(row['fecha']);
+	                $("#comuna").val(row['comuna']);
+                    $("#nick").val(row['nick']);
+		    	    
+		    	}catch (e){
+		    	    console.log("err ... controlado !");
+		    	}
+
+
+		    	/*
 		        $('body').css('background-color',row['bgcolor']);
 		        $('body').css('font-family',row['font']);
 		        $('#content').html('<h4 id="your_car">Your Favorite Car is a '+ row['favcar'] +'</h4>');
@@ -155,7 +192,7 @@ $(function(){
 		       $('select#font_selection').find('option[value="'+ row['font'] +'"]').attr('selected','selected');
 		       $('select#bg_color').find('option[value="'+ row['bgcolor'] +'"]').attr('selected','selected');  
 		       $('select#fav_car').find('option[value="'+ row['favcar'] +'"]').attr('selected','selected');
-		
+		        */
 		    }		    
 	    },
 	    
@@ -213,6 +250,6 @@ $(function(){
 	};
 
  	//Instantiate UbikApp
- 	//localDBUbikApp.init();
+ 	localDBUbikApp.init();
 	
 });	
