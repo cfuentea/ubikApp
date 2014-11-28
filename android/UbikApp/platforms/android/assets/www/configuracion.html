@@ -27,9 +27,17 @@
         <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
     <![endif]-->
 
+	<script type="text/javascript" src="cordova.js"></script>
+
+    <!-- jQuery -->
+    <script src="js/jquery.js"></script>
+
+	<script src="js/db_ubikapp.js" type="text/javascript" charset="utf-8"></script>
+
+
 </head>
 
-<body>
+<body onload="init();">
 
     <div id="wrapper">
 
@@ -130,9 +138,9 @@
                         <br>
 
                         <div align="center">
-                            <a href="categorias.html">
-                                <button type="button" class="btn btn-lg btn-warning" onclick="categorias.html"> Guardar</button>
-                            </a>
+                            <!--<a href="categorias.html">-->
+                                <button type="button" class="btn btn-lg btn-warning" onclick="updateUsuario();"> Guardar</button>
+                            <!--</a>-->
                         </div>
 
                         <br>
@@ -159,13 +167,10 @@
     </div>
     <!-- /#wrapper -->
 
-    <!-- jQuery -->
-    <script src="js/jquery.js"></script>
 
     <!-- Bootstrap Core JavaScript -->
     <script src="js/bootstrap.min.js"></script>
 
-	<script src="js/db_ubikapp.js" type="text/javascript" charset="utf-8"></script>
 
 
 </body>

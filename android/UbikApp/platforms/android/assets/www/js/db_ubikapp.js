@@ -1,16 +1,18 @@
 //<script src="db_ubikapp.js" type="text/javascript" charset="utf-8"></script>
-$(function(){ 
+//$(function(){ 
 	
-	var localDBUbikApp = {
-		init: function () {
+	var localDBUbikApp; //= {
+	var UbikAppDB = null;
+	
+	function init() {
 			
 			this.initDatabase();
 
 			this.selectAll();
 			
-		},
+		}
 
-		initDatabase: function() {
+	function initDatabase() {
 			try {
 			    if (!window.openDatabase) {
 			        alert('BDD UbikApp no soportado por dispositivo');
@@ -21,9 +23,10 @@ $(function(){
 						maxSize = 1024*1024;
 						
 			        UbikAppDB = openDatabase(shortName, version, displayName, maxSize);
-					//this.createTables();
+			        //this.dropTables()
+					this.createTables();
 					//this.selectAll();
-					//this.insertUsuario();
+					this.insertUsuario();
 			    }
 			} catch(e) {
 			    if (e === 2) {
@@ -34,12 +37,12 @@ $(function(){
 			    }
 			    return;
 			} 
-		},
+		}
 		
 		/***
 		**** CREATE TABLE ** 
 		***/
-		createTables: function() {
+	function createTables() {
 			var that = this;
 			UbikAppDB.transaction(
 		        function (transaction) {
@@ -49,69 +52,62 @@ $(function(){
 		        }
 		    );
 			//this.insertUsuario();			
-		},
+		}
 
 		/***
 		**** INSERT INTO TABLE ** 
 		***/		
-		insertUsuario: function() {
+	function insertUsuario() {
 			UbikAppDB.transaction(
 			    function (transaction) {
 				//var data = ['1','none','#B3B4EF','Helvetica','Porsche 911 GT3'];  
 				
 				//transaction.executeSql("INSERT INTO example(id, fname, bgcolor, font, favcar) VALUES (?, ?, ?, ?, ?)", [data[0], data[1], data[2], data[3], data[4]]);
 			        
-			        //if !existeUsuario{
-			            transaction.executeSql("INSERT INTO usuario(nombres, apellidos, mail, fecha, comuna, uuid, nick) VALUES (?, ?, ?, ?, ?, ?, ?)", ["Cristian", "Yanez", "cyanez@ubikapp.cl", new Date(), 100, "123456789", "TaylerD"]);
-			        //}			        
+			        if (!existeUsuario()){
+			            alert("no existe " + device.uuid);
+                        //transaction.executeSql("INSERT INTO usuario(nombres, apellidos, mail, fecha, comuna, uuid, nick) VALUES (?, ?, ?, ?, ?, ?, ?)", ["Cristian", "Yanez", "cyanez@ubikapp.cl", new Date(), 100, device.uuid]);
+			            transaction.executeSql("INSERT INTO usuario( uuid ) VALUES ( ? )", [ device.uuid ]);
+			        }			        
 			        
 			    }
 			);				
-		},
+		}
 
-		insertCategoria: function() {
+	function insertCategoria() {
 			UbikAppDB.transaction(
 			    function (transaction) {
 				
 				transaction.executeSql("INSERT INTO categoria() VALUES ()", []);
 			    }
 			);				
-		},		
+		}	
 
-		insertPromos: function() {
+	function insertPromos() {
 			UbikAppDB.transaction(
 			    function (transaction) {
 				
 				transaction.executeSql("INSERT INTO promos() VALUES ()", []);
 			    }
 			);				
-		},
+		}
 
 		/***
 		**** UPDATE TABLE ** 
 		***/
-	    updateUsuario: function() {
+	function updateUsuario() {
 			UbikAppDB.transaction(
 			    function (transaction) {
-					/*var fname,
-					bg    = $('#bg_color').val(),
-					font  = $('#font_selection').val(),
-					car   = $('#fav_car').val();
-					
-			    	if($('#fname').val() != '') {
-			    		fname = $('#fname').val();
-			    	} else {
-			    		fname = 'none';
-			    	}*/
-					
-			    	transaction.executeSql("UPDATE usuario SET fname=?, bgcolor=?, font=?, favcar=? WHERE id = 1", [fname, bg, font, car]);
+	
+			    	transaction.executeSql("UPDATE usuario SET nombres=?, apellidos=?, mail=?, fecha=?, comuna = ?, nick = ? WHERE uuid = ?", [$("#nombres").val(), $("#apellidos").val(), $("#correo").val(), $("#fecha").val(), $("#comuna").val(), $("#nick").val(), device.uuid]);
+			    	location.href = "configuracion.html";
 			    }
 			);	
 			
 			//this.selectAll();		    
-	    },
+	    }
 
-	    updatePromos: function() {
+	function updatePromos() {
 			UbikAppDB.transaction(
 			    function (transaction) {
 										
@@ -120,9 +116,9 @@ $(function(){
 			);	
 			
 			//this.selectAll();		    
-	    },
+	    }
 
-	    existeUsuario: function() {
+	function existeUsuario() {
             var that = this;
             UbikAppDB.transaction(
                 function (transaction) {
@@ -130,22 +126,25 @@ $(function(){
             
                 }
             );  
-        },
+        }
         
-        existHandler: function( transaction, result ) {
+	function existHandler( transaction, result ) {
             // Handle the results
             var i=0,
                 row;
-                
-            for (i ; i<results.rows.length; i++) {
-                
+            
+            alert(result.rows.length);
+
+            for (i ; i<result.rows.length; i++) {
+                row = result.rows.item(i);
+                alert(row['nombres'] + " - " + row['uuid'])
                 return true;
                         
             }
             return false;
-        },
+        }
         
-	    selectAllUsuario: function() {
+	function selectAllUsuario() {
 	    	var that = this;
 			UbikAppDB.transaction(
 	    		function (transaction) {
@@ -153,9 +152,9 @@ $(function(){
 	        
 				}
 			);	
-	    },
+	    }
 	    
-	    dataSelectHandler: function( transaction, results ) {
+	function dataSelectHandler( transaction, results ) {
 			// Handle the results
 			var i=0,
 				row;
@@ -194,16 +193,16 @@ $(function(){
 		       $('select#fav_car').find('option[value="'+ row['favcar'] +'"]').attr('selected','selected');
 		        */
 		    }		    
-	    },
+	    }
 	    
 		/***
 		**** Save 'default' data into DB table **
 		***/
-	    saveAll: function() {
+	function saveAll() {
 		    this.insertUsuario(1);
-	    },
+	    }
 	    
-	    errorHandler: function( transaction, error ) {
+	function errorHandler( transaction, error ) {
 	    
 		 	if (error.code===1){
 		 		// DB Table already exists
@@ -212,28 +211,28 @@ $(function(){
 			    console.log('Error '+error.message+' (Codigo '+ error.code +')');
 		 	}
 		    return false;		    
-	    },
+	    }
 	    
-	    nullDataHandler: function() {
+	function nullDataHandler() {
 		    console.log("SQL Query OK");
-	    },
+	    }
 	    
 		/***
 		**** SELECT DATA **
 		***/	    
-	    selectAll: function() {
+	function selectAll() {
 	    	var that = this;
 			UbikAppDB.transaction(
 			    function (transaction) {
 			        transaction.executeSql("SELECT * FROM usuario;", [], that.dataSelectHandler, that.errorHandler);
 			    }
 			);			    
-	    },
+	    }
 	    
 		/***
 		**** DELETE DB TABLE ** 
 		***/
-		dropTables: function() {
+	function dropTables() {
 			var that = this;
 			UbikAppDB.transaction(
 			    function (transaction) {
@@ -247,9 +246,9 @@ $(function(){
 		}
 	    
 
-	};
+	//};
 
  	//Instantiate UbikApp
- 	localDBUbikApp.init();
+ 	//localDBUbikApp.init();
 	
-});	
+//});	
