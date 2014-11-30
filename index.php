@@ -5,17 +5,13 @@ include('lib/funciones.inc.php');
 
 // Mostramos errores
 
-//ini_set('display_errors',1);
-//ini_set('display_startup_errors',1);
-//error_reporting(-1);
+ini_set('display_errors',1);
+ini_set('display_startup_errors',1);
+error_reporting(-1);
 header('Content-Type: application/json');
 
 
 // Verificar que existan los parametros requeridos
-
-if($_GET['metodo'] == "readCategoria") {
-	echo readCategoria();
-}
 
 if(!isset($_POST)) {
 	sendResponse(400,'Invalid request');
@@ -34,16 +30,33 @@ if(!isset($_POST)) {
 		case "updateUsuario":
 			echo updateUsuario($_POST['id'],$_POST['datos']);
 			break;
+	
 		case "deleteUsuario":
 			echo deleteUsuario($_POST['id']);
 			break;
+	
 		case "readCampana":
 			echo readCampana();
 			break;
-/*		case "readCategoria":
+	
+		case "createCategoria":
+			echo createCategoria($_POST['datos']);
+			break;
+			
+		case "updateCategoria":
+			echo updateCategoria($_POST['datos']);
+			break;
+						
+		/*	
+			case "readCategoria":
 			echo readCategoria();
-			break;*/
+			break;
+		*/
 	}
+}
+
+if($_GET['metodo'] == "readCategoria") {
+	echo readCategoria();
 }
 
 ?>

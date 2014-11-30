@@ -1,7 +1,9 @@
 <?php
 include('db.inc.php');
 
-/* Inicio CRUD Campana */
+/*
+ Inicio CRUD Campana 
+ */
 
 function readCampana() {
 	$link = mycon();
@@ -50,10 +52,85 @@ function deleteCampana() {
 // no se requiere
 }
 
-/* Fin CRUD Campana */
+/*
+ Fin CRUD Campana 
+ */
 
+/*
+ Inicio CRUD Categorias 
+ */
 
-/* Inicio CRUD Usuarios */
+function readCategoria() {
+	
+	$link = mycon();
+	$query = 'SELECT 
+				id, nombre, descripcion
+			  FROM Categoria ';
+	
+	$resultado = mysql_query($query,$link);
+	$arr = array();
+	
+	while($row = mysql_fetch_assoc($resultado)) { 
+		$arr[] = $row;
+	}
+	return json_encode($arr);
+	
+	mysql_close($link);
+}
+
+function createCategoria($datoJSON) {
+	$link = mycon();
+	$arr = json_decode($datoJSON, true);
+	
+	$nombre = $arr['nombre'];
+	$descripcion = $arr['descripcion'];
+	
+	$query = 'INSERT INTO Categoria (nombre, descripcion, ownerIngreso, fechaIngreso)
+	VALUES ("'.$nombre.'","'.$descripcion.'","WS-user",now())';
+
+	$resultado = mysql_query($query,$link);
+    return '{"resultado":"ok"}';
+    mysql_close($link);
+	
+}
+
+function updateCategoria($datoJSON) {
+	$link = mycon();
+	$arr = json_decode($datoJSON, true);
+	
+	$id = $arr['id'];
+	$nombre = $arr['nombre'];
+	$apellido = $arr['descripcion'];
+	
+	$query = 'UPDATE Categoria SET 
+				nombre = "'.$nombre.'",
+				descripcion = "'.$apellido.'",
+				ownerEdicion = "WS-user",
+				fechaEdicion = now()
+			WHERE
+				id = '.$id.'';
+
+	$resultado = mysql_query($query,$link);
+    return '{"resultado":"ok"}';
+    mysql_close($link);
+	
+}
+
+function deleteCategoria($id) {
+	$link = mycon();
+	$query = 'DELETE FROM Categoria WHERE id = '.$id.'';
+	$resultado = mysql_query($query,$link);
+	return '{"resultado":"ok"}';
+    mysql_close($link);
+}
+
+/*
+ Fin CRUD Categorias 
+ */
+
+/*
+ Inicio CRUD Usuarios 
+ */
 
 function readUsuario($idUsuario) {
 	$link = mycon();
@@ -69,24 +146,7 @@ function readUsuario($idUsuario) {
 	mysql_close($link);
 }
 
-function readCategoria() {
-	
-	$link = mycon();
-	
-	$query = 'SELECT 
-				id, nombre, descripcion
-			  FROM Categoria ';
-	
-	$resultado = mysql_query($query,$link);
-	$arr = array();
-	
-	while($row = mysql_fetch_assoc($resultado)) { 
-		$arr[] = $row;
-	}
-	return json_encode($arr);
-	
-	mysql_close($link);
-}
+
 
 function createUsuario($datoJSON) {
 	
