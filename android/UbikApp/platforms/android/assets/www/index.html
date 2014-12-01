@@ -39,8 +39,6 @@
 
 	<script src="js/db_ubikapp.js" type="text/javascript" charset="utf-8"></script>
 
-
-
     <script type="text/javascript" charset="utf-8">
 	
 	    // Espere a que PhoneGap inicie
@@ -52,8 +50,7 @@
 	    // PhoneGap esta listo
 	    //
 	    function onDeviceReady() {
-	       
-	       
+
 	       //Se inicializa BDD SQLite UbikApp
  		   init();
  		   document.addEventListener("backbutton", onBackKeyDown, false);
@@ -89,17 +86,14 @@
 	    		alertDismissed,         // función 'callback' (alertCallback)
 	    		'UbikApp Notificacion',            // titulo (title)
 	    		'Detalle'                // nombre del botón (buttonName)
-	    );
-
+	    	);
 	    
 	    }
 		
 
-		//var myVar=setInterval(function () {showAlert()}, 10000);
+		var myVar=setInterval(function () {showAlert()}, 30000);
 
-       
-       
-       
+
     </script>   
     
 
@@ -212,7 +206,7 @@
 	                                        <i class="fa fa-comments fa-5x"></i>
 	                                    </div>
 	                                    <div class="col-xs-9 text-right">
-	                                        <div class="huge">4</div>
+	                                        <div class="huge"><span id="notif"></div>
 	                                        <div>Notificaciones</div>
 	                                    </div>
 	                                </div>
@@ -238,7 +232,7 @@
 	                                        <i class="fa fa-tasks fa-5x"></i>
 	                                    </div>
 	                                    <div class="col-xs-9 text-right">
-	                                        <div class="huge">5</div>
+	                                        <div class="huge"><span id="categorias"></div>
 	                                        <div>Categorias</div>
 	                                    </div>
 	                                </div>
@@ -264,7 +258,7 @@
 	                                        <i class="fa fa-shopping-cart fa-5x"></i>
 	                                    </div>
 	                                    <div class="col-xs-9 text-right">
-	                                        <div class="huge">2</div>
+	                                        <div class="huge"><span id="usadas"></div>
 	                                        <div>Promos Usadas</div>
 	                                    </div>
 	                                </div>

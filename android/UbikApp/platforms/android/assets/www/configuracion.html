@@ -34,10 +34,28 @@
 
 	<script src="js/db_ubikapp.js" type="text/javascript" charset="utf-8"></script>
 
+	<script type="text/javascript" charset="utf-8">
+
+		document.addEventListener("deviceready", onDeviceReady, false);
+	
+	    function onDeviceReady() {
+
+ 		   document.addEventListener("backbutton", onBackKeyDown, false);
+
+	    }
+
+		document.addEventListener("backbutton", onBackKeyDown, false);
+
+		function onBackKeyDown() {
+    		location.href = "index.html";
+    			
+    	}
+
+	</script>
 
 </head>
 
-<body onload="init();">
+<body onload="initDatabase();">
 
     <div id="wrapper">
 

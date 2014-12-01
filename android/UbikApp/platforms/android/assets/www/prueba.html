@@ -1,41 +1,25 @@
-<!DOCTYPE html>
 <html>
-  <head>
-    <title>Ejemplo de Notification</title>
+	<head>
+		<script type="text/javascript" charset="utf-8" src="cordova-2.2.0.js"></script>
+		<script type="text/javascript" charset="utf-8" src="statusbarnotification.js"></script>
+		<script type="text/javascript" charset="utf-8">
+		
+			function sendNotification() {
+				var message = document.getElementById("message");
+				window.plugins.statusBarNotification.notify("Sample Notification", message.value);
+			}
+			
+			function clearNotification() {
+				window.plugins.statusBarNotification.clear();
+			}
+			
+		</script>
+	</head>
 
-    <script type="text/javascript" charset="utf-8" src="cordova.js"></script>
-    <script type="text/javascript" charset="utf-8">
+	<body>
+		<input type="text" id="message" />
+		<input type="button" id="notify" value="Notify" onclick="sendNotification()" />
+		<input type="button" id="clear" value="Clear" onclick="clearNotification()"/>
+	</body>
 
-    // Espere a que PhoneGap inicie
-    //
-    document.addEventListener("deviceready", onDeviceReady, false);
-
-    // PhoneGap esta listo
-    //
-    function onDeviceReady() {
-        // vacio
-    }
-
-    // alerta cerrada
-    function alertDismissed() {
-        // hacer algo aquí        
-    }
-
-    // Muestra un cuadro de dialogo personalizado
-    //
-    function showAlert() {
-    navigator.notification.alert(
-    'Eres el ganador!</br>Probando HTML5',     // mensaje (message)
-    alertDismissed,         // función 'callback' (alertCallback)
-    'UbikApp Notificacion',            // titulo (title)
-    'Ver Detalle'                // nombre del botón (buttonName)
-    );
-    
-    }
-
-    </script>
-  </head>
-  <body>
-    <p><a href="#" onclick="showAlert(); return false;">Mostrar cuadro de dialogo</a></p>
-  </body>
 </html>

@@ -30,9 +30,36 @@
         <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
     <![endif]-->
 
+	<script type="text/javascript" src="cordova.js"></script>
+
+    <!-- jQuery -->
+    <script src="js/jquery.js"></script>
+
+	<script src="js/db_ubikapp.js" type="text/javascript" charset="utf-8"></script>
+
+	<script type="text/javascript" charset="utf-8">
+
+		document.addEventListener("deviceready", onDeviceReady, false);
+	
+	    function onDeviceReady() {
+
+ 		   document.addEventListener("backbutton", onBackKeyDown, false);
+
+	    }
+
+		document.addEventListener("backbutton", onBackKeyDown, false);
+
+		function onBackKeyDown() {
+    		location.href = "index.html";
+    			
+    	}
+
+	</script>
+
+
 </head>
 
-<body>
+<body onload="initDatabase();">
 
     <div id="wrapper">
 
@@ -80,16 +107,8 @@
 
                 <br>
 
-                <!-- Main jumbotron for a primary marketing message or call to action -->
-                <div class="alert alert-success">
-                    <h2>Falabella ! <small>Detalle de la Promo !</small> </h2>
-                    <h1>Codigo:123455</h1>
-                </div>
-
-                <div class="alert alert-info" align="right">
-                    <h2>Ripley ! <small>Detalle de la Promo !</small> </h2>
-                    <h1>Codigo:123456</h1>
-                </div>
+				<span id="det_usadas">
+               
 
             </div>
             <!-- /.container-fluid -->

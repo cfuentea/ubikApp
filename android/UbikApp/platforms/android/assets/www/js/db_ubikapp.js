@@ -8,9 +8,12 @@
 			
 			this.initDatabase();
 
-			this.selectAll();
+            
+            //this.dropTables();
+            //this.createTables();
+            //this.insertInicial();
 			
-		}
+	}
 
 	function initDatabase() {
 			try {
@@ -21,12 +24,14 @@
 			        	version = '1.0',
 						displayName = 'UbikAppDB',
 						maxSize = 1024*1024;
-						
+
 			        UbikAppDB = openDatabase(shortName, version, displayName, maxSize);
-			        //this.dropTables()
-					this.createTables();
-					//this.selectAll();
-					this.insertUsuario();
+
+		            this.selectAll();
+		            this.selectNotificacion();
+		            this.selectUsadas();
+		            this.selectCategorias();
+
 			    }
 			} catch(e) {
 			    if (e === 2) {
@@ -38,7 +43,8 @@
 			    return;
 			} 
 		}
-		
+
+	
 		/***
 		**** CREATE TABLE ** 
 		***/
@@ -48,28 +54,31 @@
 		        function (transaction) {
 		        	transaction.executeSql('CREATE TABLE IF NOT EXISTS usuario(nombres text, apellidos text, mail text, fecha date, comuna int, uuid text, nick text);', [], that.nullDataHandler, that.errorHandler);
 		        	transaction.executeSql('CREATE TABLE IF NOT EXISTS categoria(id int, nombre text, descripcion text);', [], that.nullDataHandler, that.errorHandler);
-		        	transaction.executeSql('CREATE TABLE IF NOT EXISTS promos(id int, nombre text, descripcion text, inicio date, fin date);', [], that.nullDataHandler, that.errorHandler);
+		        	transaction.executeSql('CREATE TABLE IF NOT EXISTS promos(id int, nombre text, descripcion text, inicio date, fin date, estado int);', [], that.nullDataHandler, that.errorHandler);
+		        	
 		        }
 		    );
-			//this.insertUsuario();			
 		}
 
 		/***
 		**** INSERT INTO TABLE ** 
 		***/		
-	function insertUsuario() {
+	function insertInicial() {
 			UbikAppDB.transaction(
 			    function (transaction) {
-				//var data = ['1','none','#B3B4EF','Helvetica','Porsche 911 GT3'];  
-				
-				//transaction.executeSql("INSERT INTO example(id, fname, bgcolor, font, favcar) VALUES (?, ?, ?, ?, ?)", [data[0], data[1], data[2], data[3], data[4]]);
+			
+                        transaction.executeSql("INSERT INTO usuario( uuid ) VALUES ( ? )", [ device.uuid ]);
+			            transaction.executeSql("insert into promos (id, nombre, descripcion, estado) values (?, ?, ?, ?)", [1, "Falabella 40% dscto.", "Deportes y Outdoor", 1]);
+                        transaction.executeSql("insert into promos (id, nombre, descripcion, estado) values (?, ?, ?, ?)", [2, "Cine Hoyts a Luka", "Solo por este fin de semana", 1]);
+                        transaction.executeSql("insert into promos (id, nombre, descripcion, estado) values (?, ?, ?, ?)", [3, "Ripley 50% dscto.", "Deportes y Outdoor", 2]);
+                        transaction.executeSql("insert into promos (id, nombre, descripcion, estado) values (?, ?, ?, ?)", [4, "Falabella 40% dscto.", "Toda la tecnologia a tu alcance", 2]);
 			        
-			        if (!existeUsuario()){
-			            alert("no existe " + device.uuid);
-                        //transaction.executeSql("INSERT INTO usuario(nombres, apellidos, mail, fecha, comuna, uuid, nick) VALUES (?, ?, ?, ?, ?, ?, ?)", ["Cristian", "Yanez", "cyanez@ubikapp.cl", new Date(), 100, device.uuid]);
-			            transaction.executeSql("INSERT INTO usuario( uuid ) VALUES ( ? )", [ device.uuid ]);
-			        }			        
-			        
+                        transaction.executeSql("insert into categoria (id, nombre, descripcion) values (?, ?, ?)", [1, "Deportes y Outdoor", ""]);
+                        transaction.executeSql("insert into categoria (id, nombre, descripcion) values (?, ?, ?)", [2, "Tecnologia", ""]);
+                        transaction.executeSql("insert into categoria (id, nombre, descripcion) values (?, ?, ?)", [3, "Estudios", ""]);
+                        transaction.executeSql("insert into categoria (id, nombre, descripcion) values (?, ?, ?)", [4, "Musica", ""]);
+                        transaction.executeSql("insert into categoria (id, nombre, descripcion) values (?, ?, ?)", [5, "Cines", ""]);
+			    
 			    }
 			);				
 		}
@@ -118,32 +127,7 @@
 			//this.selectAll();		    
 	    }
 
-	function existeUsuario() {
-            var that = this;
-            UbikAppDB.transaction(
-                function (transaction) {
-                    transaction.executeSql("SELECT * FROM usuario where uuid = ?;", [device.uuid], that.existHandler, that.errorHandler);
-            
-                }
-            );  
-        }
-        
-	function existHandler( transaction, result ) {
-            // Handle the results
-            var i=0,
-                row;
-            
-            alert(result.rows.length);
 
-            for (i ; i<result.rows.length; i++) {
-                row = result.rows.item(i);
-                alert(row['nombres'] + " - " + row['uuid'])
-                return true;
-                        
-            }
-            return false;
-        }
-        
 	function selectAllUsuario() {
 	    	var that = this;
 			UbikAppDB.transaction(
@@ -158,11 +142,11 @@
 			// Handle the results
 			var i=0,
 				row;
-				
+
 		    for (i ; i<results.rows.length; i++) {
-		        
+
 		    	row = results.rows.item(i);
-		    	
+
 		    	try{
 	                $("#dispositivo").html(row['nick']);
 
@@ -177,24 +161,116 @@
 		    	    console.log("err ... controlado !");
 		    	}
 
-
-		    	/*
-		        $('body').css('background-color',row['bgcolor']);
-		        $('body').css('font-family',row['font']);
-		        $('#content').html('<h4 id="your_car">Your Favorite Car is a '+ row['favcar'] +'</h4>');
-		        
-		        if(row['fname'] != 'none') {
-		       		$('#greeting').html('Howdy-ho, '+ row['fname'] +'!');
-		       		$('#fname').val( row['fname'] );
-		        } 
-		        
-		       $('select#font_selection').find('option[value="'+ row['font'] +'"]').attr('selected','selected');
-		       $('select#bg_color').find('option[value="'+ row['bgcolor'] +'"]').attr('selected','selected');  
-		       $('select#fav_car').find('option[value="'+ row['favcar'] +'"]').attr('selected','selected');
-		        */
 		    }		    
 	    }
-	    
+
+    function NotificacionHandler( transaction, results ) {
+        var i=0,
+            row,
+            res="";
+        
+        $("#det_notificaciones").html(""); 
+        for (i ; i<results.rows.length; i++) {
+            
+            row = results.rows.item(i);
+            
+            try{
+               
+                if ( (i % 2) == 0){
+                    
+                    res += '<div class="alert alert-success">';
+                    res += '<h2>' + row['nombre'] + ' <small>' + row['descripcion'] + '</small> </h2>';
+                    res += '<button type="button" class="btn btn-lg btn-primary" id="acepta" value="1" onclick="aceptar(1);">Aceptar</button>&nbsp;';
+                    res += '<button type="button" class="btn btn-lg btn-danger" id="elim" value="2" onclick="eliminar(2);">Eliminar</button>';
+                    res += '</div>';
+                    
+                }else{
+                    
+                    res += '<div class="alert alert-info" align="right">';
+                    res += '<h2>' + row['nombre'] + ' <small>' + row['descripcion'] + '</small> </h2>';
+                    res += '<button type="button" class="btn btn-lg btn-primary" value="3" onclick="aceptar(3);">Aceptar</button>&nbsp;';
+                    res += '<button type="button" class="btn btn-lg btn-danger" value="4" onclick="eliminar(4);">Eliminar</button>';
+                    res += '</div>';
+                
+                }
+                    
+            }catch (e){
+                console.log("err ... controlado !");
+            }
+
+        }
+        $("#notif").html(i);
+        $("#det_notificaciones").html(res);
+    }
+ 	
+    function UsadasHandler( transaction, results ) {
+        var i=0,
+            row,
+            res="";
+        
+        $("#det_usadas").html(""); 
+        for (i ; i<results.rows.length; i++) {
+            
+            row = results.rows.item(i);
+            
+            try{
+
+                if ( (i % 2) == 0){
+
+                    res += '<div class="alert alert-success">';
+                    res += '<h2>' + row['nombre'] + ' <small>' + row['descripcion'] + '</small> </h2>';
+                    res += '<h1>Codigo:123456</h1>';
+                    res += '</div>';
+
+                }else{
+
+                    res += '<div class="alert alert-info" align="right">';
+                    res += '<h2>' + row['nombre'] + ' <small>' + row['descripcion'] + '</small> </h2>';
+                    res += '<h1>Codigo:123456</h1>';
+                    res += '</div>';
+
+                }
+
+            }catch (e){
+                console.log("err ... controlado !");
+            }
+
+        }
+        $("#usadas").html(i);
+        $("#det_usadas").html(res);
+        
+    }
+
+    function CategoriasHandler( transaction, results ) {
+        var i=0,
+            row,
+            res="";
+
+        $("#det_categorias").html("");
+        for (i ; i<results.rows.length; i++) {
+
+            row = results.rows.item(i);
+
+            try{
+                if ((i % 2) == 0 ){
+                    res += '&nbsp;<div class="list-group-item"><button type="button" class="btn btn-lg btn-danger"> - </button>&nbsp;'+ row['nombre'] +'</div>';
+                }else{
+                    //res += '<div class="list-group-item active"><div class="checkbox"><label><input type="checkbox" value="'+ row['nombre'] +'">'+ row['nombre'] +'</label></div></div>';
+                    res += '&nbsp;<div class="list-group-item active"><button type="button" class="btn btn-lg btn-danger"> - </button>&nbsp;'+ row['nombre'] +'</div>';
+                    
+                }
+
+            }catch (e){
+                console.log("err ... controlado !");
+            }
+
+        }
+        $("#categorias").html(i);
+        $("#det_categorias").html(res);
+        
+    }
+    
+    
 		/***
 		**** Save 'default' data into DB table **
 		***/
@@ -228,7 +304,34 @@
 			    }
 			);			    
 	    }
-	    
+
+    function selectNotificacion() {
+        var that = this;
+        UbikAppDB.transaction(
+            function (transaction) {
+                transaction.executeSql("SELECT * FROM promos where estado = 1;", [], that.NotificacionHandler, that.errorHandler);
+            }
+        );              
+    }
+
+    function selectUsadas() {
+        var that = this;
+        UbikAppDB.transaction(
+            function (transaction) {
+                transaction.executeSql("SELECT * FROM promos where estado = 2;", [], that.UsadasHandler, that.errorHandler);
+            }
+        );              
+    }
+
+    function selectCategorias() {
+        var that = this;
+        UbikAppDB.transaction(
+            function (transaction) {
+                transaction.executeSql("SELECT * FROM categoria;", [], that.CategoriasHandler, that.errorHandler);
+            }
+        );              
+    }
+    
 		/***
 		**** DELETE DB TABLE ** 
 		***/

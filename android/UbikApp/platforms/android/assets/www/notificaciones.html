@@ -30,9 +30,52 @@
         <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
     <![endif]-->
 
+
+	<!-- jQuery -->
+    <script src="js/jquery.js"></script>
+    
+    <!-- Bootstrap Core JavaScript -->
+    <script src="js/bootstrap.min.js"></script>
+
+	<script type="text/javascript" src="cordova.js"></script>
+
+	<script src="js/db_ubikapp.js" type="text/javascript" charset="utf-8"></script>
+
+	<script type="text/javascript" charset="utf-8">
+
+		document.addEventListener("deviceready", onDeviceReady, false);
+	
+	    function onDeviceReady() {
+
+ 		   document.addEventListener("backbutton", onBackKeyDown, false);
+
+	    }
+
+		document.addEventListener("backbutton", onBackKeyDown, false);
+
+		function onBackKeyDown() {
+    		location.href = "index.html";
+    			
+    	}
+
+	</script>
+
+
+	<script>
+
+		function aceptar(val){
+			alert("aceptar"+val);
+		}
+		
+		function eliminar(val){
+			alert("eliminar"+val);
+		}
+
+	</script>
+
 </head>
 
-<body>
+<body onload="initDatabase();"> 
 
     <div id="wrapper">
 
@@ -79,30 +122,9 @@
             <div class="container-fluid">
 
                 <br>
+                
+                <span id="det_notificaciones">
 
-                <!-- Main jumbotron for a primary marketing message or call to action -->
-                <div class="alert alert-success">
-                    <h2>Falabella ! <small>Detalle de la Promo !</small> </h2>
-                    <button type="button" class="btn btn-lg btn-primary">Aceptar</button>
-                    <button type="button" class="btn btn-lg btn-danger">Eliminar</button>
-                </div>
-
-                <div class="alert alert-info" align="right">
-                    <h2>Ripley ! <small>Detalle de la Promo !</small> </h2>
-                    <button type="button" class="btn btn-lg btn-primary">Aceptar</button>
-                    <button type="button" class="btn btn-lg btn-danger">Eliminar</button>
-                </div>
-                <div class="alert alert-success">
-                    <h2>Falabella ! <small>Detalle de la Promo !</small> </h2>
-                    <button type="button" class="btn btn-lg btn-primary">Aceptar</button>
-                    <button type="button" class="btn btn-lg btn-danger">Eliminar</button>
-                </div>
-
-                <div class="alert alert-info" align="right">
-                    <h2>Ripley ! <small>Detalle de la Promo !</small> </h2>
-                    <button type="button" class="btn btn-lg btn-primary">Aceptar</button>
-                    <button type="button" class="btn btn-lg btn-danger">Eliminar</button>
-                </div>                
 
             </div>
             <!-- /.container-fluid -->
@@ -113,12 +135,8 @@
     </div>
     <!-- /#wrapper -->
 
-    <!-- jQuery -->
-    <script src="js/jquery.js"></script>
 
-    <!-- Bootstrap Core JavaScript -->
-    <script src="js/bootstrap.min.js"></script>
-
+   
 </body>
 
 </html>

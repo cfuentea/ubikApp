@@ -47,8 +47,18 @@
 	#informacion h3 span { color: #FF5555; }
 	
 	</style>
+
+	<script type="text/javascript" src="cordova.js"></script>
+
 	<script type="text/javascript">
-	
+
+	document.addEventListener("backbutton", onBackKeyDown, false);
+
+	function onBackKeyDown() {
+		location.href = "index.html";
+			
+	}
+
 	function informacion (coordenadas) {
 		$("#latitude").html(coordenadas.Lat);
 		$("#longitude").html(coordenadas.Lng);
@@ -69,7 +79,7 @@
 			informacion(coordenadas);
 
 			var mapOptions = {
-				zoom: 16,
+				zoom: 10,
 				center: new google.maps.LatLng(coordenadas.Lat, coordenadas.Lng),
 				disableDefaultUI: true,
 				mapTypeId: google.maps.MapTypeId.ROADMAP
@@ -155,7 +165,8 @@
             <div class="container-fluid">
                             
 				<header>
-					<h1>Lat:<span id="latitude"> / Lng:<span id="longitude"></h1>
+					<h1>Lat:<span id="latitude">
+					<br>Lng:<span id="longitude"></h1>
 				</header>
 
 				<!--
