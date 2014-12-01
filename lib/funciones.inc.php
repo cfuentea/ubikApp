@@ -286,4 +286,12 @@ function readSucursal($idEmpresa) {
 	mysql_close($link);	
 }
 
+function ubikMe($id,$posicionJSON) {
+	
+	// esta funcion debe ser capaz de recibir parametros y traducirlos en envío de campañas
+	// adicionalmente debe dejar un registro de las campañas que se envían en un log (registro BBDD)
+	
+	
+}
+
 ?>

@@ -98,7 +98,7 @@ CREATE TABLE `CampanaSucursal` (
   KEY `fk_CampanaSucursal_Campana1_idx` (`Campana_id`),
   CONSTRAINT `fk_CampanaSucursal_Campana1` FOREIGN KEY (`Campana_id`) REFERENCES `Campana` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
   CONSTRAINT `fk_CampanaSucursal_Sucursal1` FOREIGN KEY (`Sucursal_id`) REFERENCES `Sucursal` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -107,6 +107,7 @@ CREATE TABLE `CampanaSucursal` (
 
 LOCK TABLES `CampanaSucursal` WRITE;
 /*!40000 ALTER TABLE `CampanaSucursal` DISABLE KEYS */;
+INSERT INTO `CampanaSucursal` VALUES (1,1,1);
 /*!40000 ALTER TABLE `CampanaSucursal` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -126,7 +127,7 @@ CREATE TABLE `Categoria` (
   `ownerEdicion` varchar(100) DEFAULT NULL,
   `fechaEdicion` datetime DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=10 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -135,7 +136,7 @@ CREATE TABLE `Categoria` (
 
 LOCK TABLES `Categoria` WRITE;
 /*!40000 ALTER TABLE `Categoria` DISABLE KEYS */;
-INSERT INTO `Categoria` VALUES (1,'Ropa','Categoria de ropa','admin','2014-11-16 20:22:21',NULL,NULL),(2,'Tecnolog&iacute;a','Articulos tecnologicos','admin','2014-11-16 20:22:45',NULL,NULL),(3,'Menaje','Articulos de menaje','admin','2014-11-16 20:23:08',NULL,NULL),(4,'Alimentaci&oacute;n','Articulos de alimentación','admin','2014-11-16 20:24:02',NULL,NULL),(5,'Deporte','Articulos de deporte','admin','2014-11-18 20:52:12',NULL,NULL);
+INSERT INTO `Categoria` VALUES (1,'Ropita','Categoria de ropa','admin','2014-11-16 20:22:21','WS-user','2014-11-30 18:21:03'),(2,'Tecnolog&iacute;a','Articulos tecnologicos','admin','2014-11-16 20:22:45',NULL,NULL),(3,'Menaje','Articulos de menaje','admin','2014-11-16 20:23:08',NULL,NULL),(4,'Alimentaci&oacute;n','Articulos de alimentación','admin','2014-11-16 20:24:02',NULL,NULL),(5,'Deporte','Articulos de deporte','admin','2014-11-18 20:52:12',NULL,NULL),(9,'Juguete','Articulos de juegos','WS-user','2014-11-30 17:43:51',NULL,NULL);
 /*!40000 ALTER TABLE `Categoria` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -410,4 +411,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2014-11-26 20:04:59
+-- Dump completed on 2014-11-30 21:45:51
