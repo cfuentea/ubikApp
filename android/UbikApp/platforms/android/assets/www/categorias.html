@@ -55,8 +55,6 @@
 
 	    }
 
-		document.addEventListener("backbutton", onBackKeyDown, false);
-
 		function onBackKeyDown() {
     		location.href = "index.html";
     			
@@ -65,22 +63,6 @@
 	</script>
 
 	<script>
-
-        function agregar(){
-			
-			var res = "";
-				
-			res += '<select name="select-custom-24" id="select-custom-24" data-native-menu="false" multiple="multiple" data-iconpos="left">';
-		    res += '<option value="2">Vestuario Hombres</option>';
-		    res += '<option selected value="3">Automiviles</option>';
-		    res += '<option selected value="5">Motocicletas</option>';
-			res += '</select>';
-			$("#resultAdd").html(res);
-			
-        }
-
-		$('.selectpicker').selectpicker();
-
 
     	/*
         $(function() {
@@ -163,25 +145,16 @@
                 <br>
 
                 <div align="center">
-                    <input type="button" value="Agregar" class="btn btn-lg btn-success" onclick="agregar();" />
+                	<a href="add_categorias.html">	
+                    <button type="button" class="btn btn-lg btn-success">Agregar</button>
+                    </a>
                 </div>
                 
-                <br>
-                
-			<select class="selectpicker" multiple>
-			      <option>Vestuario Hombres</option>
-			      <option>Automiviles</option>
-			      <option>Automiviles</option>
-  			</select>
-  			                
                 <br>
       
                 <div class="col-sm-4">
                     <div class="list-group">
-						
-						
-                    	<div id="resultAdd"></div>
-						
+
                     	<div id="det_categorias"></div>
 
 						<!--                        

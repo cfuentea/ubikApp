@@ -14,7 +14,17 @@
             //this.insertInicial();
 			
 	}
+	
+	
+	function incializa(){
 
+	    this.dropTables();
+        this.createTables();
+        this.insertInicial();
+	    
+	}
+	
+	
 	function initDatabase() {
 			try {
 			    if (!window.openDatabase) {
@@ -66,12 +76,14 @@
 	function insertInicial() {
 			UbikAppDB.transaction(
 			    function (transaction) {
-			
+
                         transaction.executeSql("INSERT INTO usuario( uuid ) VALUES ( ? )", [ device.uuid ]);
 			            transaction.executeSql("insert into promos (id, nombre, descripcion, estado) values (?, ?, ?, ?)", [1, "Falabella 40% dscto.", "Deportes y Outdoor", 1]);
                         transaction.executeSql("insert into promos (id, nombre, descripcion, estado) values (?, ?, ?, ?)", [2, "Cine Hoyts a Luka", "Solo por este fin de semana", 1]);
-                        transaction.executeSql("insert into promos (id, nombre, descripcion, estado) values (?, ?, ?, ?)", [3, "Ripley 50% dscto.", "Deportes y Outdoor", 2]);
-                        transaction.executeSql("insert into promos (id, nombre, descripcion, estado) values (?, ?, ?, ?)", [4, "Falabella 40% dscto.", "Toda la tecnologia a tu alcance", 2]);
+                        transaction.executeSql("insert into promos (id, nombre, descripcion, estado) values (?, ?, ?, ?)", [3, "Ripley 50% dscto.", "Deportes y Outdoor", 1]);
+                        transaction.executeSql("insert into promos (id, nombre, descripcion, estado) values (?, ?, ?, ?)", [4, "Falabella 40% dscto.", "Toda la tecnologia a tu alcance", 1]);
+                        transaction.executeSql("insert into promos (id, nombre, descripcion, estado) values (?, ?, ?, ?)", [5, "Falabella 50% dscto.", "Cds y vinilos Clasicos", 1]);
+                        transaction.executeSql("insert into promos (id, nombre, descripcion, estado) values (?, ?, ?, ?)", [6, "Ipciisa 50% dscto.", "En tu matricula 2015", 1]);
 			        
                         transaction.executeSql("insert into categoria (id, nombre, descripcion) values (?, ?, ?)", [1, "Deportes y Outdoor", ""]);
                         transaction.executeSql("insert into categoria (id, nombre, descripcion) values (?, ?, ?)", [2, "Tecnologia", ""]);
@@ -84,22 +96,38 @@
 		}
 
 	function insertCategoria() {
-			UbikAppDB.transaction(
-			    function (transaction) {
-				
-				transaction.executeSql("INSERT INTO categoria() VALUES ()", []);
-			    }
-			);				
-		}	
+		UbikAppDB.transaction(
+		    function (transaction) {
+		        transaction.executeSql("INSERT INTO categoria() VALUES ()", []);
+		    }
+		);
+	}
+
+    function addCategoria(id, nombre) {
+        UbikAppDB.transaction(
+            function (transaction) {
+                transaction.executeSql("INSERT INTO categoria(id, nombre) VALUES (?, ?)", [id, nombre]);
+                location.href = "categorias.html";
+            }
+        );              
+    }   
+
+    function delCategoria(id) {
+        UbikAppDB.transaction(
+            function (transaction) {
+                transaction.executeSql("DELETE FROM categoria where id = ?", [id]);
+                location.href = "categorias.html";
+            }
+        );              
+    }   
 
 	function insertPromos() {
-			UbikAppDB.transaction(
-			    function (transaction) {
-				
-				transaction.executeSql("INSERT INTO promos() VALUES ()", []);
-			    }
-			);				
-		}
+		UbikAppDB.transaction(
+		    function (transaction) {				
+			transaction.executeSql("INSERT INTO promos() VALUES ()", []);
+		    }
+		);				
+	}
 
 		/***
 		**** UPDATE TABLE ** 
@@ -116,14 +144,14 @@
 			//this.selectAll();		    
 	    }
 
-	function updatePromos() {
+	function updatePromos(id, estado) {
 			UbikAppDB.transaction(
 			    function (transaction) {
 										
-			    	transaction.executeSql("UPDATE promos SET estado=? WHERE id = ?", ["usada", "1"]);
+			    	transaction.executeSql("UPDATE promos SET estado=? WHERE id = ?", [estado, id]);
 			    }
 			);	
-			
+			location.href = "index.html";
 			//this.selectAll();		    
 	    }
 
@@ -180,16 +208,16 @@
                     
                     res += '<div class="alert alert-success">';
                     res += '<h2>' + row['nombre'] + ' <small>' + row['descripcion'] + '</small> </h2>';
-                    res += '<button type="button" class="btn btn-lg btn-primary" id="acepta" value="1" onclick="aceptar(1);">Aceptar</button>&nbsp;';
-                    res += '<button type="button" class="btn btn-lg btn-danger" id="elim" value="2" onclick="eliminar(2);">Eliminar</button>';
+                    res += '<button type="button" class="btn btn-lg btn-primary" id="acepta" value="2" onclick="updatePromos('+row['id']+', 2);">Aceptar</button>&nbsp;';
+                    res += '<button type="button" class="btn btn-lg btn-danger" id="elim" value="3" onclick="updatePromos('+row['id']+', 3);">Eliminar</button>';
                     res += '</div>';
                     
                 }else{
                     
                     res += '<div class="alert alert-info" align="right">';
                     res += '<h2>' + row['nombre'] + ' <small>' + row['descripcion'] + '</small> </h2>';
-                    res += '<button type="button" class="btn btn-lg btn-primary" value="3" onclick="aceptar(3);">Aceptar</button>&nbsp;';
-                    res += '<button type="button" class="btn btn-lg btn-danger" value="4" onclick="eliminar(4);">Eliminar</button>';
+                    res += '<button type="button" class="btn btn-lg btn-primary" value="2" onclick="updatePromos('+row['id']+', 2);">Aceptar</button>&nbsp;';
+                    res += '<button type="button" class="btn btn-lg btn-danger" value="3" onclick="updatePromos('+row['id']+', 3);">Eliminar</button>';
                     res += '</div>';
                 
                 }
@@ -253,10 +281,10 @@
 
             try{
                 if ((i % 2) == 0 ){
-                    res += '&nbsp;<div class="list-group-item"><button type="button" class="btn btn-lg btn-danger"> - </button>&nbsp;'+ row['nombre'] +'</div>';
+                    res += '&nbsp;<div class="list-group-item"><button type="button" class="btn btn-lg btn-danger" onclick="delCategoria(' + row['id'] + ')"> - </button>&nbsp;'+ row['nombre'] +'</div>';
                 }else{
                     //res += '<div class="list-group-item active"><div class="checkbox"><label><input type="checkbox" value="'+ row['nombre'] +'">'+ row['nombre'] +'</label></div></div>';
-                    res += '&nbsp;<div class="list-group-item active"><button type="button" class="btn btn-lg btn-danger"> - </button>&nbsp;'+ row['nombre'] +'</div>';
+                    res += '&nbsp;<div class="list-group-item active"><button type="button" class="btn btn-lg btn-danger" onclick="delCategoria(' + row['id'] + ')"> - </button>&nbsp;'+ row['nombre'] +'</div>';
                     
                 }
 

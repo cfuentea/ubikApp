@@ -30,9 +30,62 @@
         <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
     <![endif]-->
 
+
+	<script type="text/javascript" src="cordova.js"></script>
+
+    <!-- jQuery -->
+    <script src="js/jquery.js"></script>
+
+	<script src="js/db_ubikapp.js" type="text/javascript" charset="utf-8"></script>    
+
+
+	<script type="text/javascript" charset="utf-8">
+
+		document.addEventListener("deviceready", onDeviceReady, false);
+	
+	    function onDeviceReady() {
+
+ 		   document.addEventListener("backbutton", onBackKeyDown, false);
+
+	    }
+
+		function onBackKeyDown() {
+    		location.href = "categorias.html";
+    			
+    	}
+		
+		function addCategoria1(id){			
+			addCategoria(id, "Categoria"+id);
+		}
+		
+	    $.ajax({
+			type: 'GET',
+			//data: parametros,
+			url : 'http://ubikapp.dev.cl/index.php?metodo=readCategoria',
+			success:function(data){
+				
+				var i = 0, res = "", nombre="";
+				$("#add_categorias").html("");
+				for (x in data) {
+					
+                    res += '&nbsp;<div class="list-group-item"><button type="button" class="btn btn-lg btn-primary" onclick="addCategoria1(' + data[x].id + ')"> + </button>&nbsp;' + data[x].nombre +'</div>';
+                    //res += '&nbsp;<div class="list-group-item"><button type="button" class="btn btn-lg btn-primary" onclick="delCategoria('+data[x].id+');"> + </button>&nbsp;' + data[x].nombre +'</div>';
+
+				}
+				$("#add_categorias").html(res);
+
+			},
+			error:function(data){
+				alert("Error Service readCategorias");
+			}
+		
+		});
+
+	</script>
+
 </head>
 
-<body>
+<body onload="initDatabase();">
 
     <div id="wrapper">
 
@@ -82,21 +135,21 @@
       
                 <div class="col-sm-4">
                     <div class="list-group">
-                        <div class="list-group-item active"><div class="checkbox"><label><input type="checkbox" value="">Automoviles</label></div></div>
-                        <div class="list-group-item active"><div class="checkbox"><label><input type="checkbox" value="">Belleza</label></div></div>
-                        <div class="list-group-item active"><div class="checkbox"><label><input type="checkbox" value="">Cocina</label></div></div>
-                        <div class="list-group-item active"><div class="checkbox"><label><input type="checkbox" value="">Video Juegos</label></div></div>
-                        <div class="list-group-item active"><div class="checkbox"><label><input type="checkbox" value="">Zapateria</label></div></div>                        
+
+						<span id="add_categorias">                        
+                     
                     </div>
                 </div>
 
                 <br>
-
+				
+				<!--
                 <div align="center">
                     <a href="categorias.html">
                         <button type="button" class="btn btn-lg btn-warning" onclick="categorias.html"> Guardar</button>
                     </a>
                 </div>
+                -->
 
                 <br>
 
@@ -109,8 +162,6 @@
     </div>
     <!-- /#wrapper -->
 
-    <!-- jQuery -->
-    <script src="js/jquery.js"></script>
 
     <!-- Bootstrap Core JavaScript -->
     <script src="js/bootstrap.min.js"></script>
