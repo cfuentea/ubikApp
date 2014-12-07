@@ -1,6 +1,13 @@
 <?php
 include('db.inc.php');
 
+// Mostramos errores
+
+ini_set('display_errors',1);
+ini_set('display_startup_errors',1);
+error_reporting(-1);
+
+
 /*
  Inicio CRUD Campana 
  */
@@ -38,18 +45,6 @@ function readCampanaSucursal() {
 		$arr[] = $row;
 	}
 	return $arr;
-}
-
-function createCampana() {
-// no se requiere
-}
-
-function updateCampana() {
-// no se requiere
-}
-
-function deleteCampana() {
-// no se requiere
 }
 
 /*
@@ -259,7 +254,7 @@ function readCategorias() {
 		echo '
 			<div class="checkbox">
 			<label>
-               	<input type="checkbox" value="'.$row['id'].'" name="'.$row['nombre'].'">'.$row['nombre'].'
+               	<input type="checkbox" value="'.$row['id'].'-'.$row['nombre'].'" name="categoria_'.$row['id'].'">'.$row['nombre'].'
            	</label>
            	</div>
            	';
@@ -277,13 +272,51 @@ function readSucursal($idEmpresa) {
 		echo '
 			<div class="checkbox">
 			<label>
-               	<input type="checkbox" value="'.$row['id'].'" name="'.$row['nombre'].'">'.$row['nombre'].'
+               	<input type="checkbox" value="'.$row['id'].'-'.$row['nombre'].'" name="sucursal_'.$row['id'].'">'.$row['nombre'].'
            	</label>
            	</div>
            	';
 	}
 	
 	mysql_close($link);	
+}
+
+function getIdEmpresa($id) {
+
+	$link = mycon();
+	$query = "SELECT id FROM Empresa WHERE rut = ".$id."";
+	$resultado = mysql_query($query,$link);
+	
+	$r = mysql_fetch_assoc($resultado);
+
+	return $r['id'];
+	
+	mysql_close($link);
+}
+
+function createCampana($userId, $arreglo) {
+	
+	$link = mycon();
+	
+	$nombre = $arreglo['nombre'];
+	$descripcion = $arreglo['descripcion'];
+	$fechaInicio = $arreglo['fechaInicio'];
+	$fechaFin = $arreglo['fechaFin'];
+	
+	
+	$query = 'INSERT INTO Campana 
+				(Empresa_id, nombre, descripcion, fechaIngreso, distanciaCampana, fechaInicio, fechaFin, Estado_id)
+			  VALUES
+				('.$userId.', "'.$nombre.'", "'.$descripcion.'", now(), 500, STR_TO_DATE("'.$fechaInicio.'","%Y-%m-%d"), STR_TO_DATE("'.$fechaFin.'","%Y-%m-%d"), 3)';
+	$resultado = mysql_query($query,$link);
+	
+	$queryLastRecord = 'SELECT max(id) as id FROM Campana LIMIT 1';
+	$resultadoLR = mysql_query($queryLastRecord,$link);
+	
+	$row = mysql_fetch_assoc($resultadoLR);
+	
+	return $row['id'];
+
 }
 
 function ubikMe($id,$posicionJSON) {

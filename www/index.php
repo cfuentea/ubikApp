@@ -45,27 +45,6 @@ if($_SESSION['userId']==0) {
 </head>
 
 <body>
-	
-		<!-- script Google Maps -->
-	
-	<script type="text/javascript" src="http://maps.google.com/maps/api/js?sensor=false&language=es&callback=iniciar"></script>
-
-	<script>
-	function iniciar() {
-	var mapOptions = {
-	center: new google.maps.LatLng(25.80, -80.30),
-	zoom: 10,
-	mapTypeId: google.maps.MapTypeId.ROADMAP};
-	var place = new google.maps.LatLng(23.1368,-82.3816);
-	var marker = new google.maps.Marker({
-        position: place
-        , title: 'La Universidad de la Habana'
-        , map: mapa
-        , });
-	var mapa = new google.maps.Map(document.getElementById("mapa"),mapOptions);}		
-	</script>
-
-	<!-- fin script Google Maps -->
 
     <div id="wrapper">
 
