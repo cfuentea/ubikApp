@@ -324,18 +324,27 @@ function listarCampanaEditar($idEmpresa) {
 	$query = 'SELECT id, nombre, descripcion FROM Campana WHERE Empresa_id = '.$idEmpresa.'';
 	$resultado = mysql_query($query,$link);
 	
-	echo '<table border="1" >
-			<tr align="center">
-				<td>id</td><td>Nombre</td><td>Descripcion</td><td>Accion 1</td><td>Accion 2</td>
+	echo '<table border="0" >
+			<tr align="center" bgcolor="#ccc">
+				<td>Nro</td><td>&nbsp;Nombre Campa&ntilde;a&nbsp;</td><td>Descripcion</td><td>Accion 1</td><td>Accion 2</td>
 			</tr>';
-
+			
 	while($row = mysql_fetch_assoc($resultado)) {
 		echo '<tr>
-				<td>'.$row['id'].'</td><td>'.$row['nombre'].'</td><td>'.$row['descripcion'].'</td><td>[ Editar ]</td><td>[ Activar / Eliminar]</td>				
+				<td>'.$row['id'].'</td><td>'.$row['nombre'].'</td><td>'.$row['descripcion'].'</td><td>[ Editar ]</td><td>[ Activar / Desactivar]</td>				
 			  </tr>';
 	}
-	
 	echo '</table>';
+}
+
+function editarCampana($idCampana) {
+	$link = mycon();
+	$query = 'SELECT a.id, a.Empresa_id, a.nombre, a.descripcion, a.fechaInicio, a.fechaFin, a.Estado_id
+				FROM Campana a, CampanaCategoria b, CampanaSucursal c
+				WHERE a.id = '.$idCampana.' ';
+	
+	
+	
 }
 
 function ubikMe($id,$posicionJSON) {
