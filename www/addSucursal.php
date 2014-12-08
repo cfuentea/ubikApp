@@ -9,6 +9,13 @@ if($_SESSION['userId']==0) {
 	exit;
 }
 
+// Mostramos errores
+
+ini_set('display_errors',1);
+ini_set('display_startup_errors',1);
+error_reporting(-1);
+
+
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -21,7 +28,7 @@ if($_SESSION['userId']==0) {
     <meta name="description" content="">
     <meta name="author" content="">
 
-    <title>UbikApp - A&ntilde;adir Sucursales</title>
+    <title>UbikApp - A&ntilde;adir Sucursal</title>
 
     <!-- Bootstrap Core CSS -->
     <link href="css/bootstrap.min.css" rel="stylesheet">
@@ -41,7 +48,7 @@ if($_SESSION['userId']==0) {
         <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
         <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
     <![endif]-->
-
+        
 </head>
 
 <body>
@@ -150,7 +157,7 @@ if($_SESSION['userId']==0) {
         <div id="page-wrapper">
             <div class="row">
                 <div class="col-lg-12">
-                    <h1 class="page-header">A&ntilde;adir Sucursal</h1>
+                    <h1 class="page-header">Ingresar Sucursal</h1>
                 </div>
                 <!-- /.col-lg-12 -->
             </div>
@@ -158,16 +165,36 @@ if($_SESSION['userId']==0) {
             <div class="row">
                 <div class="col-lg-8">
                     <div class="panel panel-default">
-                        <div class="panel-heading">
-                            <i class="fa fa-bar-chart-o fa-fw"></i> Formulario para a&ntilde;adir campa&ntilde;a
-                            <div class="pull-right">
-                                
-                            </div>
-                        </div>
-                        <!-- /.panel-heading -->
+                        <?php 
+							if($_GET) {
+								echo createCampana(getIdEmpresa($_SESSION['userId']),$_GET);
+								print_r($_GET);
+							} 
+						?>
+                        <!-- /.panel-heading -->                        
                         <div class="panel-body">
-                            Aqui debe ir el contenido
-                        </div>
+	                     <form role="form" action="addCampana.php" method="get">
+                        	<div class="form-group">
+                        		<label>Nombre de Sucursal</label>
+                        		<input name="nombre" class="form-control" placeholder="Promoci&oacute;n imperdible!">
+                        	</div>
+							<div class="form-group">
+								<label>Direcci&oacute;n</label>
+								<textarea name="descripcion" class="form-control" placeholder="Descripci&oacute;n del producto" rows="3"></textarea>
+							</div>
+							<div class="form-group">
+								<label>Tipo de Sucursal</label>
+									<input class="form-control" list="browsers" name="browser">
+										<datalist id="browsers">
+											<option value="Casa Matriz">
+											<option value="Ventas">
+											<option value="Bodega">
+										</datalist>
+							</div>
+                		   <input type="submit" class="btn btn-lg btn-success btn-block" value="Enviar">
+				           <!-- <a href="index.html" class="btn btn-lg btn-success btn-block">Login</a>-->
+                		 </form>
+            			</div>
                         <!-- /.panel-body -->
                     </div>
                     <!-- /.table-responsive -->

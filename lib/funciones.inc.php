@@ -337,6 +337,24 @@ function listarCampanaEditar($idEmpresa) {
 	echo '</table>';
 }
 
+function listarSucursalEditar($idEmpresa) {
+	$link = mycon();
+	$query = 'SELECT id,idEmpresa, nombre, direccion, tipoSucursal, Comuna_id FROM Sucursal WHERE idEmpresa = '.$idEmpresa.'';
+	$resultado = mysql_query($query,$link);
+	
+	echo '<table border="0" >
+			<tr align="center" bgcolor="#ccc">
+				<td>Nro</td><td>&nbsp;Nombre Sucursal&nbsp;</td><td>Direcci&oacute;n</td><td>Tipo de Sucursal</td><td>Comuna</td>
+			</tr>';
+			
+	while($row = mysql_fetch_assoc($resultado)) {
+		echo '<tr>
+				<td>'.$row['id'].'</td><td>'.$row['nombre'].'</td><td>'.$row['direccion'].'</td><td>'.$row['tipoSucursal'].'</td><td>'.$row['Comuna_id'].'</td>				
+			  </tr>';
+	}
+	echo '</table>';
+}
+
 function editarCampana($idCampana) {
 	$link = mycon();
 	$query = 'SELECT a.id, a.Empresa_id, a.nombre, a.descripcion, a.fechaInicio, a.fechaFin, a.Estado_id

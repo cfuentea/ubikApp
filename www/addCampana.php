@@ -157,7 +157,7 @@ error_reporting(-1);
         <div id="page-wrapper">
             <div class="row">
                 <div class="col-lg-12">
-                    <h1 class="page-header">Ingresar Campa&ntilde;a #123</h1>
+                    <h1 class="page-header">Ingresar Campa&ntilde;a</h1>
                 </div>
                 <!-- /.col-lg-12 -->
             </div>
@@ -165,9 +165,6 @@ error_reporting(-1);
             <div class="row">
                 <div class="col-lg-8">
                     <div class="panel panel-default">
-                        <div class="panel-heading">
-                            <i class="fa fa-bar-chart-o fa-fw"></i> Formulario para a&ntilde;adir campa&ntilde;a
-                        </div>
                         <?php 
 							if($_GET) {
 								echo createCampana(getIdEmpresa($_SESSION['userId']),$_GET);
