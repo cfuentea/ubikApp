@@ -167,13 +167,13 @@ error_reporting(-1);
                     <div class="panel panel-default">
                         <?php 
 							if($_GET) {
-								echo createCampana(getIdEmpresa($_SESSION['userId']),$_GET);
+								echo createSucursal(getIdEmpresa($_SESSION['userId']),$_GET);
 								print_r($_GET);
 							} 
 						?>
                         <!-- /.panel-heading -->                        
                         <div class="panel-body">
-	                     <form role="form" action="addCampana.php" method="get">
+	                     <form role="form" action="addSucursal.php" method="get">
                         	<div class="form-group">
                         		<label>Nombre de Sucursal</label>
                         		<input name="nombre" class="form-control" placeholder="Promoci&oacute;n imperdible!">
@@ -185,7 +185,7 @@ error_reporting(-1);
 							<div class="form-group">
 								<label>Tipo de Sucursal</label>
 									<input class="form-control" list="browsers" name="browser">
-										<datalist id="browsers">
+										<datalist id="tipoSucursal">
 											<option value="Casa Matriz">
 											<option value="Ventas">
 											<option value="Bodega">

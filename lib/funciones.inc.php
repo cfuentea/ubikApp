@@ -263,6 +263,31 @@ function readCategorias() {
 	mysql_close($link);
 }
 
+function createSucursal($userId, $arreglo) {
+	
+	$link = mycon();
+	
+	$nombre = $arreglo['nombre'];
+	$descripcion = $arreglo['descripcion'];
+	$fechaInicio = $arreglo['fechaInicio'];
+	$fechaFin = $arreglo['fechaFin'];
+	
+	
+	$query = 'INSERT INTO Campana 
+				(idEmpresa, nombre, direccion, Comuna_id, tipoSucursal, fechaIngreso, ownerIngreso)
+			  VALUES
+				('.$userId.', "'.$nombre.'", "'.$descripcion.'", now(), 500, STR_TO_DATE("'.$fechaInicio.'","%Y-%m-%d"), STR_TO_DATE("'.$fechaFin.'","%Y-%m-%d"), 3)';
+	$resultado = mysql_query($query,$link);
+	
+	$queryLastRecord = 'SELECT max(id) as id FROM Campana LIMIT 1';
+	$resultadoLR = mysql_query($queryLastRecord,$link);
+	
+	$row = mysql_fetch_assoc($resultadoLR);
+	
+	return $row['id'];
+
+}
+
 function readSucursal($idEmpresa) {
 	$link = mycon();
 	$query = "SELECT id, nombre FROM Sucursal WHERE idEmpresa = ".$idEmpresa."";
