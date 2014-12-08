@@ -319,6 +319,25 @@ function createCampana($userId, $arreglo) {
 
 }
 
+function listarCampanaEditar($idEmpresa) {
+	$link = mycon();
+	$query = 'SELECT id, nombre, descripcion FROM Campana WHERE Empresa_id = '.$idEmpresa.'';
+	$resultado = mysql_query($query,$link);
+	
+	echo '<table border="1" >
+			<tr align="center">
+				<td>id</td><td>Nombre</td><td>Descripcion</td><td>Accion 1</td><td>Accion 2</td>
+			</tr>';
+
+	while($row = mysql_fetch_assoc($resultado)) {
+		echo '<tr>
+				<td>'.$row['id'].'</td><td>'.$row['nombre'].'</td><td>'.$row['descripcion'].'</td><td>[ Editar ]</td><td>[ Activar / Eliminar]</td>				
+			  </tr>';
+	}
+	
+	echo '</table>';
+}
+
 function ubikMe($id,$posicionJSON) {
 	
 	// esta funcion debe ser capaz de recibir parametros y traducirlos en envío de campañas

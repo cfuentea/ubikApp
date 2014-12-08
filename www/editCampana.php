@@ -150,7 +150,7 @@ if($_SESSION['userId']==0) {
         <div id="page-wrapper">
             <div class="row">
                 <div class="col-lg-12">
-                    <h1 class="page-header">Editar Campa&ntilde;a #123</h1>
+                    <h1 class="page-header">Edici&oacute;n de campa&ntilde;as</h1>
                 </div>
                 <!-- /.col-lg-12 -->
             </div>
@@ -158,15 +158,16 @@ if($_SESSION['userId']==0) {
             <div class="row">
                 <div class="col-lg-8">
                     <div class="panel panel-default">
-                        <div class="panel-heading">
-                            <i class="fa fa-bar-chart-o fa-fw"></i> Formulario para a&ntilde;adir campa&ntilde;a
-                            <div class="pull-right">
-                                
-                            </div>
-                        </div>
                         <!-- /.panel-heading -->
                         <div class="panel-body">
-                            Aqui debe ir el contenido
+                            <?php
+                            	if(!$_GET) {
+                            		listarCampanaEditar(getIdEmpresa($_SESSION['userId']));
+                            	} else {
+                            		//editarCampana($_GET['idCampana']);
+                            		echo "a editar";
+                            	}
+                            ?>
                         </div>
                         <!-- /.panel-body -->
                     </div>
