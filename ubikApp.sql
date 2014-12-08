@@ -29,19 +29,19 @@ CREATE TABLE `Campana` (
   `descripcion` longtext,
   `fechaIngreso` datetime DEFAULT NULL,
   `distanciaCampana` int(11) DEFAULT NULL,
-  `fechaInicio` datetime DEFAULT NULL,
-  `fechaFin` datetime DEFAULT NULL,
+  `fechaInicio` date DEFAULT NULL,
+  `fechaFin` date DEFAULT NULL,
   `imagen1` varchar(45) DEFAULT NULL,
   `imagen2` varchar(45) DEFAULT NULL,
   `imagen3` varchar(45) DEFAULT NULL,
-  `multipleCampana` int(11) NOT NULL DEFAULT '0',
+  `multipleCampana` int(11) DEFAULT '0',
   `Estado_id` int(11) NOT NULL,
   PRIMARY KEY (`id`),
   KEY `fk_Campana_estado1_idx` (`Estado_id`),
   KEY `fk_Campana_Empresa1_idx` (`Empresa_id`),
   CONSTRAINT `fk_Campana_Empresa1` FOREIGN KEY (`Empresa_id`) REFERENCES `Empresa` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
   CONSTRAINT `fk_Campana_estado1` FOREIGN KEY (`Estado_id`) REFERENCES `Estado` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -50,7 +50,7 @@ CREATE TABLE `Campana` (
 
 LOCK TABLES `Campana` WRITE;
 /*!40000 ALTER TABLE `Campana` DISABLE KEYS */;
-INSERT INTO `Campana` VALUES (1,1,'Celulares Gratis','Ve por tu celular a nuestra tienda en Santiago Centro! te va a gustar.','2014-11-26 20:00:03',500,'2014-11-28 00:00:00','2014-11-30 00:00:00',NULL,NULL,NULL,0,1);
+INSERT INTO `Campana` VALUES (1,1,'Celulares Gratis','Ve por tu celular a nuestra tienda en Santiago Centro! te va a gustar.','2014-11-26 20:00:03',500,'2014-11-28','2014-11-30',NULL,NULL,NULL,0,1),(4,1,'NombreCampaÃ±a','Descripcion CampaÃ¡','2014-12-02 21:47:47',500,'0000-00-00','0000-00-00',NULL,NULL,NULL,0,3),(5,1,'Nueva Promocion','Esta promocion es la mejor','2014-12-02 21:48:47',500,'0000-00-00','0000-00-00',NULL,NULL,NULL,0,3),(6,1,'Prueba1','Descripcion de Prueba1','2014-12-02 21:57:08',500,'1984-11-23','1985-11-25',NULL,NULL,NULL,0,3);
 /*!40000 ALTER TABLE `Campana` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -239,7 +239,7 @@ CREATE TABLE `Estado` (
   `nombreEstado` varchar(100) DEFAULT NULL,
   `descripcion` varchar(255) DEFAULT NULL COMMENT 'Esta tabla mantendrá todos los códigos de estados para los distintos tipos de datos.\nel orden de los códigos son:\n000 - 099: Códigos de usuario\n100 - 199: Códigos de Campañas\n200 - 299: Códigos de Empresas',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -248,7 +248,7 @@ CREATE TABLE `Estado` (
 
 LOCK TABLES `Estado` WRITE;
 /*!40000 ALTER TABLE `Estado` DISABLE KEYS */;
-INSERT INTO `Estado` VALUES (1,'Habilitada','Opcion habilitada'),(2,'Deshabilitado','Opcion deshabilitada');
+INSERT INTO `Estado` VALUES (1,'Habilitada','Opcion habilitada'),(2,'Deshabilitado','Opcion deshabilitada'),(3,'Pendiente','Opcion en Analisis');
 /*!40000 ALTER TABLE `Estado` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -287,7 +287,7 @@ CREATE TABLE `Sucursal` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `idEmpresa` int(11) DEFAULT NULL,
   `nombre` varchar(50) DEFAULT NULL,
-  `dirección` varchar(100) DEFAULT NULL,
+  `direccion` varchar(100) DEFAULT NULL,
   `Comuna_id` int(11) NOT NULL,
   `tipoSucursal` varchar(45) DEFAULT NULL,
   `fechaIngreso` datetime DEFAULT NULL,
@@ -411,4 +411,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2014-11-30 21:45:51
+-- Dump completed on 2014-12-08 11:43:13
