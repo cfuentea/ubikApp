@@ -254,7 +254,7 @@ function readCategorias() {
 		echo '
 			<div class="checkbox">
 			<label>
-               	<input type="checkbox" value="'.$row['id'].'-'.$row['nombre'].'" name="categoria_'.$row['id'].'">'.$row['nombre'].'
+               	<input type="checkbox" value="'.$row['id'].'" name="categoria['.$row['id'].']">'.$row['nombre'].'
            	</label>
            	</div>
            	';
@@ -271,20 +271,16 @@ function createSucursal($userId, $arreglo) {
 	$descripcion = $arreglo['descripcion'];
 	$fechaInicio = $arreglo['fechaInicio'];
 	$fechaFin = $arreglo['fechaFin'];
+
 	
-	
-	$query = 'INSERT INTO Campana 
+	$query = 'INSERT INTO Sucursal 
 				(idEmpresa, nombre, direccion, Comuna_id, tipoSucursal, fechaIngreso, ownerIngreso)
 			  VALUES
 				('.$userId.', "'.$nombre.'", "'.$descripcion.'", now(), 500, STR_TO_DATE("'.$fechaInicio.'","%Y-%m-%d"), STR_TO_DATE("'.$fechaFin.'","%Y-%m-%d"), 3)';
 	$resultado = mysql_query($query,$link);
+	$id = mysql_insert_id();
 	
-	$queryLastRecord = 'SELECT max(id) as id FROM Campana LIMIT 1';
-	$resultadoLR = mysql_query($queryLastRecord,$link);
-	
-	$row = mysql_fetch_assoc($resultadoLR);
-	
-	return $row['id'];
+	return $id;
 
 }
 
@@ -297,7 +293,7 @@ function readSucursal($idEmpresa) {
 		echo '
 			<div class="checkbox">
 			<label>
-               	<input type="checkbox" value="'.$row['id'].'-'.$row['nombre'].'" name="sucursal_'.$row['id'].'">'.$row['nombre'].'
+               	<input type="checkbox" value="'.$row['id'].'" name="sucursal['.$row['id'].']">'.$row['nombre'].'
            	</label>
            	</div>
            	';
@@ -327,7 +323,8 @@ function createCampana($userId, $arreglo) {
 	$descripcion = $arreglo['descripcion'];
 	$fechaInicio = $arreglo['fechaInicio'];
 	$fechaFin = $arreglo['fechaFin'];
-	
+	$categoria = $arreglo['categoria'];
+	$sucursal = $arreglo['sucursal'];
 	
 	$query = 'INSERT INTO Campana 
 				(Empresa_id, nombre, descripcion, fechaIngreso, distanciaCampana, fechaInicio, fechaFin, Estado_id)
@@ -335,12 +332,21 @@ function createCampana($userId, $arreglo) {
 				('.$userId.', "'.$nombre.'", "'.$descripcion.'", now(), 500, STR_TO_DATE("'.$fechaInicio.'","%Y-%m-%d"), STR_TO_DATE("'.$fechaFin.'","%Y-%m-%d"), 3)';
 	$resultado = mysql_query($query,$link);
 	
-	$queryLastRecord = 'SELECT max(id) as id FROM Campana LIMIT 1';
-	$resultadoLR = mysql_query($queryLastRecord,$link);
+	$id = mysql_insert_id();
 	
-	$row = mysql_fetch_assoc($resultadoLR);
+	foreach($categoria as $k => $v) {
+		$sql = 'INSERT INTO CampanaCategoria (Categoria_id, Campana_id) 
+				VALUES
+				( '.$k.', '.$id.')'; 
+		$result = mysql_query($sql,$link);
+	}
 	
-	return $row['id'];
+	foreach($sucursal as $k => $v) {
+		$sql = 'INSERT INTO CampanaSucursal (Sucursal_id, Campana_id) 
+				VALUES
+				( '.$k.', '.$id.')'; 
+		$result = mysql_query($sql,$link);
+	}
 
 }
 
@@ -390,7 +396,7 @@ function editarCampana($idCampana) {
 	
 }
 
-function ubikMe($id,$posicionJSON) {
+function ubikMe($id,$categoriaJSON, $posicionJSON) {
 	
 	// esta funcion debe ser capaz de recibir parametros y traducirlos en envío de campañas
 	// adicionalmente debe dejar un registro de las campañas que se envían en un log (registro BBDD)
