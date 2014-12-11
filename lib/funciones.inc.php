@@ -13,7 +13,7 @@ error_reporting(-1);
  */
 
 function readCampana() {
-	$link = mycon();
+	global $link;
 
 	// La query debe mostrar la campanaña y las sucursales asociadas, sin embargo debe existir cierta logica para
 	// saber cual campaña se debe seleccionar (deben existir mas de una activa y quizás chocan con los criterios
@@ -27,11 +27,11 @@ function readCampana() {
 	$a = array_merge($row,array('Sucursales' => readCampanaSucursal()));
 	
 	return json_encode($a);
-	mysql_close($link);
+	
 }
 
 function readCampanaSucursal() {
-	$link = mycon();
+	global $link;
 	
 	$query = 'SELECT a.id, a.Sucursal_id, b.nombre, a.Campana_id
 			FROM CampanaSucursal a, Sucursal b
@@ -57,7 +57,7 @@ function readCampanaSucursal() {
 
 function readCategoria() {
 	
-	$link = mycon();
+	global $link;
 	$query = 'SELECT 
 				id, nombre, descripcion
 			  FROM Categoria ';
@@ -70,11 +70,11 @@ function readCategoria() {
 	}
 	return json_encode($arr);
 	
-	mysql_close($link);
+	
 }
 
 function createCategoria($datoJSON) {
-	$link = mycon();
+	global $link;
 	$arr = json_decode($datoJSON, true);
 	
 	$nombre = $arr['nombre'];
@@ -84,13 +84,13 @@ function createCategoria($datoJSON) {
 	VALUES ("'.$nombre.'","'.$descripcion.'","WS-user",now())';
 
 	$resultado = mysql_query($query,$link);
-    return '{"resultado":"ok"}';
-    mysql_close($link);
+	return '{"resultado":"ok"}';
+	
 	
 }
 
 function updateCategoria($datoJSON) {
-	$link = mycon();
+	global $link;
 	$arr = json_decode($datoJSON, true);
 	
 	$id = $arr['id'];
@@ -106,17 +106,17 @@ function updateCategoria($datoJSON) {
 				id = '.$id.'';
 
 	$resultado = mysql_query($query,$link);
-    return '{"resultado":"ok"}';
-    mysql_close($link);
+	return '{"resultado":"ok"}';
+	
 	
 }
 
 function deleteCategoria($id) {
-	$link = mycon();
+	global $link;
 	$query = 'DELETE FROM Categoria WHERE id = '.$id.'';
 	$resultado = mysql_query($query,$link);
 	return '{"resultado":"ok"}';
-    mysql_close($link);
+	
 }
 
 /*
@@ -128,17 +128,17 @@ function deleteCategoria($id) {
  */
 
 function readUsuario($idUsuario) {
-	$link = mycon();
+	global $link;
 	
 	$query = 'SELECT 
 				id, nombres, apellidos,email,fechaNacimiento, Comuna_id, password, fechaRegistro
 			  FROM Usuario 
-			  	WHERE id = '.$idUsuario.'';
+				WHERE id = '.$idUsuario.'';
 	
 	$resultado = mysql_query($query,$link);
 	$row = mysql_fetch_assoc($resultado); 
 	return json_encode($row);
-	mysql_close($link);
+	
 }
 
 
@@ -150,7 +150,7 @@ function createUsuario($datoJSON) {
 	 * verificar cual es el ID del usuario recién creado
 	 */
 	 
-	$link = mycon();
+	global $link;
 	$arr = json_decode($datoJSON, true);
 	
 	$nombre = $arr['nombre'];
@@ -161,20 +161,20 @@ function createUsuario($datoJSON) {
 	$password = $arr['password'];
 	$fechaRegistro = "now()";
 		
-    $query = 'INSERT INTO Usuario 
-    		(nombres, apellidos, email, fechaNacimiento, Comuna_id, password, fechaRegistro) 
+	$query = 'INSERT INTO Usuario 
+			(nombres, apellidos, email, fechaNacimiento, Comuna_id, password, fechaRegistro) 
 				VALUES 
 			("'.$nombre.'","'.$apellido.'","'.$email.'","'.$fechaNacimiento.'",
 			  '.$Comuna_id.',"'.$password.'",'.$fechaRegistro.')';
 			
-    $resultado = mysql_query($query,$link);
-    return '{"resultado":"ok"}';
-    mysql_close($link);
+	$resultado = mysql_query($query,$link);
+	return '{"resultado":"ok"}';
+	
 }
 
 function updateUsuario($idUsuario,$datoJSON) {
 
-	$link = mycon();
+	global $link;
 	$arr = json_decode($datoJSON, true);
 	
 	$nombre = $arr['nombre'];
@@ -195,42 +195,42 @@ function updateUsuario($idUsuario,$datoJSON) {
 				id = '.$idUsuario.'';
 
 	$resultado = mysql_query($query,$link);
-    return '{"resultado":"ok"}';
-    mysql_close($link);
+	return '{"resultado":"ok"}';
+	
 
 }
 
 function deleteUsuario($idUsuario) {
 
-	$link = mycon();
+	global $link;
 	$query = 'DELETE FROM Usuario WHERE id = '.$idUsuario.'';
 	$resultado = mysql_query($query,$link);
 	return '{"resultado":"ok"}';
-    mysql_close($link);
+	
 
 }
 
 function readCliente($rut) {
 	
-	$link = mycon();
+	global $link;
 	$query = 'SELECT nombreFantasia FROM Empresa WHERE rut = "'.$rut.'"';
 	$resultado = mysql_query($query,$link);
 	$row = mysql_fetch_assoc($resultado);
 	
 	return $row['nombreFantasia']; 
 
-	mysql_close($link);
+	
 }
 
 function loginClientes($rut,$pwd) {
-	$link = mycon();
+	global $link;
 	$query = 'SELECT count(*) as cant, rut FROM Empresa WHERE rut = "'.$rut.'" AND password = "'.$pwd.'"';
 	$resultado = mysql_query($query,$link);
 	$a = mysql_fetch_assoc($resultado);
 	
 	return $a['rut'];
 	
-	mysql_close($link);
+	
 }
 
 function sitioActual() {
@@ -246,7 +246,8 @@ function sitioActualBold($sesion) {
 }
 
 function readCategorias() {
-	$link = mycon();
+	global $link;;
+
 	$query = "SELECT id, nombre FROM Categoria";
 	$resultado = mysql_query($query,$link);
 	
@@ -254,38 +255,42 @@ function readCategorias() {
 		echo '
 			<div class="checkbox">
 			<label>
-               	<input type="checkbox" value="'.$row['id'].'" name="categoria['.$row['id'].']">'.$row['nombre'].'
-           	</label>
-           	</div>
-           	';
+				<input type="checkbox" value="'.$row['id'].'-'.$row['nombre'].'" name="categoria_'.$row['id'].'">'.$row['nombre'].'
+			</label>
+			</div>
+			';
 	}
 	
-	mysql_close($link);
+	
 }
 
 function createSucursal($userId, $arreglo) {
 	
-	$link = mycon();
+	global $link;
 	
 	$nombre = $arreglo['nombre'];
 	$descripcion = $arreglo['descripcion'];
 	$fechaInicio = $arreglo['fechaInicio'];
 	$fechaFin = $arreglo['fechaFin'];
-
 	
-	$query = 'INSERT INTO Sucursal 
+	
+	$query = 'INSERT INTO Campana 
 				(idEmpresa, nombre, direccion, Comuna_id, tipoSucursal, fechaIngreso, ownerIngreso)
 			  VALUES
 				('.$userId.', "'.$nombre.'", "'.$descripcion.'", now(), 500, STR_TO_DATE("'.$fechaInicio.'","%Y-%m-%d"), STR_TO_DATE("'.$fechaFin.'","%Y-%m-%d"), 3)';
 	$resultado = mysql_query($query,$link);
-	$id = mysql_insert_id();
 	
-	return $id;
+	$queryLastRecord = 'SELECT max(id) as id FROM Campana LIMIT 1';
+	$resultadoLR = mysql_query($queryLastRecord,$link);
+	
+	$row = mysql_fetch_assoc($resultadoLR);
+	
+	return $row['id'];
 
 }
 
 function readSucursal($idEmpresa) {
-	$link = mycon();
+	global $link;
 	$query = "SELECT id, nombre FROM Sucursal WHERE idEmpresa = ".$idEmpresa."";
 	$resultado = mysql_query($query,$link);
 	
@@ -293,18 +298,17 @@ function readSucursal($idEmpresa) {
 		echo '
 			<div class="checkbox">
 			<label>
-               	<input type="checkbox" value="'.$row['id'].'" name="sucursal['.$row['id'].']">'.$row['nombre'].'
-           	</label>
-           	</div>
-           	';
+				<input type="checkbox" value="'.$row['id'].'-'.$row['nombre'].'" name="sucursal_'.$row['id'].'">'.$row['nombre'].'
+			</label>
+			</div>
+			';
 	}
-	
-	mysql_close($link);	
+		
 }
 
 function getIdEmpresa($id) {
 
-	$link = mycon();
+	global $link;
 	$query = "SELECT id FROM Empresa WHERE rut = ".$id."";
 	$resultado = mysql_query($query,$link);
 	
@@ -312,19 +316,18 @@ function getIdEmpresa($id) {
 
 	return $r['id'];
 	
-	mysql_close($link);
+	
 }
 
 function createCampana($userId, $arreglo) {
 	
-	$link = mycon();
+	global $link;
 	
 	$nombre = $arreglo['nombre'];
 	$descripcion = $arreglo['descripcion'];
 	$fechaInicio = $arreglo['fechaInicio'];
 	$fechaFin = $arreglo['fechaFin'];
-	$categoria = $arreglo['categoria'];
-	$sucursal = $arreglo['sucursal'];
+	
 	
 	$query = 'INSERT INTO Campana 
 				(Empresa_id, nombre, descripcion, fechaIngreso, distanciaCampana, fechaInicio, fechaFin, Estado_id)
@@ -332,26 +335,17 @@ function createCampana($userId, $arreglo) {
 				('.$userId.', "'.$nombre.'", "'.$descripcion.'", now(), 500, STR_TO_DATE("'.$fechaInicio.'","%Y-%m-%d"), STR_TO_DATE("'.$fechaFin.'","%Y-%m-%d"), 3)';
 	$resultado = mysql_query($query,$link);
 	
-	$id = mysql_insert_id();
+	$queryLastRecord = 'SELECT max(id) as id FROM Campana LIMIT 1';
+	$resultadoLR = mysql_query($queryLastRecord,$link);
 	
-	foreach($categoria as $k => $v) {
-		$sql = 'INSERT INTO CampanaCategoria (Categoria_id, Campana_id) 
-				VALUES
-				( '.$k.', '.$id.')'; 
-		$result = mysql_query($sql,$link);
-	}
+	$row = mysql_fetch_assoc($resultadoLR);
 	
-	foreach($sucursal as $k => $v) {
-		$sql = 'INSERT INTO CampanaSucursal (Sucursal_id, Campana_id) 
-				VALUES
-				( '.$k.', '.$id.')'; 
-		$result = mysql_query($sql,$link);
-	}
+	return $row['id'];
 
 }
 
 function listarCampanaEditar($idEmpresa) {
-	$link = mycon();
+	global $link;
 	$query = 'SELECT id, nombre, descripcion FROM Campana WHERE Empresa_id = '.$idEmpresa.'';
 	$resultado = mysql_query($query,$link);
 	
@@ -369,7 +363,7 @@ function listarCampanaEditar($idEmpresa) {
 }
 
 function listarSucursalEditar($idEmpresa) {
-	$link = mycon();
+	global $link;
 	$query = 'SELECT id,idEmpresa, nombre, direccion, tipoSucursal, Comuna_id FROM Sucursal WHERE idEmpresa = '.$idEmpresa.'';
 	$resultado = mysql_query($query,$link);
 	
@@ -387,21 +381,16 @@ function listarSucursalEditar($idEmpresa) {
 }
 
 function editarCampana($idCampana) {
-	$link = mycon();
+	global $link;
 	$query = 'SELECT a.id, a.Empresa_id, a.nombre, a.descripcion, a.fechaInicio, a.fechaFin, a.Estado_id
 				FROM Campana a, CampanaCategoria b, CampanaSucursal c
 				WHERE a.id = '.$idCampana.' ';
-	
-	
-	
+// editar campaña	
 }
 
-function ubikMe($id,$categoriaJSON, $posicionJSON) {
+function ubikMe($id,$posicionJSON) {
 	
 	// esta funcion debe ser capaz de recibir parametros y traducirlos en envío de campañas
-	// adicionalmente debe dejar un registro de las campañas que se envían en un log (registro BBDD)
-	
-	
+	// adicionalmente debe dejar un registro de las campañas que se envían en un log (registro BBDD)	
 }
 
-?>
