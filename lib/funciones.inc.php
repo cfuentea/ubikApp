@@ -394,3 +394,4 @@ function ubikMe($id,$posicionJSON) {
 	// adicionalmente debe dejar un registro de las campañas que se envían en un log (registro BBDD)	
 }
 
+?>
