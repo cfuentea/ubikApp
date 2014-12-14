@@ -1,6 +1,6 @@
 <?php
 include('db.inc.php');
-
+include('base_helper.php');
 // Mostramos errores
 
 ini_set('display_errors',1);
@@ -148,6 +148,8 @@ function createUsuario($datoJSON) {
 	/* Como funcion adicional, el resultado debe entregar el ID del usuario que creó
 	 * para esto, debemos definir un ID único (podría ser el email) con el cual
 	 * verificar cual es el ID del usuario recién creado
+	 *
+	 * update 14/12/2014: usar mysql_insert_id(); para obtener ultimo id incremental
 	 */
 	 
 	global $link;
@@ -201,25 +203,21 @@ function updateUsuario($idUsuario,$datoJSON) {
 }
 
 function deleteUsuario($idUsuario) {
-
 	global $link;
+
 	$query = 'DELETE FROM Usuario WHERE id = '.$idUsuario.'';
 	$resultado = mysql_query($query,$link);
 	return '{"resultado":"ok"}';
-    
-
 }
 
 function readCliente($rut) {
-	
 	global $link;
+
 	$query = 'SELECT nombreFantasia FROM Empresa WHERE rut = "'.$rut.'"';
 	$resultado = mysql_query($query,$link);
 	$row = mysql_fetch_assoc($resultado);
 	
 	return $row['nombreFantasia']; 
-
-	
 }
 
 function loginClientes($rut,$pwd) {
@@ -230,8 +228,6 @@ function loginClientes($rut,$pwd) {
 	$a = mysql_fetch_assoc($resultado);
 	
 	return $a['rut'];
-	
-	
 }
 
 function sitioActual() {
@@ -277,7 +273,8 @@ function createSucursal($userId, $arreglo) {
 	$query = 'INSERT INTO Sucursal 
 				(idEmpresa, nombre, direccion, Comuna_id, tipoSucursal, fechaIngreso, ownerIngreso)
 			  VALUES
-				('.$userId.', "'.$nombre.'", "'.$descripcion.'", now(), 500, STR_TO_DATE("'.$fechaInicio.'","%Y-%m-%d"), STR_TO_DATE("'.$fechaFin.'","%Y-%m-%d"), 3)';
+				('.$userId.', "'.$nombre.'", "'.$descripcion.'", now(), 500, 
+					STR_TO_DATE("'.$fechaInicio.'","%Y-%m-%d"), STR_TO_DATE("'.$fechaFin.'","%Y-%m-%d"), 3)';
 	$resultado = mysql_query($query,$link);
 	$id = mysql_insert_id();
 	
@@ -330,7 +327,8 @@ function createCampana($userId, $arreglo) {
 	$query = 'INSERT INTO Campana 
 				(Empresa_id, nombre, descripcion, fechaIngreso, distanciaCampana, fechaInicio, fechaFin, Estado_id)
 			  VALUES
-				('.$userId.', "'.$nombre.'", "'.$descripcion.'", now(), 500, STR_TO_DATE("'.$fechaInicio.'","%Y-%m-%d"), STR_TO_DATE("'.$fechaFin.'","%Y-%m-%d"), 3)';
+				('.$userId.', "'.$nombre.'", "'.$descripcion.'", now(), 500, 
+					STR_TO_DATE("'.$fechaInicio.'","%Y-%m-%d"), STR_TO_DATE("'.$fechaFin.'","%Y-%m-%d"), 3)';
 	$resultado = mysql_query($query,$link);
 	
 	$id = mysql_insert_id();
@@ -358,12 +356,20 @@ function listarCampanaEditar($idEmpresa) {
 	
 	echo '<table border="0" >
 			<tr align="center" bgcolor="#ccc">
-				<td>Nro</td><td>&nbsp;Nombre Campa&ntilde;a&nbsp;</td><td>Descripcion</td><td>Accion 1</td><td>Accion 2</td>
+				<td>Nro</td>
+				<td>&nbsp;Nombre Campa&ntilde;a&nbsp;</td>
+				<td>Descripcion</td>
+				<td>Accion 1</td>
+				<td>Accion 2</td>
 			</tr>';
 			
 	while($row = mysql_fetch_assoc($resultado)) {
 		echo '<tr>
-				<td>'.$row['id'].'</td><td>'.$row['nombre'].'</td><td>'.$row['descripcion'].'</td><td>[ Editar ]</td><td>[ Activar / Desactivar]</td>				
+				<td>'.$row['id'].'</td>
+				<td>'.$row['nombre'].'</td>
+				<td>'.$row['descripcion'].'</td>
+				<td>[ Editar ]</td>
+				<td>[ Activar / Desactivar]</td>				
 			  </tr>';
 	}
 	echo '</table>';
@@ -371,17 +377,26 @@ function listarCampanaEditar($idEmpresa) {
 
 function listarSucursalEditar($idEmpresa) {
 	global $link;
-	$query = 'SELECT id,idEmpresa, nombre, direccion, tipoSucursal, Comuna_id FROM Sucursal WHERE idEmpresa = '.$idEmpresa.'';
+	$query = 'SELECT id,idEmpresa, nombre, direccion, tipoSucursal, Comuna_id 
+				FROM Sucursal WHERE idEmpresa = '.$idEmpresa.'';
 	$resultado = mysql_query($query,$link);
 	
 	echo '<table border="0" >
 			<tr align="center" bgcolor="#ccc">
-				<td>Nro</td><td>&nbsp;Nombre Sucursal&nbsp;</td><td>Direcci&oacute;n</td><td>Tipo de Sucursal</td><td>Comuna</td>
+				<td>Nro</td>
+				<td>&nbsp;Nombre Sucursal&nbsp;</td>
+				<td>Direcci&oacute;n</td>
+				<td>Tipo de Sucursal</td>
+				<td>Comuna</td>
 			</tr>';
 			
 	while($row = mysql_fetch_assoc($resultado)) {
 		echo '<tr>
-				<td>'.$row['id'].'</td><td>'.$row['nombre'].'</td><td>'.$row['direccion'].'</td><td>'.$row['tipoSucursal'].'</td><td>'.$row['Comuna_id'].'</td>				
+				<td>'.$row['id'].'</td>
+				<td>'.$row['nombre'].'</td>
+				<td>'.$row['direccion'].'</td>
+				<td>'.$row['tipoSucursal'].'</td>
+				<td>'.$row['Comuna_id'].'</td>				
 			  </tr>';
 	}
 	echo '</table>';
