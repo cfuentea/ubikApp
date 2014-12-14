@@ -15,5 +15,6 @@ function mycon()
         $link = @mysql_connect ($HostDB, $UserDB, $PassDB) or die ("Error en la conexi&oacute;n") ;
         @mysql_select_db ($NameDB, $link) or die ("Error al seleccionar la Base de Datos!!") ;
         return $link;  
-} 
+}
+ 
 ?>

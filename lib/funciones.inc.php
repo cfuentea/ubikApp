@@ -224,6 +224,7 @@ function readCliente($rut) {
 
 function loginClientes($rut,$pwd) {
 	$link = mycon();
+	
 	$query = 'SELECT count(*) as cant, rut FROM Empresa WHERE rut = "'.$rut.'" AND password = "'.$pwd.'"';
 	$resultado = mysql_query($query,$link);
 	$a = mysql_fetch_assoc($resultado);

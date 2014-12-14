@@ -10,8 +10,9 @@ error_reporting(-1);
 if(empty($session)) session_start();
 
 /*if(!$_SESSION) */
+
 $_SESSION['userId'] = 0;
-if($_SESSION['userId']!=0)	header('Location: index.php');
+if($_SESSION['userId']!=0) header('Location: index.php');
 	
 if($_POST) {
 	$login = loginClientes($_POST['rut'],$_POST['password']);
