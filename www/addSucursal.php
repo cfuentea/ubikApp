@@ -166,7 +166,7 @@ error_reporting(-1);
 					<div class="panel panel-default">
 						<?php 
 						if($_GET) {
-							echo createSucursal(getIdEmpresa($_SESSION['userId']),$_GET);
+							//echo createSucursal(getIdEmpresa($_SESSION['userId']),$_GET);
 							print_r($_GET);
 						} 
 						?>
@@ -175,11 +175,11 @@ error_reporting(-1);
 							<form role="form" action="addSucursal.php" method="get">
 								<div class="form-group">
 									<label>Nombre de Sucursal</label>
-									<input name="nombre" class="form-control" placeholder="Promoci&oacute;n imperdible!">
+									<input name="nombre" class="form-control" placeholder="Ej: Sucursal Santiago Centro">
 								</div>
 								<div class="form-group">
 									<label>Tipo de Sucursal</label>
-									<input class="form-control" list="sucursales" name="tipoSucursal">
+									<input class="form-control" list="tipoSucursal" name="tipoSucursal"/>
 									<datalist id="tipoSucursal">
 										<option value="Casa Matriz">
 										<option value="Ventas">
@@ -190,7 +190,7 @@ error_reporting(-1);
 									<label>Selecciona direcci&oacute;n</label>
 									<!-- Mapa con selección de puntos -->
 									<!-- inicio mapa -->
-									<form>
+									<div class="datosMapa">
 										<input id="geocomplete" type="text" placeholder="Ingrese la direcci&oacute;n" size="90" />
 										<input id="find" type="button" value="Buscar" /><br />
 										<label>Long</label>
@@ -199,7 +199,7 @@ error_reporting(-1);
 										<input name="location" type="text" value="" disabled><br />
 										<label>Direcci&oacute;n</label>
         								<input name="formatted_address" type="text" value="" disabled><br />
-									</form>
+									</div>
 
 									<div class="map_canvas"></div>
 
@@ -218,21 +218,10 @@ error_reporting(-1);
 
 										$("#geocomplete").geocomplete({
 											map: ".map_canvas",
-											details: "form",
+											details: ".datosMapa",
 											blur: true,
 											geocodeAfterResult: true
 										});
-
-										/*$("#geocomplete").geocomplete(options)
-										.bind("geocode:result", function(event, result){
-											$.log("Result: " + result.formatted_address);
-										})
-										.bind("geocode:error", function(event, status){
-											$.log("ERROR: " + status);
-										})
-										.bind("geocode:multiple", function(event, results){
-											$.log("Multiple: " + results.length + " results found");
-										});*/
 
 										$("#find").click(function(){
 											$("#geocomplete").trigger("geocode");
@@ -244,7 +233,7 @@ error_reporting(-1);
 								</div>
 										<input type="submit" class="btn btn-lg btn-success btn-block" value="Enviar">
 										<!-- <a href="index.html" class="btn btn-lg btn-success btn-block">Login</a>-->
-									</form>
+								</form>
 								</div>
 									<!-- /.panel-body -->
 							</div>
