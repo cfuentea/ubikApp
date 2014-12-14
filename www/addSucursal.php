@@ -194,11 +194,13 @@ error_reporting(-1);
 										<input id="geocomplete" type="text" placeholder="Ingrese la direcci&oacute;n" size="90" />
 										<input id="find" type="button" value="Buscar" /><br />
 										<label>Long</label>
-										<input name="lng" type="text" value="" disabled><br />
+										<input class="form-control" name="lng" type="text" value="" ><br />
 										<label>Lat</label>
-										<input name="lat" type="text" value="" disabled><br />
+										<input class="form-control" name="lat" type="text" value="" ><br />
+										<label>Location</label>
+										<input class="form-control" name="location" type="text" value="" ><br />
 										<label>Direcci&oacute;n</label>
-        								<input name="formatted_address" type="text" value="" disabled><br />
+        								<input class="form-control" name="formatted_address" type="text" value="" ><br />
 									<!-- </div> -->
 
 									<div class="map_canvas"></div>
