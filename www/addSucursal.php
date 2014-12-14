@@ -190,20 +190,20 @@ error_reporting(-1);
 									<label>Selecciona direcci&oacute;n</label>
 									<!-- Mapa con selección de puntos -->
 									<!-- inicio mapa -->
-									<div class="datosMapa">
+									<!-- <div class="datosMapa"> -->
 										<input id="geocomplete" type="text" placeholder="Ingrese la direcci&oacute;n" size="90" />
 										<input id="find" type="button" value="Buscar" /><br />
 										<label>Long</label>
 										<input name="lng" type="text" value="" disabled><br />
 										<label>Lat</label>
-										<input name="location" type="text" value="" disabled><br />
+										<input name="lat" type="text" value="" disabled><br />
 										<label>Direcci&oacute;n</label>
         								<input name="formatted_address" type="text" value="" disabled><br />
-									</div>
+									<!-- </div> -->
 
 									<div class="map_canvas"></div>
 
-									<script src="http://maps.googleapis.com/maps/api/js?sensor=false&amp;libraries=places"></script>
+									<script src="http://maps.googleapis.com/maps/api/js?sensor=true&amp;libraries=places"></script>
 									<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
 
 									<script src="js/maps/jquery.geocomplete.js"></script>
@@ -218,8 +218,7 @@ error_reporting(-1);
 
 										$("#geocomplete").geocomplete({
 											map: ".map_canvas",
-											details: ".datosMapa",
-											blur: true,
+											details: "form",
 											geocodeAfterResult: true
 										});
 
