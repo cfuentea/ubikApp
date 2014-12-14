@@ -48,145 +48,9 @@ error_reporting(-1);
 		<script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
 		<![endif]-->
 
-		<style>
-		html, body, #map-canvas {
-			height: 100%;
-			margin: 0px;
-			padding: 0px
-		}
-		.controls {
-			margin-top: 16px;
-			border: 1px solid transparent;
-			border-radius: 2px 0 0 2px;
-			box-sizing: border-box;
-			-moz-box-sizing: border-box;
-			height: 32px;
-			outline: none;
-			box-shadow: 0 2px 6px rgba(0, 0, 0, 0.3);
-		}
-
-		#pac-input {
-			background-color: #fff;
-			padding: 0 11px 0 13px;
-			width: 400px;
-			font-family: Roboto;
-			font-size: 15px;
-			font-weight: 300;
-			text-overflow: ellipsis;
-		}
-
-		#pac-input:focus {
-			border-color: #4d90fe;
-			margin-left: -1px;
-			padding-left: 14px;  /* Regular padding-left + 1. */
-			width: 401px;
-		}
-
-		.pac-container {
-			font-family: Roboto;
-		}
-
-		#type-selector {
-			color: #fff;
-			background-color: #4d90fe;
-			padding: 5px 11px 0px 11px;
-		}
-
-		#type-selector label {
-			font-family: Roboto;
-			font-size: 13px;
-			font-weight: 300;
-		}
-	}
-
-	</style>
-	<script src="https://maps.googleapis.com/maps/api/js?v=3.exp&libraries=places"></script>
-
-	<script>
-	function initialize() {
-		var mapOptions = {
-			center: new google.maps.LatLng(-33.8688, 151.2195),
-			zoom: 13
-		};
-		var map = new google.maps.Map(document.getElementById('map-canvas'),
-			mapOptions);
-
-		var input = /** @type {HTMLInputElement} */(
-			document.getElementById('pac-input'));
-
-		var types = document.getElementById('type-selector');
-		map.controls[google.maps.ControlPosition.TOP_LEFT].push(input);
-		map.controls[google.maps.ControlPosition.TOP_LEFT].push(types);
-
-		var autocomplete = new google.maps.places.Autocomplete(input);
-		autocomplete.bindTo('bounds', map);
-
-		var infowindow = new google.maps.InfoWindow();
-		var marker = new google.maps.Marker({
-			map: map,
-			anchorPoint: new google.maps.Point(0, -29)
-		});
-
-		google.maps.event.addListener(autocomplete, 'place_changed', function() {
-			infowindow.close();
-			marker.setVisible(false);
-			var place = autocomplete.getPlace();
-			if (!place.geometry) {
-				return;
-			}
-
-    // If the place has a geometry, then present it on a map.
-    if (place.geometry.viewport) {
-    	map.fitBounds(place.geometry.viewport);
-    } else {
-    	map.setCenter(place.geometry.location);
-      map.setZoom(17);  // Why 17? Because it looks good.
-  }
-  marker.setIcon(/** @type {google.maps.Icon} */({
-  	url: place.icon,
-  	size: new google.maps.Size(71, 71),
-  	origin: new google.maps.Point(0, 0),
-  	anchor: new google.maps.Point(17, 34),
-  	scaledSize: new google.maps.Size(35, 35)
-  }));
-  marker.setPosition(place.geometry.location);
-  marker.setVisible(true);
-
-  var address = '';
-  if (place.address_components) {
-  	address = [
-  	(place.address_components[0] && place.address_components[0].short_name || ''),
-  	(place.address_components[1] && place.address_components[1].short_name || ''),
-  	(place.address_components[2] && place.address_components[2].short_name || '')
-  	].join(' ');
-  }
-
-  infowindow.setContent('<div><strong>' + place.name + '</strong><br>' + address);
-  infowindow.open(map, marker);
-});
-
-  // Sets a listener on a radio button to change the filter type on Places
-  // Autocomplete.
-  function setupClickListener(id, types) {
-  	var radioButton = document.getElementById(id);
-  	google.maps.event.addDomListener(radioButton, 'click', function() {
-  		autocomplete.setTypes(types);
-  	});
-  }
-
-  setupClickListener('changetype-all', []);
-  setupClickListener('changetype-address', ['address']);
-  setupClickListener('changetype-establishment', ['establishment']);
-  setupClickListener('changetype-geocode', ['geocode']);
-}
-
-google.maps.event.addDomListener(window, 'load', initialize);
-
-</script>
-
 </head>
 
-<body onload="inicializar_mapa()">
+<body>
 	
 	<div id="wrapper">
 
@@ -314,61 +178,95 @@ google.maps.event.addDomListener(window, 'load', initialize);
 									<input name="nombre" class="form-control" placeholder="Promoci&oacute;n imperdible!">
 								</div>
 								<div class="form-group">
+									<label>Tipo de Sucursal</label>
+									<input class="form-control" list="sucursales" name="tipoSucursal">
+									<datalist id="tipoSucursal">
+										<option value="Casa Matriz">
+										<option value="Ventas">
+										<option value="Bodega">
+									</datalist>
+								</div>
+								<div class="form-group">
 									<label>Selecciona direcci&oacute;n</label>
 									<!-- Mapa con selección de puntos -->
 									<!-- inicio mapa -->
-									<input id="pac-input" class="controls" type="text"
-									placeholder="Enter a location">
-									<div id="type-selector" class="controls">
-										<input type="radio" name="type" id="changetype-all" checked="checked">
-										<label for="changetype-all">All</label>
+									<form>
+										<input id="geocomplete" type="text" placeholder="Ingrese la direcci&oacute;n" size="90" />
+										<input id="find" type="button" value="Buscar" /><br />
+										<label>Long</label>
+										<input name="lng" type="text" value="" disabled><br />
+										<label>Lat</label>
+										<input name="location" type="text" value="" disabled><br />
+										<label>Direcci&oacute;n</label>
+        								<input name="formatted_address" type="text" value="" disabled><br />
+									</form>
 
-										<input type="radio" name="type" id="changetype-establishment">
-										<label for="changetype-establishment">Establishments</label>
+									<div class="map_canvas"></div>
 
-										<input type="radio" name="type" id="changetype-address">
-										<label for="changetype-address">Addresses</label>
+									<script src="http://maps.googleapis.com/maps/api/js?sensor=false&amp;libraries=places"></script>
+									<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
 
-										<input type="radio" name="type" id="changetype-geocode">
-										<label for="changetype-geocode">Geocodes</label>
-									</div>
-									<div id="map-canvas"></div>
+									<script src="js/maps/jquery.geocomplete.js"></script>
+									<script src="js/maps/logger.js"></script>
+
+									<script>
+									$(function(){
+
+										var options = {
+											map: ".map_canvas"
+										};
+
+										$("#geocomplete").geocomplete({
+											map: ".map_canvas",
+											details: "form",
+											blur: true,
+											geocodeAfterResult: true
+										});
+
+										/*$("#geocomplete").geocomplete(options)
+										.bind("geocode:result", function(event, result){
+											$.log("Result: " + result.formatted_address);
+										})
+										.bind("geocode:error", function(event, status){
+											$.log("ERROR: " + status);
+										})
+										.bind("geocode:multiple", function(event, results){
+											$.log("Multiple: " + results.length + " results found");
+										});*/
+
+										$("#find").click(function(){
+											$("#geocomplete").trigger("geocode");
+										});
+
+									});
+									</script>
 									<!-- fin mapa -->
 								</div>
-								<div class="form-group">
-									<label>Tipo de Sucursal</label>
-									<input class="form-control" list="browsers" name="browser">
-									<datalist id="tipoSucursal">
-										<option value="Casa Matriz">
-											<option value="Ventas">
-												<option value="Bodega">
-												</datalist>
-											</div>
-											<input type="submit" class="btn btn-lg btn-success btn-block" value="Enviar">
-											<!-- <a href="index.html" class="btn btn-lg btn-success btn-block">Login</a>-->
-										</form>
-									</div>
-									<!-- /.panel-body -->
+										<input type="submit" class="btn btn-lg btn-success btn-block" value="Enviar">
+										<!-- <a href="index.html" class="btn btn-lg btn-success btn-block">Login</a>-->
+									</form>
 								</div>
-								<!-- /.table-responsive -->
+									<!-- /.panel-body -->
 							</div>
+								<!-- /.table-responsive -->
 						</div>
-						<!-- /.col-lg-4 -->
 					</div>
-					<!-- /.row -->
+						<!-- /.col-lg-4 -->
 				</div>
+					<!-- /.row -->
+			</div>
 				<!-- /#page-wrapper -->
 
 			</div>
 			<!-- /#wrapper -->
 
 			<!-- jQuery -->
-			<script src="js/jquery.js"></script>
+			<!--<script src="js/jquery.js"></script>-->
 
-			<!-- API de Google Maps -->
+			<!-- API de Google Maps 
 			<script type="text/javascript"
 			src="http://maps.googleapis.com/maps/api/js?key=AIzaSyDQV3VTbtrEGmwYNdy6PtjDmSgrxN4W1dY&sensor=FALSE">
-			</script>
+			</script>-->
 
 			<!-- Bootstrap Core JavaScript -->
 			<script src="js/bootstrap.min.js"></script>
