@@ -13,7 +13,7 @@ error_reporting(-1);
  */
 
 function readCampana() {
-	$link = mycon();
+	global $link;
 
 	// La query debe mostrar la campanaña y las sucursales asociadas, sin embargo debe existir cierta logica para
 	// saber cual campaña se debe seleccionar (deben existir mas de una activa y quizás chocan con los criterios
@@ -27,11 +27,11 @@ function readCampana() {
 	$a = array_merge($row,array('Sucursales' => readCampanaSucursal()));
 	
 	return json_encode($a);
-	mysql_close($link);
+	
 }
 
 function readCampanaSucursal() {
-	$link = mycon();
+	global $link;
 	
 	$query = 'SELECT a.id, a.Sucursal_id, b.nombre, a.Campana_id
 			FROM CampanaSucursal a, Sucursal b
@@ -57,7 +57,7 @@ function readCampanaSucursal() {
 
 function readCategoria() {
 	
-	$link = mycon();
+	global $link;
 	$query = 'SELECT 
 				id, nombre, descripcion
 			  FROM Categoria ';
@@ -70,11 +70,11 @@ function readCategoria() {
 	}
 	return json_encode($arr);
 	
-	mysql_close($link);
+	
 }
 
 function createCategoria($datoJSON) {
-	$link = mycon();
+	global $link;
 	$arr = json_decode($datoJSON, true);
 	
 	$nombre = $arr['nombre'];
@@ -85,12 +85,12 @@ function createCategoria($datoJSON) {
 
 	$resultado = mysql_query($query,$link);
     return '{"resultado":"ok"}';
-    mysql_close($link);
+    
 	
 }
 
 function updateCategoria($datoJSON) {
-	$link = mycon();
+	global $link;
 	$arr = json_decode($datoJSON, true);
 	
 	$id = $arr['id'];
@@ -107,16 +107,16 @@ function updateCategoria($datoJSON) {
 
 	$resultado = mysql_query($query,$link);
     return '{"resultado":"ok"}';
-    mysql_close($link);
+    
 	
 }
 
 function deleteCategoria($id) {
-	$link = mycon();
+	global $link;
 	$query = 'DELETE FROM Categoria WHERE id = '.$id.'';
 	$resultado = mysql_query($query,$link);
 	return '{"resultado":"ok"}';
-    mysql_close($link);
+    
 }
 
 /*
@@ -128,7 +128,7 @@ function deleteCategoria($id) {
  */
 
 function readUsuario($idUsuario) {
-	$link = mycon();
+	global $link;
 	
 	$query = 'SELECT 
 				id, nombres, apellidos,email,fechaNacimiento, Comuna_id, password, fechaRegistro
@@ -138,7 +138,7 @@ function readUsuario($idUsuario) {
 	$resultado = mysql_query($query,$link);
 	$row = mysql_fetch_assoc($resultado); 
 	return json_encode($row);
-	mysql_close($link);
+	
 }
 
 
@@ -150,7 +150,7 @@ function createUsuario($datoJSON) {
 	 * verificar cual es el ID del usuario recién creado
 	 */
 	 
-	$link = mycon();
+	global $link;
 	$arr = json_decode($datoJSON, true);
 	
 	$nombre = $arr['nombre'];
@@ -169,12 +169,12 @@ function createUsuario($datoJSON) {
 			
     $resultado = mysql_query($query,$link);
     return '{"resultado":"ok"}';
-    mysql_close($link);
+    
 }
 
 function updateUsuario($idUsuario,$datoJSON) {
 
-	$link = mycon();
+	global $link;
 	$arr = json_decode($datoJSON, true);
 	
 	$nombre = $arr['nombre'];
@@ -196,34 +196,34 @@ function updateUsuario($idUsuario,$datoJSON) {
 
 	$resultado = mysql_query($query,$link);
     return '{"resultado":"ok"}';
-    mysql_close($link);
+    
 
 }
 
 function deleteUsuario($idUsuario) {
 
-	$link = mycon();
+	global $link;
 	$query = 'DELETE FROM Usuario WHERE id = '.$idUsuario.'';
 	$resultado = mysql_query($query,$link);
 	return '{"resultado":"ok"}';
-    mysql_close($link);
+    
 
 }
 
 function readCliente($rut) {
 	
-	$link = mycon();
+	global $link;
 	$query = 'SELECT nombreFantasia FROM Empresa WHERE rut = "'.$rut.'"';
 	$resultado = mysql_query($query,$link);
 	$row = mysql_fetch_assoc($resultado);
 	
 	return $row['nombreFantasia']; 
 
-	mysql_close($link);
+	
 }
 
 function loginClientes($rut,$pwd) {
-	$link = mycon();
+	global $link;
 	
 	$query = 'SELECT count(*) as cant, rut FROM Empresa WHERE rut = "'.$rut.'" AND password = "'.$pwd.'"';
 	$resultado = mysql_query($query,$link);
@@ -231,7 +231,7 @@ function loginClientes($rut,$pwd) {
 	
 	return $a['rut'];
 	
-	mysql_close($link);
+	
 }
 
 function sitioActual() {
@@ -247,7 +247,7 @@ function sitioActualBold($sesion) {
 }
 
 function readCategorias() {
-	$link = mycon();
+	global $link;
 	$query = "SELECT id, nombre FROM Categoria";
 	$resultado = mysql_query($query,$link);
 	
@@ -261,12 +261,12 @@ function readCategorias() {
            	';
 	}
 	
-	mysql_close($link);
+	
 }
 
 function createSucursal($userId, $arreglo) {
 	
-	$link = mycon();
+	global $link;
 	
 	$nombre = $arreglo['nombre'];
 	$descripcion = $arreglo['descripcion'];
@@ -286,7 +286,7 @@ function createSucursal($userId, $arreglo) {
 }
 
 function readSucursal($idEmpresa) {
-	$link = mycon();
+	global $link;
 	$query = "SELECT id, nombre FROM Sucursal WHERE idEmpresa = ".$idEmpresa."";
 	$resultado = mysql_query($query,$link);
 	
@@ -300,12 +300,12 @@ function readSucursal($idEmpresa) {
            	';
 	}
 	
-	mysql_close($link);	
+		
 }
 
 function getIdEmpresa($id) {
 
-	$link = mycon();
+	global $link;
 	$query = "SELECT id FROM Empresa WHERE rut = ".$id."";
 	$resultado = mysql_query($query,$link);
 	
@@ -313,12 +313,12 @@ function getIdEmpresa($id) {
 
 	return $r['id'];
 	
-	mysql_close($link);
+	
 }
 
 function createCampana($userId, $arreglo) {
 	
-	$link = mycon();
+	global $link;
 	
 	$nombre = $arreglo['nombre'];
 	$descripcion = $arreglo['descripcion'];
@@ -352,7 +352,7 @@ function createCampana($userId, $arreglo) {
 }
 
 function listarCampanaEditar($idEmpresa) {
-	$link = mycon();
+	global $link;
 	$query = 'SELECT id, nombre, descripcion FROM Campana WHERE Empresa_id = '.$idEmpresa.'';
 	$resultado = mysql_query($query,$link);
 	
@@ -370,7 +370,7 @@ function listarCampanaEditar($idEmpresa) {
 }
 
 function listarSucursalEditar($idEmpresa) {
-	$link = mycon();
+	global $link;
 	$query = 'SELECT id,idEmpresa, nombre, direccion, tipoSucursal, Comuna_id FROM Sucursal WHERE idEmpresa = '.$idEmpresa.'';
 	$resultado = mysql_query($query,$link);
 	
@@ -388,11 +388,10 @@ function listarSucursalEditar($idEmpresa) {
 }
 
 function editarCampana($idCampana) {
-	$link = mycon();
+	global $link;
 	$query = 'SELECT a.id, a.Empresa_id, a.nombre, a.descripcion, a.fechaInicio, a.fechaFin, a.Estado_id
 				FROM Campana a, CampanaCategoria b, CampanaSucursal c
 				WHERE a.id = '.$idCampana.' ';
-	
 	
 	
 }
