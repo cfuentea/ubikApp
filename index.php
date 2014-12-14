@@ -5,34 +5,34 @@ include('lib/funciones.inc.php');
 
 // Mostramos errores
 
-ini_set('display_errors',1);
+/*ini_set('display_errors',1);
 ini_set('display_startup_errors',1);
-error_reporting(-1);
+error_reporting(-1); */
 header('Content-Type: application/json');
 
 
 // Verificar que existan los parametros requeridos
 
-if(!isset($_POST)) {
+if(!isset($_GET)) {
 	sendResponse(400,'Invalid request');
 	return false;
 } else {
-	switch($_POST['metodo']) {
+	switch($_GET['metodo']) {
 
 		case "readUsuario":
-			echo readUsuario($_POST['id']);
+			echo readUsuario($_GET['id']);
 			break;
 		
 		case "createUsuario":
-			echo createUsuario($_POST['datos']);
+			echo createUsuario($_GET['datos']);
 			break;
 		
 		case "updateUsuario":
-			echo updateUsuario($_POST['id'],$_POST['datos']);
+			echo updateUsuario($_GET['id'],$_GET['datos']);
 			break;
 	
 		case "deleteUsuario":
-			echo deleteUsuario($_POST['id']);
+			echo deleteUsuario($_GET['id']);
 			break;
 	
 		case "readCampana":
@@ -40,11 +40,15 @@ if(!isset($_POST)) {
 			break;
 	
 		case "createCategoria":
-			echo createCategoria($_POST['datos']);
+			echo createCategoria($_GET['datos']);
 			break;
 			
 		case "updateCategoria":
-			echo updateCategoria($_POST['datos']);
+			echo updateCategoria($_GET['datos']);
+			break;
+
+		case "readCategoria":
+			echo readCategoria();
 			break;
 						
 		/*	
@@ -53,10 +57,6 @@ if(!isset($_POST)) {
 			break;
 		*/
 	}
-}
-
-if($_GET['metodo'] == "readCategoria") {
-	echo readCategoria();
 }
 
 ?>
