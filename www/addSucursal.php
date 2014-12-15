@@ -168,6 +168,7 @@ error_reporting(-1);
 						if($_GET) {
 							//echo createSucursal(getIdEmpresa($_SESSION['userId']),$_GET);
 							print_r($_GET);
+
 						} 
 						?>
 						<!-- /.panel-heading -->                        
@@ -176,6 +177,11 @@ error_reporting(-1);
 								<div class="form-group">
 									<label>Nombre de Sucursal</label>
 									<input name="nombre" class="form-control" placeholder="Ej: Sucursal Santiago Centro">
+								</div>
+								<div class="form-group">
+									<select class="form-control">
+										<?=listarCiudad();?>
+									</select>
 								</div>
 								<div class="form-group">
 									<label>Tipo de Sucursal</label>
@@ -187,20 +193,16 @@ error_reporting(-1);
 									</datalist>
 								</div>
 								<div class="form-group">
-									<label>Selecciona direcci&oacute;n</label>
+									<label>Ingresar la direcci&oacute;n</label>
 									<!-- Mapa con selección de puntos -->
 									<!-- inicio mapa -->
 									<!-- <div class="datosMapa"> -->
-										<input id="geocomplete" type="text" placeholder="Ingrese la direcci&oacute;n" size="90" />
-										<input id="find" type="button" value="Buscar" /><br />
-										<label>Long</label>
-										<input class="form-control" name="lng" type="text" value="" ><br />
-										<label>Lat</label>
-										<input class="form-control" name="lat" type="text" value="" ><br />
-										<label>Location</label>
-										<input class="form-control" name="location" type="text" value="" ><br />
-										<label>Direcci&oacute;n</label>
-        								<input class="form-control" name="formatted_address" type="text" value="" ><br />
+										<input id="geocomplete" type="text" />
+										<!-- <input id="find" type="button" value="Buscar" /><br /> -->
+										<input name="location" type="hidden" value="" >
+										<input name="lat" type="hidden" value="" >
+										<input name="lng" type="hidden" value="" >
+        								<input name="formatted_address" type="hidden" value="" >
 									<!-- </div> -->
 
 									<div class="map_canvas"></div>

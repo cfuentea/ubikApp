@@ -1,8 +1,8 @@
 <?php
 include('db.inc.php');
 include('base_helper.php');
-// Mostramos errores
 
+// Mostramos errores
 ini_set('display_errors',1);
 ini_set('display_startup_errors',1);
 error_reporting(-1);
@@ -409,6 +409,17 @@ function editarCampana($idCampana) {
 				WHERE a.id = '.$idCampana.' ';
 	
 	
+}
+
+function listarCiudad() {
+	global $link;
+	$query = "SELECT id, nombre FROM Ciudad";
+	$resultado = mysql_query($query,$link);
+
+	while($row = mysql_fetch_assoc($resultado)) {
+		echo '<option value="'.$row['id'].'">'.$row['nombre'].'</option>\n';
+	}
+
 }
 
 function ubikMe($id,$categoriaJSON, $posicionJSON) {
