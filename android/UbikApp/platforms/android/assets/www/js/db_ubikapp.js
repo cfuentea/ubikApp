@@ -6,13 +6,11 @@
 	
 	function init() {
 			
-			this.initDatabase();
+		this.initDatabase();
 
-            
-            //this.dropTables();
-            //this.createTables();
-            //this.insertInicial();
-			
+        //this.dropTables();
+        //this.createTables();
+        //this.insertInicial();
 	}
 	
 	
@@ -64,7 +62,7 @@
 		        function (transaction) {
 		        	transaction.executeSql('CREATE TABLE IF NOT EXISTS usuario(nombres text, apellidos text, mail text, fecha date, comuna int, uuid text, nick text);', [], that.nullDataHandler, that.errorHandler);
 		        	transaction.executeSql('CREATE TABLE IF NOT EXISTS categoria(id int, nombre text, descripcion text);', [], that.nullDataHandler, that.errorHandler);
-		        	transaction.executeSql('CREATE TABLE IF NOT EXISTS promos(id int, nombre text, descripcion text, inicio date, fin date, estado int);', [], that.nullDataHandler, that.errorHandler);
+		        	transaction.executeSql('CREATE TABLE IF NOT EXISTS promos(id int, nombre text, descripcion text, inicio date, fin date, estado int, codigo int);', [], that.nullDataHandler, that.errorHandler);
 		        	
 		        }
 		    );
@@ -119,28 +117,58 @@
                 location.href = "categorias.html";
             }
         );              
-    }   
+    }
 
-	function insertPromos() {
+    function existeCategoria(id){
+        var that = this;
+        UbikAppDB.transaction(
+                function (transaction) {
+                    transaction.executeSql("SELECT * FROM categoria where id = ?;", [id], this.existHandler, this.errorHandler);
+                    alert(this.existHandler);
+                }
+            );
+    }
+    
+    function existHandler( transaction, result ) {
+        if (result.rows.length > 0){
+            return true 
+        }else{
+            return false;
+        }
+    }
+    
+	function insertPromos(id, nombre, descripcion) {
 		UbikAppDB.transaction(
 		    function (transaction) {				
-			transaction.executeSql("INSERT INTO promos() VALUES ()", []);
+                transaction.executeSql("insert into promos (id, nombre, descripcion, estado) values (?, ?, ?, ?)", [id, nombre, descripcion, 1]);
 		    }
 		);				
 	}
 
-		/***
-		**** UPDATE TABLE ** 
-		***/
+	/***
+	**** UPDATE TABLE ** 
+	***/
 	function updateUsuario() {
 			UbikAppDB.transaction(
 			    function (transaction) {
-	
-			    	transaction.executeSql("UPDATE usuario SET nombres=?, apellidos=?, mail=?, fecha=?, comuna = ?, nick = ? WHERE uuid = ?", [$("#nombres").val(), $("#apellidos").val(), $("#correo").val(), $("#fecha").val(), $("#comuna").val(), $("#nick").val(), device.uuid]);
+			    	transaction.executeSql("UPDATE usuario SET nombres=?, apellidos=?, mail=?, fecha=?, comuna = ?, nick = ? WHERE uuid = ?", [$("#nombre").val(), $("#apellido").val(), $("#EMAIL").val(), $("#fechaNacimiento").val(), $("#Comuna_id").val(), $("#nick").val(), device.uuid]);
+			    	
+			        var cadena = $("#formulario").serialize();
+			        $.ajax({
+		                type: 'GET',
+		                data: cadena,
+		                url : 'http://ubikapp.dev.cl/index.php?metodo=createUsuario',
+		                success:function(data){
+		                    alert(data.resultado);
+		                },
+		                error:function(data){
+		                    alert("Error Service readCategoria");
+		                }
+		            });
 			    	location.href = "configuracion.html";
+
 			    }
-			);	
-			
+			);
 			//this.selectAll();		    
 	    }
 
@@ -148,7 +176,7 @@
 			UbikAppDB.transaction(
 			    function (transaction) {
 										
-			    	transaction.executeSql("UPDATE promos SET estado=? WHERE id = ?", [estado, id]);
+			    	transaction.executeSql("UPDATE promos SET estado=?, codigo = ? WHERE id = ?", [estado, Math.floor((Math.random() * 10000) + 1), id]);
 			    }
 			);	
 			location.href = "index.html";
@@ -178,11 +206,11 @@
 		    	try{
 	                $("#dispositivo").html(row['nick']);
 
-	                $("#nombres").val(row['nombres']);
-	                $("#apellidos").val(row['apellidos']);
-	                $("#correo").val(row['mail']);
-	                $("#fecha").val(row['fecha']);
-	                $("#comuna").val(row['comuna']);
+	                $("#nombre").val(row['nombres']);
+	                $("#apellido").val(row['apellidos']);
+	                $("#email").val(row['mail']);
+	                $("#fechaNacimiento").val(row['fecha']);
+	                $("#Comuna_id").val(row['comuna']);
                     $("#nick").val(row['nick']);
 		    	    
 		    	}catch (e){
@@ -247,14 +275,14 @@
 
                     res += '<div class="alert alert-success">';
                     res += '<h2>' + row['nombre'] + ' <small>' + row['descripcion'] + '</small> </h2>';
-                    res += '<h1>Codigo:123456</h1>';
+                    res += '<h1>Codigo: '+row['codigo']+'</h1>';
                     res += '</div>';
 
                 }else{
 
                     res += '<div class="alert alert-info" align="right">';
                     res += '<h2>' + row['nombre'] + ' <small>' + row['descripcion'] + '</small> </h2>';
-                    res += '<h1>Codigo:123456</h1>';
+                    res += '<h1>Codigo: '+row['codigo']+'</h1>';
                     res += '</div>';
 
                 }
@@ -269,6 +297,8 @@
         
     }
 
+    var matrizCat = new Array ();
+
     function CategoriasHandler( transaction, results ) {
         var i=0,
             row,
@@ -278,6 +308,8 @@
         for (i ; i<results.rows.length; i++) {
 
             row = results.rows.item(i);
+
+            matrizCat[i] = new Array (row['id'], row['nombre']); 
 
             try{
                 if ((i % 2) == 0 ){

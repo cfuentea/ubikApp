@@ -10,8 +10,8 @@
     <content src="index.html" />
     <access origin="*" />
     
- <feature name="Notification">
-   <param name="wp-package" value="Notification"/>
- </feature>
- 
+	<feature name="Notification">
+	  <param name="wp-package" value="Notification"/>
+	</feature>
+	
 </widget>

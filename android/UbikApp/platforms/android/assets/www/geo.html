@@ -32,7 +32,7 @@
 	
 	* { margin: 0; padding: 0; }
 	html { height: 100%; }
-	body { background-image: url(images/old_map.png); font-size: 16px; font-family: 'Marcellus', serif; height: 100%; position: relative; }
+	body { background-color: rgba(0,0,0,.88); font-size: 16px; font-family: 'Marcellus', serif; height: 100%; position: relative; }
 	header { background-color: rgba(0,0,0,.88); height: 80px; width: 100%; position: fixed; z-index: 99; box-shadow: 0px 2px 3px #333333; }
 	header > h1 { color: #FFFFFF; font-family: 'Marcellus', serif; font-size: 1.2em; font-weight: normal; margin: 30px 60px; }
 	
@@ -51,61 +51,87 @@
 	<script type="text/javascript" src="cordova.js"></script>
 
 	<script type="text/javascript">
-
-	document.addEventListener("backbutton", onBackKeyDown, false);
-
-	function onBackKeyDown() {
-		location.href = "index.html";
-			
-	}
-
-	function informacion (coordenadas) {
-		$("#latitude").html(coordenadas.Lat);
-		$("#longitude").html(coordenadas.Lng);
-	}
 	
-	function iniciar() {
-		var coordenadas = {
-			Lat: 0,
-			Lng: 0
-		};
+	    document.addEventListener("backbutton", onBackKeyDown, false);
+	
+	    function onBackKeyDown() {
+	        location.href = "index.html";
+	            
+	    }
+	
+	    function informacion (coordenadas) {
+	        $("#latitude").html(coordenadas.Lat);
+	        $("#longitude").html(coordenadas.Lng);
+	    }
+	    
+	    function iniciar() {
+	        var coordenadas = {
+	            Lat: 0,
+	            Lng: 0
+	        };
+	
+	        function localizacion (posicion) {
+	            coordenadas = {
+	                Lat: posicion.coords.latitude,
+	                Lng: posicion.coords.longitude
+	            }
+	
+	            informacion(coordenadas);
+	
+	            var mapOptions = {
+	                zoom: 16,
+	                center: new google.maps.LatLng(coordenadas.Lat, coordenadas.Lng),
+	                disableDefaultUI: true,
+	                mapTypeId: google.maps.MapTypeId.ROADMAP
+	            }
 
-		function localizacion (posicion) {
-			coordenadas = {
-				Lat: posicion.coords.latitude,
-				Lng: posicion.coords.longitude
-			}
+	            var map = new google.maps.Map(document.getElementById('mapa'), mapOptions);
 
-			informacion(coordenadas);
+	            var infowindow = new google.maps.InfoWindow({
+	                map: map,
+	                position: new google.maps.LatLng(coordenadas.Lat, coordenadas.Lng),
+	                content: 'Aqui Estoy !'
+	            });
 
-			var mapOptions = {
-				zoom: 10,
-				center: new google.maps.LatLng(coordenadas.Lat, coordenadas.Lng),
-				disableDefaultUI: true,
-				mapTypeId: google.maps.MapTypeId.ROADMAP
-			}
+	            var ubik = [
+	              new google.maps.LatLng(-33.396650, -70.626404),
+	              new google.maps.LatLng(-33.395316, -70.625953),
+	              new google.maps.LatLng(-33.396659, -70.628453)
+	            ];
+	
+	            for (var i = 0; i < ubik.length; i++) {
+	                 setTimeout(function() {
+						alert(i);
+	                    markers.add(new google.maps.Marker({
+	                        position:  ubik[i],
+	                        map: map,
+	                        draggable: false,
+	                        animation: google.maps.Animation.DROP
+	                    }));
+	
+	                }, i * 200);
 
-			var map = new google.maps.Map(document.getElementById('mapa'), mapOptions);
-			
-			var infowindow = new google.maps.InfoWindow({
-				map: map,
-				position: new google.maps.LatLng(coordenadas.Lat, coordenadas.Lng),
-				content: 'Aqui Estoy !'
-            });
-		}
+	            }
+	
+	            //Plaza, -33.396650, -70.626404
+	            //Comisaria, -33.395316, -70.625953
+	            //Territorio CdU, -33.396659, -70.628453
+	
+	        }
+	
+	
+	        function errores (error) {
+	            alert('Ha ocurrido un error al intentar obtener la información');
+	        }
+	        
+	        if (navigator.geolocation) {
+	            navigator.geolocation.getCurrentPosition(localizacion,errores);
+	        } else {
+	            alert("Tu dispositivo no soporta o no tiene habilitada la 'Geolocalización'");
+	        }
+	        
+	    }
 
-		
-		function errores (error) {
-			alert('Ha ocurrido un error al intentar obtener la información');
-		}
-		
-		if (navigator.geolocation) {
-			navigator.geolocation.getCurrentPosition(localizacion,errores);
-		} else {
-			alert("Tu dispositivo no soporta o no tiene habilitada la 'Geolocalización'");
-		}
-		
-	}
 	</script>
 
 
@@ -163,13 +189,13 @@
         <div id="page-wrapper">
 
             <div class="container-fluid">
-                            
+    			
+    			<!--	                        
 				<header>
 					<h1>Lat:<span id="latitude">
 					<br>Lng:<span id="longitude"></h1>
 				</header>
-
-				<!--
+				
 				<div id="informacion">
 					<h2>Tu posición actual es:</h2>
 					<h3>Latitud: <span id="latitude"></span></h3>

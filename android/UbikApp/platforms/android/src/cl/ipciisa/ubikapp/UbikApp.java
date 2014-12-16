@@ -21,8 +21,8 @@ package cl.ipciisa.ubikapp;
 
 import android.os.Bundle;
 import org.apache.cordova.*;
-
-public class UbikApp extends CordovaActivity 
+//CordovaActivity
+public class UbikApp extends DroidGap
 {
     @Override
     public void onCreate(Bundle savedInstanceState)
@@ -30,8 +30,12 @@ public class UbikApp extends CordovaActivity
         super.onCreate(savedInstanceState);
         super.init();
         // Set by <content src="index.html" /> in config.xml
-        super.loadUrl(Config.getStartUrl());
-        //super.loadUrl("file:///android_asset/www/index.html");
+        //super.loadUrl(Config.getStartUrl());
+        super.setIntegerProperty( "splashscreen", R.drawable.splash ); 
+        super.loadUrl("file:///android_asset/www/index.html");
+        
+        super.setBooleanProperty("keepRunning", true); 
+
     }
 }
 

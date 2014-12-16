@@ -35,6 +35,7 @@
     -->
     <script type="text/javascript" src="js/jquery.js"></script>
 	<script type="text/javascript" src="cordova.js"></script>
+	
 
     <!-- jQuery -->
     <script src="js/jquery.js"></script>
@@ -59,11 +60,11 @@
        
 	    }
 
-	  function registrationCallBack(button){
-	            if(button == 2) {
-	                navigator.app.exitApp();
-	            }
+	  	function registrationCallBack(button){
+	        if(button == 2) {
+	            navigator.app.exitApp();
 	        }
+	    }
 	
 	    
 	    function onBackKeyDown() {
@@ -71,30 +72,45 @@
     			
     	}
 
-		//insertUsuario();
 	
-	    // alerta cerrada
-	    function alertDismissed() {
-	        // hacer algo aquí 
-	        location.href = "notificaciones.html";       
+	    // Confirmar alerta
+	    function alertDismissed(button){
+	        if(button == 2) {
+	            insertPromos($("#id").val(), $("#nombre").val(), $("#descripcion").val());
+	            location.href = "notificaciones.html";
+	        }
 	    }
 
 
 	    // Muestra un cuadro de dialogo personalizado
 	    //
 	    function showAlert() {
-	    	navigator.notification.alert(
-	    		'Felicitaciones, tienes una PROMO',     // mensaje (message)
-	    		alertDismissed,         // función 'callback' (alertCallback)
-	    		'UbikApp Notificacion',            // titulo (title)
-	    		'Detalle'                // nombre del botón (buttonName)
-	    	);
 	    
+			$.ajax({
+				type: 'GET',
+				//data: parametros,
+				url : 'http://ubikapp.dev.cl/index.php?metodo=readCampana',
+				success:function(data){
+				
+					$("#id").val(data.id);
+					$("#nombre").val(data.nombre);					 
+					$("#descripcion").val(data.descripcion);
+					
+			    	navigator.notification.confirm(
+			    			data.nombre + " \n" + data.descripcion,
+			    		 	alertDismissed,
+			    		 	"Ver Promocion", "No, Si");
+
+				},
+				error:function(data){
+					alert("Error Service readCategoria");
+				}
+	
+			});	    	
+
 	    }
-		
 
 		var myVar=setInterval(function () {showAlert()}, 30000);
-
 
     </script>   
     
@@ -103,6 +119,12 @@
 </head>
 
 <body>
+
+	<form action="#" id="formulario">
+		<input type="hidden" name="id" id="id">
+		<input type="hidden" name="nombre" id="nombre">
+		<input type="hidden" name="descripcion" id="descripcion">		
+	</form>
 
     <div id="wrapper">
 

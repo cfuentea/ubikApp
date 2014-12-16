@@ -29,6 +29,14 @@
 	</style>
 	<script type="text/javascript">
 	
+	function init(){
+	$.getJSON('http://http://ubikapp.dev.cl/index.php?metodo=readCategoria', function(data){
+						alert(data.id);
+				}
+				);	
+	}
+
+
 	function informacion (coordenadas) {
 		$("#latitude").html(coordenadas.Lat);
 		$("#longitude").html(coordenadas.Lng);

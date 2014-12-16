@@ -5,6 +5,9 @@
     <feature name="App">
         <param name="android-package" value="org.apache.cordova.App" />
     </feature>
+    <feature name="Device">
+        <param name="android-package" value="org.apache.cordova.device.Device" />
+    </feature>
     <name>UbikApp</name>
     <description>
         A sample Apache Cordova application that responds to the deviceready event.
@@ -16,5 +19,12 @@
     <access origin="*" />
     <feature name="Notification">
         <param name="android-package" value="org.apache.cordova.dialogs.Notification" />
+        <param name="wp-package" value="Notification" />
     </feature>
+    <!--
+    <preference name="exit-on-suspend" value="false" />
+    <preference name="keepRunning" value="true" />
+    <plugin name="StatusBarNotification" value="com.phonegap.plugins.statusBarNotification.StatusBarNotification"/> 
+     -->
+    
 </widget>
