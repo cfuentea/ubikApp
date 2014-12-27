@@ -20,8 +20,8 @@ echo distancia($lat1,$lng1,$lat2,$lng2,"K");
 		2.1 de las campañas activas (en un ciclo) obtener lat y lng
 		2.2 comparar con lat y lng enviada por parametros por el usuario y verificar si cumple politica (<500mts)
 			2.2.1 verificar si la campaña que calza con parametros, cuenta con categorias seleccionadas (en ciclo)
-			
 
 
-/*
+
+*/
 ?>

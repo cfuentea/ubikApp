@@ -422,12 +422,29 @@ function listarCiudad() {
 
 }
 
+
+
+
 function ubikMe($id,$categoriaJSON, $posicionJSON) {
 	
-	// esta funcion debe ser capaz de recibir parametros y traducirlos en envío de campañas
-	// adicionalmente debe dejar un registro de las campañas que se envían en un log (registro BBDD)
+	/* 	esta funcion debe ser capaz de recibir parametros y traducirlos en envío de campañas
+		adicionalmente debe dejar un registro de las campañas que se envían en un log (registro BBDD)
+	*/
 	
+	$campanaActiva = verificarCampanaActiva();
 	
+	if($campanaActiva) {
+		$distanciaCampana = distancia($posicionJSON,distanciaCampanaActiva());
+
+	/* distancia base para cercania entre punto A y B (en KM) */
+	
+		while($distanciaCampana < 0.5) {
+			if(compararCategorias($categoriaJSON,$categoriaCampanaActiva)) {
+				return enviaCampanaMatch();
+				logTransaccion($id,idCampanaActiva());
+			}
+		}
+	}
 }
 
 ?>
