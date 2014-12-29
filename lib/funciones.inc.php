@@ -350,9 +350,22 @@ function createCampana($userId, $arreglo) {
 
 }
 
+function checkStatusCampana($id,$idCampana) {
+	global $link;
+	$query = "SELECT id, nombreEstado FROM Estado WHERE id = ".$id." ";
+	$resultado = mysql_query($query,$link);
+	$row = mysql_fetch_assoc($resultado);
+
+	if($row['id'] == 1) {
+		return "<a href='?id=".$idCampana."&op=deshab'><button style='background-color: red; color:white;' type='button'>Deshabilitar</button></a>";
+	} else {
+		return "<a href='?id=".$idCampana."&op=hab'><button style='background-color: green; color:white;' type='button'>Habilitar</button></a>";
+	}
+}
+
 function listarCampanaEditar($idEmpresa) {
 	global $link;
-	$query = 'SELECT id, nombre, descripcion FROM Campana WHERE Empresa_id = '.$idEmpresa.'';
+	$query = 'SELECT id, nombre, descripcion,Estado_id FROM Campana WHERE Empresa_id = '.$idEmpresa.'';
 	$resultado = mysql_query($query,$link);
 	
 	echo '<table border="0" width="100%">
@@ -369,11 +382,28 @@ function listarCampanaEditar($idEmpresa) {
 				<td>'.$row['id'].'</td>
 				<td>'.$row['nombre'].'</td>
 				<td>'.$row['descripcion'].'</td>
-				<td>[ Editar ]</td>
-				<td>[ Activar / Desactivar]</td>				
+				<td><a href="#"><button type="button">Editar</button></a></td>
+				<td>'.checkStatusCampana($row['Estado_id'],$row['id']).'</td>				
 			  </tr>';
 	}
 	echo '</table>';
+}
+
+function updateEstado($id,$op) {
+	global $link;
+	
+	if($op == "hab") {
+		$op = 1;
+	} elseif($op == "deshab") {
+		$op = 3;
+	}
+
+	$query = "UPDATE Campana
+				SET Estado_id = ".$op."
+				WHERE id = ".$id."
+				LIMIT 1";
+
+	$resultado = mysql_query($query,$link);
 }
 
 function listarSucursalEditar($idEmpresa) {
@@ -400,8 +430,8 @@ function listarSucursalEditar($idEmpresa) {
 				<td>'.$row['direccion'].'</td>
 				<td>'.$row['tipoSucursal'].'</td>
 				<td>'.$row['Comuna_id'].'</td>
-				<td>[ Editar ]</td>
-				<td>[ Activar / Desactivar]</td>			
+				<td><a href="#"><button type="button">Editar</button></a></td>
+				<td><a href="#"><button type="button" style="background-color: red; color:white;">Eliminar</button></a></td>			
 			  </tr>';
 	}
 	echo '</table>';
