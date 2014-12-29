@@ -163,7 +163,7 @@ error_reporting(-1);
             </div>
             <!-- /.row -->
             <div class="row">
-                <div class="col-lg-8">
+                <div class="col-lg-8-">
                     <div class="panel panel-default">
                         <?php 
 							if($_GET) {

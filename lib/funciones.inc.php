@@ -355,13 +355,13 @@ function listarCampanaEditar($idEmpresa) {
 	$query = 'SELECT id, nombre, descripcion FROM Campana WHERE Empresa_id = '.$idEmpresa.'';
 	$resultado = mysql_query($query,$link);
 	
-	echo '<table border="0" >
+	echo '<table border="0" width="100%">
 			<tr align="center" bgcolor="#ccc">
 				<td>Nro</td>
 				<td>&nbsp;Nombre Campa&ntilde;a&nbsp;</td>
 				<td>Descripcion</td>
-				<td>Accion 1</td>
-				<td>Accion 2</td>
+				<td></td>
+				<td></td>
 			</tr>';
 			
 	while($row = mysql_fetch_assoc($resultado)) {
@@ -382,13 +382,15 @@ function listarSucursalEditar($idEmpresa) {
 				FROM Sucursal WHERE idEmpresa = '.$idEmpresa.'';
 	$resultado = mysql_query($query,$link);
 	
-	echo '<table border="0" >
+	echo '<table border="0" width="100%">
 			<tr align="center" bgcolor="#ccc">
 				<td>Nro</td>
 				<td>&nbsp;Nombre Sucursal&nbsp;</td>
 				<td>Direcci&oacute;n</td>
 				<td>Tipo de Sucursal</td>
 				<td>Comuna</td>
+				<td></td>
+				<td></td>
 			</tr>';
 			
 	while($row = mysql_fetch_assoc($resultado)) {
@@ -397,7 +399,9 @@ function listarSucursalEditar($idEmpresa) {
 				<td>'.$row['nombre'].'</td>
 				<td>'.$row['direccion'].'</td>
 				<td>'.$row['tipoSucursal'].'</td>
-				<td>'.$row['Comuna_id'].'</td>				
+				<td>'.$row['Comuna_id'].'</td>
+				<td>[ Editar ]</td>
+				<td>[ Activar / Desactivar]</td>			
 			  </tr>';
 	}
 	echo '</table>';

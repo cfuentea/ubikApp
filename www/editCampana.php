@@ -156,7 +156,7 @@ if($_SESSION['userId']==0) {
             </div>
             <!-- /.row -->
             <div class="row">
-                <div class="col-lg-8">
+                <div class="col-lg-8-">
                     <div class="panel panel-default">
                         <!-- /.panel-heading -->
                         <div class="panel-body">

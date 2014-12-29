@@ -13,7 +13,7 @@
 #geocomplete { width: 100%;}
 
 .map_canvas { 
-  width: 550px; 
+  width: 90%; 
   height: 400px; 
   /*margin: 10px 20px 10px 0;*/
   margin-right: 5%;
@@ -226,7 +226,7 @@ body {
 }
 
 .chat-panel .panel-body {
-    height: 350px;
+    height: 600px;
     overflow-y: scroll;
 }
 
