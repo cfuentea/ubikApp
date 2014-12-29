@@ -166,8 +166,8 @@ error_reporting(-1);
 					<div class="panel panel-default">
 						<?php 
 						if($_GET) {
-							//echo createSucursal(getIdEmpresa($_SESSION['userId']),$_GET);
-							print_r($_GET);
+							echo createSucursal(getIdEmpresa($_SESSION['userId']),$_GET);
+							print_r($_GET)."<br />";
 
 						} 
 						?>
@@ -178,11 +178,11 @@ error_reporting(-1);
 									<label>Nombre de Sucursal</label>
 									<input name="nombre" class="form-control" placeholder="Ej: Sucursal Santiago Centro">
 								</div>
-								<div class="form-group">
+								<!--<div class="form-group">
 									<select class="form-control">
-										<?=listarCiudad();?>
+										<?//=listarCiudad();?>
 									</select>
-								</div>
+								</div>-->
 								<div class="form-group">
 									<label>Tipo de Sucursal</label>
 									<input class="form-control" list="tipoSucursal" name="tipoSucursal"/>
@@ -202,6 +202,8 @@ error_reporting(-1);
 										<input name="location" type="hidden" value="" >
 										<input name="lat" type="hidden" value="" >
 										<input name="lng" type="hidden" value="" >
+										<input name="locality" type="hidden" value="" >
+										<input name="country" type="hidden" value="" >
         								<input name="formatted_address" type="hidden" value="" >
 									<!-- </div> -->
 

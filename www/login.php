@@ -2,17 +2,22 @@
 include('../lib/funciones.inc.php');
 
 // Mostramos errores
+/*
 ini_set('display_errors',1);
 ini_set('display_startup_errors',1);
 error_reporting(-1);
-
+*/
 
 if(empty($session)) session_start();
 
 /*if(!$_SESSION) */
 
-$_SESSION['userId'] = 0;
-if($_SESSION['userId']!=0) header('Location: index.php');
+//$_SESSION['userId'] = 0;
+if($_SESSION['userId']!=0) { 
+    header('Location: index.php');
+} else {
+    $_SESSION['userId'] = 0;
+}
 	
 if($_POST) {
 	$login = loginClientes($_POST['rut'],$_POST['password']);

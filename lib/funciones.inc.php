@@ -265,16 +265,17 @@ function createSucursal($userId, $arreglo) {
 	global $link;
 	
 	$nombre = $arreglo['nombre'];
-	$descripcion = $arreglo['descripcion'];
-	$fechaInicio = $arreglo['fechaInicio'];
-	$fechaFin = $arreglo['fechaFin'];
+	$direccion = $arreglo['formatted_address'];
+	$tipoSucursal = $arreglo['tipoSucursal'];
+	$localidad = getComuna($arreglo['locality']);
 
 	
 	$query = 'INSERT INTO Sucursal 
-				(idEmpresa, nombre, direccion, Comuna_id, tipoSucursal, fechaIngreso, ownerIngreso)
+				(idEmpresa, nombre, direccion, Comuna_id, tipoSucursal, fechaIngreso, ownerIngreso, latitud, longitud)
 			  VALUES
-				('.$userId.', "'.$nombre.'", "'.$descripcion.'", now(), 500, 
-					STR_TO_DATE("'.$fechaInicio.'","%Y-%m-%d"), STR_TO_DATE("'.$fechaFin.'","%Y-%m-%d"), 3)';
+				('.$userId.', "'.$nombre.'", "'.$direccion.'", '.$localidad.', "'.$tipoSucursal.'", now(), "Form_WEB", 
+					'.$arreglo['lat'].','.$arreglo['lng'].')';
+
 	$resultado = mysql_query($query,$link);
 	$id = mysql_insert_id();
 	
@@ -423,7 +424,15 @@ function listarCiudad() {
 }
 
 
+function getComuna($nombreComuna) {
+	global $link;
+	$query = "SELECT id from Comuna WHERE nombre like '%".$nombreComuna."%'";
+	$resultado = mysql_query($query,$link);
 
+	$row = mysql_fetch_assoc($resultado);
+
+	return $row['id'];
+}
 
 function ubikMe($id,$categoriaJSON, $posicionJSON) {
 	
