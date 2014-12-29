@@ -20,8 +20,10 @@
 package cl.ipciisa.ubikapp;
 
 import android.os.Bundle;
-import org.apache.cordova.*;
+import org.apache.cordova.DroidGap;
+
 //CordovaActivity
+@SuppressWarnings("deprecation")
 public class UbikApp extends DroidGap
 {
     @Override
@@ -34,7 +36,7 @@ public class UbikApp extends DroidGap
         super.setIntegerProperty( "splashscreen", R.drawable.splash ); 
         super.loadUrl("file:///android_asset/www/index.html");
         
-        super.setBooleanProperty("keepRunning", true); 
+        super.setBooleanProperty("keepRunning", true);
 
     }
 }

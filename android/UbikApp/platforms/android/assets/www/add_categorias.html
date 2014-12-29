@@ -58,20 +58,22 @@
 			addCategoria(id, $("#cat_"+id).val());			
 		}
 
+		initDatabase();
 
 	    $.ajax({
 			type: 'GET',
 			//data: parametros,
-			//url : 'http://ubikapp.dev.cl/index.php?metodo=readCategoria',
-			url : 'http://192.168.50.12/index2.php?metodo=readCategoria',
+			url : 'http://ubikapp.dev.cl/index.php?metodo=readCategoria',
 			success:function(data){
-
+				
 				var i = 0, res = "";
-				$("#add_categorias").html("");
+				//$("#add_categorias").html("");
+				delCategoriaWeb();
 				for (x in data) {
-                   	res += '&nbsp;<div class="list-group-item"><button type="button" id="cat_' + data[x].id + '" value="' + data[x].nombre +'" class="btn btn-lg btn-primary" onclick="addCategoria1(' + data[x].id + ')"> + </button>&nbsp;' + data[x].nombre +'</div>';
+					addCategoriaWeb(data[x].id, data[x].nombre);
+                   	//res += '&nbsp;<div class="list-group-item"><button type="button" id="cat_' + data[x].id + '" value="' + data[x].nombre +'" class="btn btn-lg btn-primary" onclick="addCategoria1(' + data[x].id + ')"> + </button>&nbsp;' + data[x].nombre +'</div>';
 				}
-				$("#add_categorias").html(res);
+				//$("#add_categorias").html(res);
 
 			},
 			error:function(data){
@@ -79,12 +81,14 @@
 			}
 
 		});
+		
+		selectCategoriaWeb();
 
 	</script>
 
 </head>
 
-<body onload="initDatabase();">
+<body>
 
     <div id="wrapper">
 

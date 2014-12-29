@@ -17,25 +17,11 @@
     <!-- Custom CSS -->
     <link href="css/sb-admin.css" rel="stylesheet">
 
-    <!-- Morris Charts CSS 
-    <link href="css/plugins/morris.css" rel="stylesheet">
-	-->
-
     <!-- Custom Fonts -->
     <link href="font-awesome-4.1.0/css/font-awesome.min.css" rel="stylesheet" type="text/css">
 
-    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
-    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
-    <!--[if lt IE 9]>
-        <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
-        <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
-    [endif]
-    
-    <script type="text/javascript" src="http://code.jquery.com/jquery-2.1.1.min.js"></script>
-    -->
     <script type="text/javascript" src="js/jquery.js"></script>
 	<script type="text/javascript" src="cordova.js"></script>
-	
 
     <!-- jQuery -->
     <script src="js/jquery.js"></script>
@@ -51,9 +37,7 @@
 		var database = null;
 	
 	    // PhoneGap esta listo
-	    //
 	    function onDeviceReady() {
-
 	       //Se inicializa BDD SQLite UbikApp
  		   init();
  		   document.addEventListener("backbutton", onBackKeyDown, false);
@@ -64,12 +48,10 @@
 	        if(button == 2) {
 	            navigator.app.exitApp();
 	        }
-	    }
-	
+	    }	
 	    
 	    function onBackKeyDown() {
-    		navigator.notification.confirm("¿ Esta Seguro de Salir ?", registrationCallBack, "Confirmar", "No, Si");
-    			
+    		navigator.notification.confirm("¿ Esta Seguro de Salir ?", registrationCallBack, "Confirmar", "No, Si");    			
     	}
 
 	
@@ -82,10 +64,34 @@
 	    }
 
 
+		var coordenadas = { Lat: 0,
+	            		    Lng: 0
+	        			  };
+	
+        function localizacion (posicion) {
+            coordenadas = {
+                Lat: posicion.coords.latitude,
+                Lng: posicion.coords.longitude
+            }            
+        }
+
+		function errores (error) {
+            alert('Ha ocurrido un error al intentar obtener la informaciÃ³n');
+        }
+
+		if (navigator.geolocation) {
+            navigator.geolocation.getCurrentPosition(localizacion,errores);
+        } else {
+            alert("Tu dispositivo no soporta o no tiene habilitada la 'GeolocalizaciÃ³n'");
+        }
+
+
 	    // Muestra un cuadro de dialogo personalizado
 	    //
 	    function showAlert() {
-	    
+	    	
+	    	alert(device.uuid + " : " + coordenadas.Lat + " / " + coordenadas.Lng)
+	    	
 			$.ajax({
 				type: 'GET',
 				//data: parametros,
@@ -113,18 +119,10 @@
 		var myVar=setInterval(function () {showAlert()}, 30000);
 
     </script>   
-    
-
 
 </head>
 
 <body>
-
-	<form action="#" id="formulario">
-		<input type="hidden" name="id" id="id">
-		<input type="hidden" name="nombre" id="nombre">
-		<input type="hidden" name="descripcion" id="descripcion">		
-	</form>
 
     <div id="wrapper">
 
@@ -138,7 +136,7 @@
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
                 </button>
-                <a class="navbar-brand" href="prueba.html">UbikApp</a>
+                <a class="navbar-brand" href="#">UbikApp</a>
             </div>
 
             <!-- Top Menu Items -->
@@ -171,7 +169,7 @@
                         <a href="categorias.html"><i class="fa fa-fw fa-tasks"></i> Mis Categorias</a>
                     </li>
                     <li>
-                        <a href="usadas.html"><i class="fa fa-fw fa-shopping-cart"></i> Promos Usadas</a>
+                        <a href="usadas.html"><i class="fa fa-fw fa-shopping-cart"></i> Promos Aceptadas</a>
                     </li>
                     <li>
                         <a href="geo.html"><i class="fa fa-fw fa-support"></i> Mi Ubicacion</a>
@@ -283,7 +281,7 @@
 	                                    </div>
 	                                    <div class="col-xs-9 text-right">
 	                                        <div class="huge"><span id="usadas"></div>
-	                                        <div>Promos Usadas</div>
+	                                        <div>Promos Aceptadas</div>
 	                                    </div>
 	                                </div>
 	                            </div>

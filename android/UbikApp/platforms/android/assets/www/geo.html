@@ -17,34 +17,30 @@
     <!-- Custom CSS -->
     <link href="css/sb-admin.css" rel="stylesheet">
 
-    <!-- Morris Charts CSS -->
-    <link href="css/plugins/morris.css" rel="stylesheet">
-
     <!-- Custom Fonts -->
     <link href="font-awesome-4.1.0/css/font-awesome.min.css" rel="stylesheet" type="text/css">
 
-
 	<link href='http://fonts.googleapis.com/css?family=Marcellus' rel='stylesheet' type='text/css'>	
 	<script type='text/javascript' src='http://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js'></script>
-	<!--<script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?sensor=true"></script>-->
 	<script type="text/javascript" src="http://maps.googleapis.com/maps/api/js?sensor=TRUE"></script>
+
 	<style>
 	
-	* { margin: 0; padding: 0; }
-	html { height: 100%; }
-	body { background-color: rgba(0,0,0,.88); font-size: 16px; font-family: 'Marcellus', serif; height: 100%; position: relative; }
-	header { background-color: rgba(0,0,0,.88); height: 80px; width: 100%; position: fixed; z-index: 99; box-shadow: 0px 2px 3px #333333; }
-	header > h1 { color: #FFFFFF; font-family: 'Marcellus', serif; font-size: 1.2em; font-weight: normal; margin: 30px 60px; }
-	
-	#mapa { position: absolute; background: transparent; height: 100%; width: 100%; top: 0; left: 0; right: 0; bottom: 0; }
-	#informacion { position: absolute; background: rgba(0,16,27,.85); z-index: 200; top: 70%; width: 30%; padding: 12px; }
-	
-	#informacion h2,
-	#informacion h3 { color: #FFFFFF; text-shadow: 1px 1px 1px #000000; font-weight: normal; font-size: .9em; }
-	
-	#informacion h2 { font-size: 1.1em; margin-bottom: 10px; }
-	
-	#informacion h3 span { color: #FF5555; }
+		* { margin: 0; padding: 0; }
+		html { height: 100%; }
+		body { background-color: rgba(0,0,0,.88); font-size: 16px; font-family: 'Marcellus', serif; height: 100%; position: relative; }
+		header { background-color: rgba(0,0,0,.88); height: 80px; width: 100%; position: fixed; z-index: 99; box-shadow: 0px 2px 3px #333333; }
+		header > h1 { color: #FFFFFF; font-family: 'Marcellus', serif; font-size: 1.2em; font-weight: normal; margin: 30px 60px; }
+		
+		#mapa { position: absolute; background: transparent; height: 100%; width: 100%; top: 0; left: 0; right: 0; bottom: 0; }
+		#informacion { position: absolute; background: rgba(0,16,27,.85); z-index: 200; top: 70%; width: 30%; padding: 12px; }
+		
+		#informacion h2,
+		#informacion h3 { color: #FFFFFF; text-shadow: 1px 1px 1px #000000; font-weight: normal; font-size: .9em; }
+		
+		#informacion h2 { font-size: 1.1em; margin-bottom: 10px; }
+		
+		#informacion h3 span { color: #FF5555; }
 	
 	</style>
 
@@ -90,7 +86,8 @@
 	            var infowindow = new google.maps.InfoWindow({
 	                map: map,
 	                position: new google.maps.LatLng(coordenadas.Lat, coordenadas.Lng),
-	                content: 'Aqui Estoy !'
+	                content: 'Aqui Estoy !',
+	                animation: google.maps.Animation.DROP	                
 	            });
 
 	            var ubik = [
@@ -98,27 +95,23 @@
 	              new google.maps.LatLng(-33.395316, -70.625953),
 	              new google.maps.LatLng(-33.396659, -70.628453)
 	            ];
-	
-	            for (var i = 0; i < ubik.length; i++) {
-	                 setTimeout(function() {
-						alert(i);
-	                    markers.add(new google.maps.Marker({
-	                        position:  ubik[i],
-	                        map: map,
-	                        draggable: false,
-	                        animation: google.maps.Animation.DROP
-	                    }));
-	
-	                }, i * 200);
 
+
+				var marcadores = "";
+	            for (var i = 0; i < ubik.length; i++) {
+	            	marcadores = new google.maps.Marker({
+			                        map: map,
+			                        position: ubik[i],
+			                        animation: google.maps.Animation.DROP
+			                    });
 	            }
-	
+
 	            //Plaza, -33.396650, -70.626404
 	            //Comisaria, -33.395316, -70.625953
 	            //Territorio CdU, -33.396659, -70.628453
 	
 	        }
-	
+
 	
 	        function errores (error) {
 	            alert('Ha ocurrido un error al intentar obtener la información');
@@ -133,14 +126,6 @@
 	    }
 
 	</script>
-
-
-    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
-    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
-    <!--[if lt IE 9]>
-        <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
-        <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
-    <![endif]-->
 
 </head>
 

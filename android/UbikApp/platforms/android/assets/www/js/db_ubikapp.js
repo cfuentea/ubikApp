@@ -52,16 +52,17 @@
 			} 
 		}
 
-	
-		/***
-		**** CREATE TABLE ** 
-		***/
+
+	/***
+	**** CREATE TABLE ** 
+	***/
 	function createTables() {
 			var that = this;
 			UbikAppDB.transaction(
 		        function (transaction) {
 		        	transaction.executeSql('CREATE TABLE IF NOT EXISTS usuario(nombres text, apellidos text, mail text, fecha date, comuna int, uuid text, nick text);', [], that.nullDataHandler, that.errorHandler);
 		        	transaction.executeSql('CREATE TABLE IF NOT EXISTS categoria(id int, nombre text, descripcion text);', [], that.nullDataHandler, that.errorHandler);
+	                transaction.executeSql('CREATE TABLE IF NOT EXISTS categoria_web(id int, nombre text, descripcion text);', [], that.nullDataHandler, that.errorHandler);
 		        	transaction.executeSql('CREATE TABLE IF NOT EXISTS promos(id int, nombre text, descripcion text, inicio date, fin date, estado int, codigo int);', [], that.nullDataHandler, that.errorHandler);
 		        	
 		        }
@@ -82,13 +83,13 @@
                         transaction.executeSql("insert into promos (id, nombre, descripcion, estado) values (?, ?, ?, ?)", [4, "Falabella 40% dscto.", "Toda la tecnologia a tu alcance", 1]);
                         transaction.executeSql("insert into promos (id, nombre, descripcion, estado) values (?, ?, ?, ?)", [5, "Falabella 50% dscto.", "Cds y vinilos Clasicos", 1]);
                         transaction.executeSql("insert into promos (id, nombre, descripcion, estado) values (?, ?, ?, ?)", [6, "Ipciisa 50% dscto.", "En tu matricula 2015", 1]);
-			        
+                        /*
                         transaction.executeSql("insert into categoria (id, nombre, descripcion) values (?, ?, ?)", [1, "Deportes y Outdoor", ""]);
                         transaction.executeSql("insert into categoria (id, nombre, descripcion) values (?, ?, ?)", [2, "Tecnologia", ""]);
                         transaction.executeSql("insert into categoria (id, nombre, descripcion) values (?, ?, ?)", [3, "Estudios", ""]);
                         transaction.executeSql("insert into categoria (id, nombre, descripcion) values (?, ?, ?)", [4, "Musica", ""]);
                         transaction.executeSql("insert into categoria (id, nombre, descripcion) values (?, ?, ?)", [5, "Cines", ""]);
-			    
+			            */
 			    }
 			);				
 		}
@@ -108,7 +109,15 @@
                 location.href = "categorias.html";
             }
         );              
-    }   
+    }
+
+    function addCategoriaWeb(id, nombre) {
+        UbikAppDB.transaction(
+            function (transaction) {
+                transaction.executeSql("INSERT INTO categoria_web(id, nombre) VALUES (?, ?)", [id, nombre]);
+            }
+        );              
+    }
 
     function delCategoria(id) {
         UbikAppDB.transaction(
@@ -118,6 +127,14 @@
             }
         );              
     }
+    
+    function delCategoriaWeb() {
+        UbikAppDB.transaction(
+            function (transaction) {
+                transaction.executeSql("DELETE FROM categoria_web");
+            }
+        );              
+    }    
 
     function existeCategoria(id){
         var that = this;
@@ -136,8 +153,8 @@
             return false;
         }
     }
-    
-	function insertPromos(id, nombre, descripcion) {
+
+    function insertPromos(id, nombre, descripcion) {
 		UbikAppDB.transaction(
 		    function (transaction) {				
                 transaction.executeSql("insert into promos (id, nombre, descripcion, estado) values (?, ?, ?, ?)", [id, nombre, descripcion, 1]);
@@ -151,18 +168,24 @@
 	function updateUsuario() {
 			UbikAppDB.transaction(
 			    function (transaction) {
-			    	transaction.executeSql("UPDATE usuario SET nombres=?, apellidos=?, mail=?, fecha=?, comuna = ?, nick = ? WHERE uuid = ?", [$("#nombre").val(), $("#apellido").val(), $("#EMAIL").val(), $("#fechaNacimiento").val(), $("#Comuna_id").val(), $("#nick").val(), device.uuid]);
-			    	
-			        var cadena = $("#formulario").serialize();
+			    	transaction.executeSql("UPDATE usuario SET nombres=?, apellidos=?, mail=?, fecha=?, comuna = ?, nick = ? WHERE uuid = ?", [$("#nombre").val(), $("#apellido").val(), $("#email").val(), $("#fechaNacimiento").val(), $("#Comuna_id").val(), $("#nick").val(), device.uuid]);
+
+   		    	    var nombre = $("#nombre").val();
+                    var apellido = $("#apellido").val();
+                    var email = $("#email").val();
+                    var fechaNacimiento = $("#fechaNacimiento").val();
+			        var cadena ="nombre="+nombre+"&apellido="+apellido+"&email="+email+"&fechaNacimiento="+fechaNacimiento;
+
 			        $.ajax({
 		                type: 'GET',
-		                data: cadena,
 		                url : 'http://ubikapp.dev.cl/index.php?metodo=createUsuario',
+                        data: cadena,
+		                dataType: "json",
 		                success:function(data){
 		                    alert(data.resultado);
 		                },
 		                error:function(data){
-		                    alert("Error Service readCategoria");
+		                    alert("Error Service createUsuario");
 		                }
 		            });
 			    	location.href = "configuracion.html";
@@ -176,7 +199,7 @@
 			UbikAppDB.transaction(
 			    function (transaction) {
 										
-			    	transaction.executeSql("UPDATE promos SET estado=?, codigo = ? WHERE id = ?", [estado, Math.floor((Math.random() * 10000) + 1), id]);
+			    	transaction.executeSql("UPDATE promos SET estado=?, codigo = ? WHERE id = ?", [estado, Math.floor((Math.random() * 100000) + 1), id]);
 			    }
 			);	
 			location.href = "index.html";
@@ -329,11 +352,35 @@
         $("#det_categorias").html(res);
         
     }
+
     
-    
-		/***
-		**** Save 'default' data into DB table **
-		***/
+    function CategoriasWebHandler( transaction, results ) {
+        var i=0,
+            row,
+            res="";
+
+        $("#add_categorias").html("");
+        for (i ; i<results.rows.length; i++) {
+
+            row = results.rows.item(i);
+
+            try{
+
+                res += '&nbsp;<div class="list-group-item"><button type="button" id="cat_' + row['id']  + '" value="' + row['nombre'] +'" class="btn btn-lg btn-primary" onclick="addCategoria1(' + row['id'] + ')"> + </button>&nbsp;' + row['nombre'] +'</div>';
+
+            }catch (e){
+                console.log("err ... controlado !");
+            }
+
+        }
+        $("#add_categorias").html(res);
+        
+    }    
+
+
+	/***
+	**** Save 'default' data into DB table **
+	***/
 	function saveAll() {
 		    this.insertUsuario(1);
 	    }
@@ -387,20 +434,30 @@
         var that = this;
         UbikAppDB.transaction(
             function (transaction) {
-                transaction.executeSql("SELECT * FROM categoria;", [], that.CategoriasHandler, that.errorHandler);
+                transaction.executeSql("SELECT * FROM categoria WHERE id in (SELECT id FROM categoria_web);", [], that.CategoriasHandler, that.errorHandler);
             }
         );              
     }
-    
-		/***
-		**** DELETE DB TABLE ** 
-		***/
+
+    function selectCategoriaWeb() {
+        var that = this;
+        UbikAppDB.transaction(
+            function (transaction) {
+                transaction.executeSql("SELECT * FROM categoria_web WHERE id not in (SELECT id FROM categoria);", [], that.CategoriasWebHandler, that.errorHandler);
+            }
+        );              
+    }
+
+	/***
+	**** DELETE DB TABLE ** 
+	***/
 	function dropTables() {
 			var that = this;
 			UbikAppDB.transaction(
 			    function (transaction) {
 			    	transaction.executeSql("DROP TABLE usuario;", [], that.nullDataHandler, that.errorHandler);
 			    	transaction.executeSql("DROP TABLE categoria;", [], that.nullDataHandler, that.errorHandler);
+			    	transaction.executeSql("DROP TABLE categoria_web;", [], that.nullDataHandler, that.errorHandler);			    	
 			    	transaction.executeSql("DROP TABLE promos;", [], that.nullDataHandler, that.errorHandler);
 			    }
 			);
