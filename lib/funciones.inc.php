@@ -41,9 +41,10 @@ error_reporting(-1);
  }
 
 // Al estar insertado este registro no se vuelve a enviar dicha campaña (valoracion es el codigo aleatorio generado por la app)
- function InsCampanaUsuario($idCampana, $uuid, $valoracion){
+
+ function InsCampanaUsuario($idCampana, $uuid, $valoracion) {
  	global $link;
- 	
+
  	$query = 'SELECT 
  	id, nombres, apellidos, email, fechaNacimiento, hashValidacion
  	FROM Usuario 
@@ -540,32 +541,41 @@ function ubikMe($id,$categoriaJSON, $posicionJSON) {
 	/* 	esta funcion debe ser capaz de recibir parametros y traducirlos en envío de campañas
 		adicionalmente debe dejar un registro de las campañas que se envían en un log (registro BBDD)
 	*/
-		$posicion = json_decode($posicionJSON);
+	global $link;
 
-		if(existeCampanaActiva()) {
-		// si existen campañas activas
+	$posicion = json_decode($posicionJSON);
+
+	if(existeCampanaActiva()) { // si existen campañas activas
+		$query = "SELECT a.id, a.Estado_id, b.Campana_id, b.Sucursal_id, c.latitud, c.longitud
+					FROM Campana a, CampanaSucursal b, Sucursal c
+					WHERE Estado_id = 1";
+		$resultado = mysql_query($query,$link);
+
+		while($row = mysql_fetch_assoc($resultado)) {
+			// ciclo que recorre Campañas activas y obtiene su Lat;Lng y Categorias
+			// las compara y si hacen match, las envía
 			if(distancia($latA,$lngA,$latB,$lngB,"K")<0.5) {
 			// si la distancia entre campaña 1 vs posicion usuario es menor a 0.5 Km
-
-			}
-		}
-		return '{"resultado":"sin match"}';
-		break;
-
-		$campanaActiva = verificarCampanaActiva();
-
-		if($campanaActiva) {
-			$distanciaCampana = distancia($posicionJSON,distanciaCampanaActiva());
-
-			/* distancia base para cercania entre punto A y B (en KM) */
-
-			while($distanciaCampana < 0.5) {
-				if(compararCategorias($categoriaJSON,$categoriaCampanaActiva)) {
-					return enviaCampanaMatch();
-					logTransaccion($id,idCampanaActiva());
-				}
 			}
 		}
 	}
+	return '{"resultado":"sin match"}';
+	break;
 
-	?>
+	$campanaActiva = verificarCampanaActiva();
+
+	if($campanaActiva) {
+		$distanciaCampana = distancia($posicionJSON,distanciaCampanaActiva());
+
+		/* distancia base para cercania entre punto A y B (en KM) */
+
+		while($distanciaCampana < 0.5) {
+			if(compararCategorias($categoriaJSON,$categoriaCampanaActiva)) {
+				return enviaCampanaMatch();
+				logTransaccion($id,idCampanaActiva());
+			}
+		}
+	}
+}
+
+?>
