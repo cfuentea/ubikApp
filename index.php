@@ -54,6 +54,14 @@ if(!isset($_GET)) {
 		case "ubikMe":
 			echo ubikMe($_GET['id'],$_GET['pos']);
 			break;
+		
+		case "createUsuarioApp":
+			echo createUsuarioApp($_GET['nombre'], $_GET['apellido'], $_GET['fechaNac'], $_GET['email'], $_GET['uuid']);
+			break;
+
+		case "InsCampanaUsuario":
+			echo InsCampanaUsuario($_GET['idCampana'], $_GET['uuid'], $_GET['valoracion']);
+			break;
 						
 		/*	
 			case "readCategoria":

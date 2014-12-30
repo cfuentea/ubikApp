@@ -41,7 +41,7 @@ CREATE TABLE `Campana` (
   KEY `fk_Campana_Empresa1_idx` (`Empresa_id`),
   CONSTRAINT `fk_Campana_Empresa1` FOREIGN KEY (`Empresa_id`) REFERENCES `Empresa` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
   CONSTRAINT `fk_Campana_estado1` FOREIGN KEY (`Estado_id`) REFERENCES `Estado` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION
-) ENGINE=InnoDB AUTO_INCREMENT=10 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=11 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -50,7 +50,7 @@ CREATE TABLE `Campana` (
 
 LOCK TABLES `Campana` WRITE;
 /*!40000 ALTER TABLE `Campana` DISABLE KEYS */;
-INSERT INTO `Campana` VALUES (1,1,'Celulares Gratis','Ve por tu celular a nuestra tienda en Santiago Centro! te va a gustar.','2014-11-26 20:00:03',500,'2014-11-28','2014-11-30',NULL,NULL,NULL,0,1),(4,1,'NombreCampaÃ±a','Descripcion CampaÃ¡','2014-12-02 21:47:47',500,'0000-00-00','0000-00-00',NULL,NULL,NULL,0,3),(5,1,'Nueva Promocion','Esta promocion es la mejor','2014-12-02 21:48:47',500,'0000-00-00','0000-00-00',NULL,NULL,NULL,0,3),(6,1,'Prueba1','Descripcion de Prueba1','2014-12-02 21:57:08',500,'1984-11-23','1985-11-25',NULL,NULL,NULL,0,3),(8,1,'Mega CampaÃ±a!','Esta si que es buena','2014-12-10 20:54:10',500,'2014-12-10','2014-12-14',NULL,NULL,NULL,0,1),(9,1,'Hiper Promo','Nada mejor que esto','2014-12-13 20:59:50',500,'2014-12-14','2014-12-30',NULL,NULL,NULL,0,1);
+INSERT INTO `Campana` VALUES (1,1,'Celulares Gratis','Ve por tu celular a nuestra tienda en Santiago Centro! te va a gustar.','2014-11-26 20:00:03',500,'2014-11-28','2014-11-30',NULL,NULL,NULL,0,3),(4,1,'NombreCampaÃ±a','Descripcion CampaÃ¡','2014-12-02 21:47:47',500,'0000-00-00','0000-00-00',NULL,NULL,NULL,0,3),(5,1,'Nueva Promocion','Esta promocion es la mejor','2014-12-02 21:48:47',500,'0000-00-00','0000-00-00',NULL,NULL,NULL,0,3),(6,1,'Prueba1','Descripcion de Prueba1','2014-12-02 21:57:08',500,'1984-11-23','1985-11-25',NULL,NULL,NULL,0,3),(8,1,'Mega CampaÃ±a!','Esta si que es buena','2014-12-10 20:54:10',500,'2014-12-10','2014-12-14',NULL,NULL,NULL,0,3),(9,1,'Hiper Promo','Nada mejor que esto','2014-12-13 20:59:50',500,'2014-12-14','2014-12-30',NULL,NULL,NULL,0,3),(10,1,'CampaÃ±a nueva (Valpo)','Esta campaÃ±a es una prueba','2014-12-30 12:17:12',500,'2014-12-31','2014-12-31',NULL,NULL,NULL,0,1);
 /*!40000 ALTER TABLE `Campana` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -70,7 +70,7 @@ CREATE TABLE `CampanaCategoria` (
   KEY `fk_CampanaCategoria_Campana1_idx` (`Campana_id`),
   CONSTRAINT `fk_CampanaCategoria_Campana1` FOREIGN KEY (`Campana_id`) REFERENCES `Campana` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
   CONSTRAINT `fk_CampanaCategoria_Categoria1` FOREIGN KEY (`Categoria_id`) REFERENCES `Categoria` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION
-) ENGINE=InnoDB AUTO_INCREMENT=10 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=12 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -79,7 +79,7 @@ CREATE TABLE `CampanaCategoria` (
 
 LOCK TABLES `CampanaCategoria` WRITE;
 /*!40000 ALTER TABLE `CampanaCategoria` DISABLE KEYS */;
-INSERT INTO `CampanaCategoria` VALUES (5,1,8),(6,5,8),(7,9,8),(8,1,9),(9,2,9);
+INSERT INTO `CampanaCategoria` VALUES (5,1,8),(6,5,8),(7,9,8),(8,1,9),(9,2,9),(10,2,10),(11,3,10);
 /*!40000 ALTER TABLE `CampanaCategoria` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -99,7 +99,7 @@ CREATE TABLE `CampanaSucursal` (
   KEY `fk_CampanaSucursal_Campana1_idx` (`Campana_id`),
   CONSTRAINT `fk_CampanaSucursal_Campana1` FOREIGN KEY (`Campana_id`) REFERENCES `Campana` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
   CONSTRAINT `fk_CampanaSucursal_Sucursal1` FOREIGN KEY (`Sucursal_id`) REFERENCES `Sucursal` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION
-) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -108,7 +108,7 @@ CREATE TABLE `CampanaSucursal` (
 
 LOCK TABLES `CampanaSucursal` WRITE;
 /*!40000 ALTER TABLE `CampanaSucursal` DISABLE KEYS */;
-INSERT INTO `CampanaSucursal` VALUES (1,1,1),(2,1,8),(3,1,9),(4,2,9);
+INSERT INTO `CampanaSucursal` VALUES (1,1,1),(2,1,8),(3,1,9),(4,2,9),(5,4,10);
 /*!40000 ALTER TABLE `CampanaSucursal` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -307,7 +307,7 @@ CREATE TABLE `Sucursal` (
 
 LOCK TABLES `Sucursal` WRITE;
 /*!40000 ALTER TABLE `Sucursal` DISABLE KEYS */;
-INSERT INTO `Sucursal` VALUES (1,1,'Sucursal A','Lira 123',70,'Ventas','2014-11-18 21:48:32','admin',-33.000000,-71.000000),(2,1,'Sucursal B','Lira 500',70,'Atencion','2014-11-18 21:52:48','admin',-33.000000,-71.000000),(4,1,'Santiago a 1000','San MartÃ­n 50, Santiago, RegiÃ³n Metropolitana, Chile',70,'Casa Matriz','2014-12-29 16:30:19','Form_WEB',-33.443951,-70.657524);
+INSERT INTO `Sucursal` VALUES (1,1,'Sucursal A','Lira 123',70,'Ventas','2014-11-18 21:48:32','admin',-33.123001,-71.456001),(2,1,'Sucursal B','Lira 500',70,'Atencion','2014-11-18 21:52:48','admin',-33.789001,-71.012001),(4,1,'Santiago a 1000','San MartÃ­n 50, Santiago, RegiÃ³n Metropolitana, Chile',70,'Casa Matriz','2014-12-29 16:30:19','Form_WEB',-33.443951,-70.657524);
 /*!40000 ALTER TABLE `Sucursal` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -412,4 +412,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2014-12-30 11:41:30
+-- Dump completed on 2014-12-30 15:41:51
