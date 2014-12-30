@@ -50,6 +50,10 @@ if(!isset($_GET)) {
 		case "readCategoria":
 			echo readCategoria();
 			break;
+
+		case "ubikMe":
+			echo ubikMe($_GET['id'],$_GET['pos']);
+			break;
 						
 		/*	
 			case "readCategoria":

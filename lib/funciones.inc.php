@@ -3,10 +3,10 @@ include('db.inc.php');
 include('base_helper.php');
 
 // Mostramos errores
-ini_set('display_errors',1);
+/*ini_set('display_errors',1);
 ini_set('display_startup_errors',1);
 error_reporting(-1);
-
+*/
 /*
  Inicio funciones App Android - Usuario
  */
@@ -72,7 +72,7 @@ error_reporting(-1);
  	$query = 'SELECT
  	id, Empresa_id, nombre, descripcion, fechaIngreso, distanciaCampana, fechaInicio, fechaFin, Estado_id
  	FROM Campana
- 	WHERE Estado_id = 1';
+ 	WHERE id = 9';
  	$resultado = mysql_query($query,$link);
  	$row = mysql_fetch_assoc($resultado);
 
@@ -531,35 +531,42 @@ function existeCampanaActiva() {
 	global $link;
 	$query = "SELECT * FROM Campana
 	WHERE Estado_id = 1";
-	return mysql_query($query,$link) ? false : true;
+	return mysql_query($query,$link) ? true : false;
 
 }
 
-
-function ubikMe($id,$categoriaJSON, $posicionJSON) {
+function ubikMe($id, $posicion) {
 	
 	/* 	esta funcion debe ser capaz de recibir parametros y traducirlos en envío de campañas
 		adicionalmente debe dejar un registro de las campañas que se envían en un log (registro BBDD)
 	*/
 	global $link;
+	
+	$pos = json_decode($posicion,true);
 
-	$posicion = json_decode($posicionJSON);
+	$latUser = $pos['lat'];
+	$lngUser = $pos['lng'];
 
 	if(existeCampanaActiva()) { // si existen campañas activas
-		$query = "SELECT a.id, a.Estado_id, b.Campana_id, b.Sucursal_id, c.latitud, c.longitud
+		$query = "SELECT a.id as idCampana, a.Estado_id, b.Sucursal_id, c.id, c.latitud, c.longitud
 					FROM Campana a, CampanaSucursal b, Sucursal c
-					WHERE Estado_id = 1";
+					WHERE a.Estado_id = 1 AND a.id = b.Campana_id AND b.Sucursal_id = c.id";
 		$resultado = mysql_query($query,$link);
 
 		while($row = mysql_fetch_assoc($resultado)) {
-			// ciclo que recorre Campañas activas y obtiene su Lat;Lng y Categorias
-			// las compara y si hacen match, las envía
-			if(distancia($latA,$lngA,$latB,$lngB,"K")<0.5) {
+		// ciclo que recorre Campañas activas y obtiene su Lat;Lng y Categorias
+		// las compara y si hacen match, las envía
+			if(floatval(distancia($row['latitud'],$row['longitud'],$latUser,$lngUser,"K")) < 0.5) {
 			// si la distancia entre campaña 1 vs posicion usuario es menor a 0.5 Km
+				echo readCampana();
+				break;
+			} else {
+				return '{"resultado":"error_lejano"}';
+				break;
 			}
 		}
 	}
-	return '{"resultado":"sin match"}';
+	return '{"resultado":"sin_match"}';
 	break;
 
 	$campanaActiva = verificarCampanaActiva();
