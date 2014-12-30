@@ -10,8 +10,10 @@ error_reporting(-1);
 /*
  Inicio funciones App Android - Usuario
  */
- 
+
  function createUsuarioApp($nombre, $apellido, $fechaNac, $email, $uuid) {
+ 	global $link;
+
  	$query = 'SELECT 
  	id, nombres, apellidos, email, fechaNacimiento, hashValidacion
  	FROM Usuario 
@@ -40,6 +42,8 @@ error_reporting(-1);
 
 // Al estar insertado este registro no se vuelve a enviar dicha campaña (valoracion es el codigo aleatorio generado por la app)
  function InsCampanaUsuario($idCampana, $uuid, $valoracion){
+ 	global $link;
+ 	
  	$query = 'SELECT 
  	id, nombres, apellidos, email, fechaNacimiento, hashValidacion
  	FROM Usuario 
@@ -70,24 +74,24 @@ error_reporting(-1);
  	WHERE Estado_id = 1';
  	$resultado = mysql_query($query,$link);
  	$row = mysql_fetch_assoc($resultado);
- 	
+
  	$a = array_merge($row,array('Sucursales' => readCampanaSucursal()));
- 	
+
  	return json_encode($a);
- 	
+
  }
 
  function readCampanaSucursal() {
  	global $link;
- 	
+
  	$query = 'SELECT a.id, a.Sucursal_id, b.nombre, a.Campana_id
  	FROM CampanaSucursal a, Sucursal b
  	WHERE a.Campana_id = 1';
  	$resultado = mysql_query($query,$link);
 	//$row = mysql_fetch_assoc($resultado);
- 	
+
  	$arr = array();
- 	
+
  	while($row = mysql_fetch_assoc($resultado)) { 
  		$arr[] = $row;
  	}
@@ -103,47 +107,47 @@ error_reporting(-1);
  */
 
  function readCategoria() {
- 	
+
  	global $link;
  	$query = 'SELECT 
  	id, nombre, descripcion
  	FROM Categoria ';
- 	
+
  	$resultado = mysql_query($query,$link);
  	$arr = array();
- 	
+
  	while($row = mysql_fetch_assoc($resultado)) { 
  		$arr[] = $row;
  	}
  	return json_encode($arr);
- 	
- 	
+
+
  }
 
  function createCategoria($datoJSON) {
  	global $link;
  	$arr = json_decode($datoJSON, true);
- 	
+
  	$nombre = $arr['nombre'];
  	$descripcion = $arr['descripcion'];
- 	
+
  	$query = 'INSERT INTO Categoria (nombre, descripcion, ownerIngreso, fechaIngreso)
  	VALUES ("'.$nombre.'","'.$descripcion.'","WS-user",now())';
 
  	$resultado = mysql_query($query,$link);
  	return '{"resultado":"ok"}';
- 	
- 	
+
+
  }
 
  function updateCategoria($datoJSON) {
  	global $link;
  	$arr = json_decode($datoJSON, true);
- 	
+
  	$id = $arr['id'];
  	$nombre = $arr['nombre'];
  	$apellido = $arr['descripcion'];
- 	
+
  	$query = 'UPDATE Categoria SET 
  	nombre = "'.$nombre.'",
  	descripcion = "'.$apellido.'",
@@ -154,8 +158,8 @@ error_reporting(-1);
 
  	$resultado = mysql_query($query,$link);
  	return '{"resultado":"ok"}';
- 	
- 	
+
+
  }
 
  function deleteCategoria($id) {
@@ -163,7 +167,7 @@ error_reporting(-1);
  	$query = 'DELETE FROM Categoria WHERE id = '.$id.'';
  	$resultado = mysql_query($query,$link);
  	return '{"resultado":"ok"}';
- 	
+
  }
 
 /*
@@ -176,29 +180,29 @@ error_reporting(-1);
 
  function readUsuario($idUsuario) {
  	global $link;
- 	
+
  	$query = 'SELECT 
  	id, nombres, apellidos,email,fechaNacimiento, Comuna_id, password, fechaRegistro
  	FROM Usuario 
  	WHERE id = '.$idUsuario.'';
- 	
+
  	$resultado = mysql_query($query,$link);
  	$row = mysql_fetch_assoc($resultado); 
  	return json_encode($row);
- 	
+
  }
 
 
 
  function createUsuario($datoJSON) {
- 	
+
 	/* Como funcion adicional, el resultado debe entregar el ID del usuario que creó
 	 * para esto, debemos definir un ID único (podría ser el email) con el cual
 	 * verificar cual es el ID del usuario recién creado
 	 *
 	 * update 14/12/2014: usar mysql_insert_id(); para obtener ultimo id incremental
 	 */
-	
+
 	global $link;
 	$arr = json_decode($datoJSON, true);
 	
@@ -209,7 +213,7 @@ error_reporting(-1);
 	$Comuna_id = $arr['Comuna_id'];
 	$password = $arr['password'];
 	$fechaRegistro = "now()";
-	
+
 	$query = 'INSERT INTO Usuario 
 	(nombres, apellidos, email, fechaNacimiento, Comuna_id, password, fechaRegistro) 
 	VALUES 
@@ -245,7 +249,7 @@ function updateUsuario($idUsuario,$datoJSON) {
 
 	$resultado = mysql_query($query,$link);
 	return '{"resultado":"ok"}';
-	
+
 
 }
 
@@ -345,7 +349,7 @@ function readSucursal($idEmpresa) {
 		';
 	}
 	
-	
+
 }
 
 function getIdEmpresa($id) {
@@ -423,7 +427,7 @@ function listarCampanaEditar($idEmpresa) {
 	<td></td>
 	<td></td>
 	</tr>';
-	
+
 	while($row = mysql_fetch_assoc($resultado)) {
 		echo '<tr>
 		<td>'.$row['id'].'</td>
@@ -469,7 +473,7 @@ function listarSucursalEditar($idEmpresa) {
 	<td></td>
 	<td></td>
 	</tr>';
-	
+
 	while($row = mysql_fetch_assoc($resultado)) {
 		echo '<tr>
 		<td>'.$row['id'].'</td>
@@ -549,12 +553,12 @@ function ubikMe($id,$categoriaJSON, $posicionJSON) {
 		break;
 
 		$campanaActiva = verificarCampanaActiva();
-		
+
 		if($campanaActiva) {
 			$distanciaCampana = distancia($posicionJSON,distanciaCampanaActiva());
 
 			/* distancia base para cercania entre punto A y B (en KM) */
-			
+
 			while($distanciaCampana < 0.5) {
 				if(compararCategorias($categoriaJSON,$categoriaCampanaActiva)) {
 					return enviaCampanaMatch();
