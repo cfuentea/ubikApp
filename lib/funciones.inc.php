@@ -63,8 +63,28 @@ error_reporting(-1);
 /*
  Inicio CRUD Campana 
  */
+function readCampanaSola($id) {
+	global $link;
 
- function readCampana() {
+	$query = 'SELECT
+ 				id, 
+ 				Empresa_id, 
+ 				nombre, 
+ 				descripcion, 
+ 				fechaIngreso, 
+ 				distanciaCampana, 
+ 				fechaInicio, 
+ 				fechaFin, 
+ 				Estado_id
+ 	FROM Campana
+ 	WHERE id = '.$id.'';
+ 	$resultado = mysql_query($query,$link);
+ 	$row = mysql_fetch_assoc($resultado);
+
+ 	return json_encode($row);
+}
+
+function readCampana() {
  	global $link;
 
 	// La query debe mostrar la campanaña y las sucursales asociadas, sin embargo debe existir cierta logica para
@@ -558,7 +578,7 @@ function ubikMe($id, $posicion) {
 		// las compara y si hacen match, las envía
 			if(floatval(distancia($row['latitud'],$row['longitud'],$latUser,$lngUser,"K")) < 0.5) {
 			// si la distancia entre campaña 1 vs posicion usuario es menor a 0.5 Km
-				echo readCampana();
+				echo readCampanaSola($row['idCampana']);
 				break;
 			} else {
 				return '{"resultado":"error_lejano"}';
@@ -568,21 +588,6 @@ function ubikMe($id, $posicion) {
 	}
 	return '{"resultado":"sin_match"}';
 	break;
-
-	$campanaActiva = verificarCampanaActiva();
-
-	if($campanaActiva) {
-		$distanciaCampana = distancia($posicionJSON,distanciaCampanaActiva());
-
-		/* distancia base para cercania entre punto A y B (en KM) */
-
-		while($distanciaCampana < 0.5) {
-			if(compararCategorias($categoriaJSON,$categoriaCampanaActiva)) {
-				return enviaCampanaMatch();
-				logTransaccion($id,idCampanaActiva());
-			}
-		}
-	}
 }
 
 ?>
