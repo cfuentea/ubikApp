@@ -7,6 +7,7 @@ include('base_helper.php');
 ini_set('display_startup_errors',1);
 error_reporting(-1);
 */
+
 /*
  Inicio funciones App Android - Usuario
  */
@@ -53,11 +54,11 @@ error_reporting(-1);
  	$query = 'SELECT 
  				id, nombres, apellidos, email, fechaNacimiento, hashValidacion
  				FROM Usuario 
- 				WHERE hashValidacion = '.$uuid.'';
+ 				WHERE hashValidacion like "'.$uuid.'"';
  	$resultado = mysql_query($query, $link);
  	$row = mysql_fetch_assoc($resultado);
  	
- 	$query = 'INSERT INTO Usuario 
+ 	$query = 'INSERT INTO UsuarioCampana
  				(Usuario_id, Campana_id, valoracion) 
  				VALUES 
  				('.$row['id'].','.$idCampana.',"'.$valoracion.'")';
@@ -148,7 +149,6 @@ function readCampana() {
  		$arr[] = $row;
  	}
  	return json_encode($arr);
-
 
  }
 
