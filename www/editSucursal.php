@@ -1,10 +1,6 @@
 <?php
 include('../lib/funciones.inc.php');
 
-ini_set('display_errors',1);
-ini_set('display_startup_errors',1);
-error_reporting(-1);
-
 session_start();
 $_SESSION['pagina'] = "editSucursal";
 
@@ -166,8 +162,8 @@ if($_SESSION['userId']==0) {
                             <div class="panel-body">
                                 <form method="get">
                                     <?php
-                                    if($_GET) { 
-                                        eliminarSucursal($_GET['id'],$_GET['op']);
+                                    if($_GET['id']) { 
+                                        eliminarSucursal($_GET['id']);
                                         header("Location: editSucursal.php");
                                     }
 

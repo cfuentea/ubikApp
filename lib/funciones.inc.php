@@ -497,32 +497,42 @@ function listarSucursalEditar($idEmpresa) {
 	<td>&nbsp;Nombre Sucursal&nbsp;</td>
 	<td>Direcci&oacute;n</td>
 	<td>Tipo de Sucursal</td>
-	<td>Comuna</td>
 	<td></td>
 	<td></td>
 	</tr>';
 
 	while($row = mysql_fetch_assoc($resultado)) {
-		echo '<tr>
+		echo '<tr style="text-align:center;">
 		<td>'.$row['id'].'</td>
 		<td>'.$row['nombre'].'</td>
 		<td>'.$row['direccion'].'</td>
 		<td>'.$row['tipoSucursal'].'</td>
-		<td>'.$row['Comuna_id'].'</td>
-		<td><a href="#"><button type="button">Editar</button></a></td>
-		<td><a href="#"><button type="button" style="background-color: red; color:white;">Eliminar</button></a></td>			
+		<td></td>
+		<td><a href="?id='.$row['id'].'&op=del"><button type="button" style="background-color: red; color:white;">Eliminar</button></a></td>			
 		</tr>';
 	}
 	echo '</table>';
 }
 
+function eliminarSucursal($id) {
+	global $link;
+
+	$queryA = "DELETE FROM CampanaSucursal WHERE Sucursal_id = ".$id."";
+	$queryB = "DELETE FROM Sucursal WHERE id = ".$id."";
+	$resultadoA = mysql_query($queryA,$link);
+	$resultadoB = mysql_query($queryB,$link);
+
+	echo $query;
+}
+
 function editarCampana($idCampana) {
 	global $link;
+
 	$query = 'SELECT a.id, a.Empresa_id, a.nombre, a.descripcion, a.fechaInicio, a.fechaFin, a.Estado_id
-	FROM Campana a, CampanaCategoria b, CampanaSucursal c
-	WHERE a.id = '.$idCampana.' ';
+				FROM Campana a, CampanaCategoria b, CampanaSucursal c
+				WHERE a.id = '.$idCampana.' ';
 	
-	
+	// funcion pendiente
 }
 
 function listarCiudad() {
