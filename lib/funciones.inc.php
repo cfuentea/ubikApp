@@ -461,7 +461,7 @@ function listarCampanaEditar($idEmpresa) {
 		<td>'.$row['id'].'</td>
 		<td>'.$row['nombre'].'</td>
 		<td>'.$row['descripcion'].'</td>
-		<td><a href="#"><button type="button">Editar</button></a></td>
+		<td><a href="editCampanaIndividual.php?idCampana='.$row['id'].'"><button type="button">Editar</button></a></td>
 		<td>'.checkStatusCampana($row['Estado_id'],$row['id']).'</td>				
 		</tr>';
 	}
