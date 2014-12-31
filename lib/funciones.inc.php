@@ -14,30 +14,35 @@ error_reporting(-1);
  function createUsuarioApp($nombre, $apellido, $fechaNac, $email, $uuid) {
  	global $link;
 
- 	$query = 'SELECT 
- 	id, nombres, apellidos, email, fechaNacimiento, hashValidacion
- 	FROM Usuario 
- 	WHERE hashValidacion = '.$uuid.'';
+ 	$query = 'SELECT id, nombres, apellidos, email, fechaNacimiento, hashValidacion
+ 				FROM Usuario 
+ 				WHERE hashValidacion like "'.$uuid.'"';
  	$resultado = mysql_query($query, $link);
- 	if( mysql_num_rows($resultado) > 0) {
+ 	
+ 	if(mysql_num_rows($resultado) > 0) {
  		$query = 'UPDATE Usuario SET 
- 		nombres = "'.$nombre.'",
- 		apellidos = "'.$apellido.'",
- 		email = "'.$email.'",
- 		fechaNacimiento = "'.$fechaNac.'"
- 		WHERE
- 		hashValidacion = "'.$uuid.'"';
+ 						nombres = "'.$nombre.'",
+ 						apellidos = "'.$apellido.'",
+ 						email = "'.$email.'",
+ 						fechaNacimiento = STR_TO_DATE("'.$fechaNac.'","%Y-%m-%d")
+ 					WHERE
+ 						hashValidacion = "'.$uuid.'"';
  		$resultado = mysql_query($query, $link);
+
+ 		return '{"resultado":"update_ok"}';
  	}
  	else
  	{
  		$query = 'INSERT INTO Usuario 
- 		(nombres, apellidos, email, fechaNacimiento, hashValidacion) 
- 		VALUES 
- 		("'.$nombre.'","'.$apellido.'","'.$email.'","'.$fechaNac.'","'.$uuid.'")';
+ 					(nombres, apellidos, email, fechaNacimiento, Comuna_id, hashValidacion, fechaRegistro) 
+ 				VALUES 
+ 					("'.$nombre.'","'.$apellido.'","'.$email.'",STR_TO_DATE("'.$fechaNac.'","%Y-%m-%d"),70,"'.$uuid.'",now())';
  		$resultado = mysql_query($query, $link);
+
+ 		//echo $query;
+ 		return '{"resultado":"insert_ok"}';
  	}
- 	return '{"resultado":"ok"}';
+ 	
  }
 
 // Al estar insertado este registro no se vuelve a enviar dicha campaña (valoracion es el codigo aleatorio generado por la app)
@@ -46,16 +51,18 @@ error_reporting(-1);
  	global $link;
 
  	$query = 'SELECT 
- 	id, nombres, apellidos, email, fechaNacimiento, hashValidacion
- 	FROM Usuario 
- 	WHERE hashValidacion = '.$uuid.'';
+ 				id, nombres, apellidos, email, fechaNacimiento, hashValidacion
+ 				FROM Usuario 
+ 				WHERE hashValidacion = '.$uuid.'';
  	$resultado = mysql_query($query, $link);
  	$row = mysql_fetch_assoc($resultado);
+ 	
  	$query = 'INSERT INTO Usuario 
- 	(Usuario_id, Campana_id, valoracion) 
- 	VALUES 
- 	('.$row['id'].','.$idCampana.',"'.$valoracion.'")';
+ 				(Usuario_id, Campana_id, valoracion) 
+ 				VALUES 
+ 				('.$row['id'].','.$idCampana.',"'.$valoracion.'")';
  	$resultado = mysql_query($query, $link);
+ 	
  	return '{"resultado":"ok"}';
 
  }
@@ -578,6 +585,8 @@ function ubikMe($id, $posicion) {
 		// las compara y si hacen match, las envía
 			if(floatval(distancia($row['latitud'],$row['longitud'],$latUser,$lngUser,"K")) < 0.5) {
 			// si la distancia entre campaña 1 vs posicion usuario es menor a 0.5 Km
+				
+
 				echo readCampanaSola($row['idCampana']);
 				break;
 			} else {

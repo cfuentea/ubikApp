@@ -356,9 +356,7 @@ CREATE TABLE `UsuarioCampana` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `Usuario_id` int(11) NOT NULL,
   `Campana_id` varchar(45) DEFAULT NULL,
-  `Categoria_id` varchar(45) DEFAULT NULL,
   `fechaUso` date DEFAULT NULL,
-  `fechaEliminacion` date DEFAULT NULL,
   `valoracion` varchar(45) DEFAULT NULL,
   PRIMARY KEY (`id`),
   KEY `fk_UsuarioCampana_Usuario1_idx` (`Usuario_id`),
@@ -412,4 +410,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2014-12-30 15:41:51
+-- Dump completed on 2014-12-31 15:27:23
