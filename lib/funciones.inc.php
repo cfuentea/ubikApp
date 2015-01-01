@@ -613,6 +613,19 @@ function ubikMe($id, $posicion) {
  Estadisticas
  */
 
+function getEstado($estado) {
+	global $link;
+
+	$query = "SELECT nombreEstado
+				FROM Estado
+				WHERE id = ".$estado."";
+	$resultado = mysql_query($query,$link);
+
+	$row = mysql_fetch_assoc($resultado);
+
+	return $row['nombreEstado'];
+}
+
 function estadisticaArea($idEmpresa) {
 	global $link;
 
@@ -683,7 +696,7 @@ function estadisticaDona($idEmpresa) {
 			$coma = "";
 		}
 		//echo "i==>".$i."\n";
-		echo "['".$row['Estado_id']."',".$row['cant']."]".$coma;
+		echo "['".getEstado($row['Estado_id'])."',".$row['cant']."]".$coma;
 		$i++;
 	}
 

@@ -171,9 +171,9 @@ if($_SESSION['userId']==0) {
                         <!-- /.panel-heading -->
                         <div class="panel-body">
                             <!-- Chart area -->
-                            <div id="chart_div" style="width: 900px; height: 500px;"></div>
+                            <div id="chart_div" style="width: 80%; height: 400px;"></div>
                             <!-- Chart dona -->
-                            <div id="donutchart" style="width: 900px; height: 500px;"></div>
+                            <div id="donutchart" style="width: 80%; height: 400px;"></div>
                             <!--<div id="morris-area-chart"></div>-->
                             <!--<div id="morris-donut-chart"></div>-->
                         </div>
