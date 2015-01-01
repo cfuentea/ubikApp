@@ -44,10 +44,10 @@ if($_SESSION['userId']==0) {
     <!-- calcula la estadistica de Área -->
     <script type="text/javascript" src="https://www.google.com/jsapi"></script>
     <script type="text/javascript">
-        <?=estadisticaArea($_SESSION['userId']);?>
+        <?=estadisticaArea(getIdEmpresa($_SESSION['userId']));?>
     </script>
     <script type="text/javascript">
-        <?=estadisticaDona($_SESSION['userId']);?>
+        <?=estadisticaDona(getIdEmpresa($_SESSION['userId']));?>
     </script>
 </head>
 

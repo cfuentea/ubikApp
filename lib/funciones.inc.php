@@ -627,7 +627,6 @@ function estadisticaArea($idEmpresa) {
 	$rowC = mysql_num_rows($resultado);
 	$i = 1;
 	//echo "cantidad: ".$rowC;
-
 	echo 'google.load("visualization", "1", {packages:["corechart"]});
       		google.setOnLoadCallback(drawChart);
       		function drawChart() {
@@ -666,9 +665,38 @@ function estadisticaDona($idEmpresa) {
 				FROM Campana 
 				WHERE Empresa_id = ".$idEmpresa."
 				GROUP BY Estado_id";
-	$resultado = mysql_query($query,$link);
-
 	
+	$resultado = mysql_query($query,$link);
+	$rowC = mysql_num_rows($resultado);
+	$i = 1;
+
+	echo 'google.load("visualization", "1", {packages:["corechart"]});
+      	google.setOnLoadCallback(drawChart);
+      	function drawChart() {
+        var data = google.visualization.arrayToDataTable([
+          [\'Estado\', \'Q\'],'."\n";
+
+    while($row = mysql_fetch_assoc($resultado)) {
+		if($i < $rowC) {
+			$coma = ",";
+		} else {
+			$coma = "";
+		}
+		//echo "i==>".$i."\n";
+		echo "['".$row['Estado_id']."',".$row['cant']."]".$coma;
+		$i++;
+	}
+
+	echo "]);
+
+        	var options = {
+          		title: 'Estado de Campañas (Q Total)',
+          		pieHole: 0.4,
+        	};
+
+        	var chart = new google.visualization.PieChart(document.getElementById('donutchart'));
+        	chart.draw(data, options);
+      	}";
 }
 
 ?>
