@@ -41,7 +41,14 @@ if($_SESSION['userId']==0) {
         <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
         <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
     <![endif]-->
-
+    <!-- calcula la estadistica de Área -->
+    <script type="text/javascript" src="https://www.google.com/jsapi"></script>
+    <script type="text/javascript">
+        <?=estadisticaArea($_SESSION['userId']);?>
+    </script>
+    <script type="text/javascript">
+        <?=estadisticaDona($_SESSION['userId']);?>
+    </script>
 </head>
 
 <body>
@@ -156,16 +163,19 @@ if($_SESSION['userId']==0) {
             </div>
             <!-- /.row -->
             <div class="row">
-                <div class="col-lg-8">
+                <div class="col-lg-8-">
                     <div class="panel panel-default">
                         <div class="panel-heading">
                             <i class="fa fa-bar-chart-o fa-fw"></i> Estado de Campa&ntilde;as                         
                         </div>
                         <!-- /.panel-heading -->
                         <div class="panel-body">
-                            <div id="morris-area-chart"></div>
-                            <div id="morris-donut-chart"></div>
-							<!-- <div id="mapa" style="width:500px;height:250px;"></div> -->
+                            <!-- Chart area -->
+                            <div id="chart_div" style="width: 900px; height: 500px;"></div>
+                            <!-- Chart dona -->
+                            <div id="donutchart" style="width: 900px; height: 500px;"></div>
+                            <!--<div id="morris-area-chart"></div>-->
+                            <!--<div id="morris-donut-chart"></div>-->
                         </div>
                         <!-- /.panel-body -->
                     </div>

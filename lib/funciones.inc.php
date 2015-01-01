@@ -609,4 +609,66 @@ function ubikMe($id, $posicion) {
 	break;
 }
 
+/*
+ Estadisticas
+ */
+
+function estadisticaArea($idEmpresa) {
+	global $link;
+
+	$query = "SELECT count(*) as cant, a.fechaUso
+				FROM UsuarioCampana a, Campana b
+				WHERE 
+					a.Campana_id = b.id AND b.Empresa_id = ".$idEmpresa."
+				GROUP BY a.fechaUso";
+
+	$resultado = mysql_query($query,$link);
+	
+	$rowC = mysql_num_rows($resultado);
+	$i = 1;
+	//echo "cantidad: ".$rowC;
+
+	echo 'google.load("visualization", "1", {packages:["corechart"]});
+      		google.setOnLoadCallback(drawChart);
+      		function drawChart() {
+        	var data = google.visualization.arrayToDataTable([
+          		[\'Año\', \'Uso\'],'."\n";
+
+	while($row = mysql_fetch_assoc($resultado)) {
+		if($i < $rowC) {
+			$coma = ",";
+		} else {
+			$coma = "";
+		}
+		//echo "i==>".$i."\n";
+		echo "['".$row['fechaUso']."',".$row['cant']."]".$coma;
+		$i++;
+	}	
+
+	echo "]);
+			
+			var options = {
+          	title: 'Cantidad de uso de campañas',
+          	curveType: 'function',
+          	hAxis: {title: 'Year',  titleTextStyle: {color: '#333'}},
+          	vAxis: {minValue: 0}
+        	};
+
+        	var chart = new google.visualization.AreaChart(document.getElementById('chart_div'));
+        	chart.draw(data, options);
+      		}";
+}
+
+function estadisticaDona($idEmpresa) {
+	global $link;
+
+	$query = "SELECT count(*) as cant, Estado_id
+				FROM Campana 
+				WHERE Empresa_id = ".$idEmpresa."
+				GROUP BY Estado_id";
+	$resultado = mysql_query($query,$link);
+
+	
+}
+
 ?>
