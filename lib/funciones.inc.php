@@ -572,33 +572,54 @@ function existeCampanaActiva() {
 
 }
 
-function ubikMe($id, $posicion) {
+function ubikMe($id, $posicion, $categoria) {
 	
 	/* 	esta funcion debe ser capaz de recibir parametros y traducirlos en envío de campañas
 		adicionalmente debe dejar un registro de las campañas que se envían en un log (registro BBDD)
 	*/
 	global $link;
-	
+
+	$cat = json_decode($categoria,true);
 	$pos = json_decode($posicion,true);
 
 	$latUser = $pos['lat'];
 	$lngUser = $pos['lng'];
+	$listaCategoria = $cat['categoria']
+	$categorias = explode(",",$listaCategoria);
+	
+	// $largoCategoria = sizeof($categorias);
 
 	if(existeCampanaActiva()) { // si existen campañas activas
 		$query = "SELECT a.id as idCampana, a.Estado_id, b.Sucursal_id, c.id, c.latitud, c.longitud
-					FROM Campana a, CampanaSucursal b, Sucursal c
-					WHERE a.Estado_id = 1 AND a.id = b.Campana_id AND b.Sucursal_id = c.id";
+					FROM Campana as a, CampanaSucursal as b, Sucursal as c, Usuario as d
+					WHERE a.Estado_id = 1 
+					AND a.id = b.Campana_id 
+					AND b.Sucursal_id = c.id
+					AND a.id NOT IN (SELECT Campana_id FROM UsuarioCampana)
+					LIMIT 1";
 		$resultado = mysql_query($query,$link);
-
+		$i = 0;
 		while($row = mysql_fetch_assoc($resultado)) {
 		// ciclo que recorre Campañas activas y obtiene su Lat;Lng y Categorias
 		// las compara y si hacen match, las envía
 			if(floatval(distancia($row['latitud'],$row['longitud'],$latUser,$lngUser,"K")) < 0.5) {
 			// si la distancia entre campaña 1 vs posicion usuario es menor a 0.5 Km
-				
+				while($categorias) {
+					// ciclo que compara las categorias Array(); vs las campañas 
+					$queryCategoria = "SELECT a.*, b.* FROM CampanaCategoria a, Campana b
+					WHERE b.id = $row['idCampana']
+					AND b.id = a.Campana_id
+					AND a.Categoria_id = ".$categorias[$i]."";
 
-				echo readCampanaSola($row['idCampana']);
-				break;
+					$resultadoCategoria = mysql_query($queryCategoria,$link);
+					if($resultadoCategoria) {
+						// retorno campaña que hace match y cierro proceso
+						echo readCampanaSola($row['idCampana']);
+						break;
+					} else {
+						$i++;
+					}
+				}
 			} else {
 				return '{"resultado":"error_lejano"}';
 				break;
