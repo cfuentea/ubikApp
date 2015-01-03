@@ -60,9 +60,9 @@ error_reporting(-1);
  	$row = mysql_fetch_assoc($resultado);
  	
  	$query = 'INSERT INTO UsuarioCampana
- 				(Usuario_id, Campana_id, valoracion) 
+ 				(Usuario_id, Campana_id, fechaUso, valoracion) 
  				VALUES 
- 				('.$row['id'].','.$idCampana.',"'.$valoracion.'")';
+ 				('.$row['id'].','.$idCampana.',now(), "'.$valoracion.'")';
  	$resultado = mysql_query($query, $link);
  	
  	return '{"resultado":"ok"}';
