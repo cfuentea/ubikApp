@@ -52,7 +52,7 @@ if(!isset($_GET)) {
 			break;
 
 		case "ubikMe":
-			echo ubikMe($_GET['id'],$_GET['pos']);
+			echo ubikMe($_GET['uuid'],$_GET['pos']);
 			break;
 		
 		case "createUsuarioApp":
