@@ -153,7 +153,9 @@ function readCampanaSola($id) {
  				fechaIngreso, 
  				distanciaCampana, 
  				fechaInicio, 
- 				fechaFin, 
+ 				fechaFin,
+ 				latitud,
+ 				longitud, 
  				Estado_id
  	FROM Campana
  	WHERE id = '.$id.'';
