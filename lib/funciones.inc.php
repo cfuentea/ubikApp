@@ -3,9 +3,10 @@ include('db.inc.php');
 include('base_helper.php');
 
 // Mostramos errores
-ini_set('display_errors',1);
+/*ini_set('display_errors',1);
 ini_set('display_startup_errors',1);
-error_reporting(E_ALL);
+error_reporting(-1);
+*/
 
 /*
  Inicio funciones App Android - Usuario
@@ -66,77 +67,6 @@ error_reporting(E_ALL);
  	return '{"resultado":"ok"}';
 
  }
-
-/* Inicio funciones cyanez*/
-function createEmpresa($datoJSON) {
-
-	/* Como funcion adicional, el resultado debe entregar el ID del usuario que creó
-	 * para esto, debemos definir un ID único (podría ser el email) con el cual
-	 * verificar cual es el ID del usuario recién creado
-	 *
-	 * update 14/12/2014: usar mysql_insert_id(); para obtener ultimo id incremental
-	 */
-
-	global $link;
-	$arr = json_decode($datoJSON, true);
-	
-	$nombre = $arr['nombre'];
-	$nombreFantasia = $arr['nombreFantasia'];
-	$rut = $arr['rut'];
-	$direccionCasaCentral = $arr['direccionCasaCentral'];
-	$telefoFijo = $arr['telefoFijo'];
-	$representanteLegal = $arr['representanteLegal'];
-	$emailContacto = $arr['emailContacto'];
-	$fechaIngreso = "now()";
-	$password = $arr['password'];
-
-	$query = 'INSERT INTO Empresa 
-	(nombre, nombreFantasia, rut, direccionCasaCentral, telefoFijo, representanteLegal, emailContacto, fechaIngreso, password) 
-	VALUES 
-	("'.$nombre.'","'.$nombreFantasia.'","'.$rut.'","'.$direccionCasaCentral.'",
-		'.$telefoFijo.',"'.$representanteLegal.'","'.$emailContacto.'",'.$fechaIngreso.',"'.$password.'")';
-
-	$resultado = mysql_query($query,$link);
-	return '{"resultado":"ok"}';
-
-}
-
-function updateEmpresa($idUsuario,$datoJSON) {
-
-	global $link;
-	$arr = json_decode($datoJSON, true);
-	
-	$nombre = $arr['nombre'];
-	$nombreFantasia = $arr['nombreFantasia'];
-	$rut = $arr['rut'];
-	$direccionCasaCentral = $arr['direccionCasaCentral'];
-	$telefoFijo = $arr['telefoFijo'];
-	$representanteLegal = $arr['representanteLegal'];
-	$emailContacto = $arr['emailContacto'];
-	$fechaIngreso = "now()"; 
-	$password = $arr['password'];
-	
-	$query = 'UPDATE Usuario SET 
-	nombre = "'.$nombre.'",
-	nombreFantasia = "'.$nombreFantasia.'",
-	rut = "'.$rut.'",
-	direccionCasaCentral = "'.$direccionCasaCentral.'",
-	telefoFijo = '.$telefoFijo.',
-	representanteLegal = '.$representanteLegal.',
-	emailContacto = '.$emailContacto.',
-	fechaIngreso = '.$fechaIngreso.',
-	password = "'.$password.'"
-	WHERE
-	id = '.$idUsuario.'';
-
-	$resultado = mysql_query($query,$link);
-	return '{"resultado":"ok"}';
-
-
-}
-
-/* Fin funciones cyanez*/
-
 
 /*
  Inicio CRUD Campana 
@@ -642,54 +572,33 @@ function existeCampanaActiva() {
 
 }
 
-function ubikMe($id, $posicion, $categoria) {
+function ubikMe($id, $posicion) {
 	
 	/* 	esta funcion debe ser capaz de recibir parametros y traducirlos en envío de campañas
 		adicionalmente debe dejar un registro de las campañas que se envían en un log (registro BBDD)
 	*/
 	global $link;
-
-	$cat = json_decode($categoria,true);
+	
 	$pos = json_decode($posicion,true);
 
 	$latUser = $pos['lat'];
 	$lngUser = $pos['lng'];
-	$listaCategoria = $cat['categoria']
-	$categorias = explode(",",$listaCategoria);
-	
-	// $largoCategoria = sizeof($categorias);
 
 	if(existeCampanaActiva()) { // si existen campañas activas
 		$query = "SELECT a.id as idCampana, a.Estado_id, b.Sucursal_id, c.id, c.latitud, c.longitud
-					FROM Campana as a, CampanaSucursal as b, Sucursal as c, Usuario as d
-					WHERE a.Estado_id = 1 
-					AND a.id = b.Campana_id 
-					AND b.Sucursal_id = c.id
-					AND a.id NOT IN (SELECT Campana_id FROM UsuarioCampana)
-					LIMIT 1";
+					FROM Campana a, CampanaSucursal b, Sucursal c
+					WHERE a.Estado_id = 1 AND a.id = b.Campana_id AND b.Sucursal_id = c.id";
 		$resultado = mysql_query($query,$link);
-		$i = 0;
+
 		while($row = mysql_fetch_assoc($resultado)) {
 		// ciclo que recorre Campañas activas y obtiene su Lat;Lng y Categorias
 		// las compara y si hacen match, las envía
 			if(floatval(distancia($row['latitud'],$row['longitud'],$latUser,$lngUser,"K")) < 0.5) {
 			// si la distancia entre campaña 1 vs posicion usuario es menor a 0.5 Km
-				while($categorias) {
-					// ciclo que compara las categorias Array(); vs las campañas 
-					$queryCategoria = "SELECT a.*, b.* FROM CampanaCategoria a, Campana b
-					WHERE b.id = $row['idCampana']
-					AND b.id = a.Campana_id
-					AND a.Categoria_id = ".$categorias[$i]."";
+				
 
-					$resultadoCategoria = mysql_query($queryCategoria,$link);
-					if($resultadoCategoria) {
-						// retorno campaña que hace match y cierro proceso
-						echo readCampanaSola($row['idCampana']);
-						break;
-					} else {
-						$i++;
-					}
-				}
+				echo readCampanaSola($row['idCampana']);
+				break;
 			} else {
 				return '{"resultado":"error_lejano"}';
 				break;
