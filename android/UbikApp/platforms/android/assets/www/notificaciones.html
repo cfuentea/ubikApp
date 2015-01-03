@@ -17,27 +17,13 @@
     <!-- Custom CSS -->
     <link href="css/sb-admin.css" rel="stylesheet">
 
-    <!-- Morris Charts CSS -->
-    <link href="css/plugins/morris.css" rel="stylesheet">
-
     <!-- Custom Fonts -->
     <link href="font-awesome-4.1.0/css/font-awesome.min.css" rel="stylesheet" type="text/css">
 
-    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
-    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
-    <!--[if lt IE 9]>
-        <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
-        <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
-    <![endif]-->
-
-
-	<!-- jQuery -->
-    <script src="js/jquery.js"></script>
-    
-    <!-- Bootstrap Core JavaScript -->
-    <script src="js/bootstrap.min.js"></script>
-
 	<script type="text/javascript" src="cordova.js"></script>
+
+    <!-- jQuery -->
+    <script src="js/jquery.js" type="text/javascript" charset="utf-8"></script>
 
 	<script src="js/db_ubikapp.js" type="text/javascript" charset="utf-8"></script>
 
@@ -57,7 +43,27 @@
     		location.href = "index.html";
     			
     	}
-
+		
+		function updatePromos(id, estado) {
+					
+			var codigoPromo = updatePromosBDD(id, estado);
+			
+			var parametros = '&idCampana='+id+'&uuid='+device.uuid+'&valoracion='+codigoPromo;
+			        			        
+            $.ajax({
+                type: 'GET',
+                url: 'http://ubikapp-aws.dev.cl/index.php?metodo=InsCampanaUsuario'+parametros,
+                success:function(data){
+                    //alert("OK:" + data.resultado);
+                    location.href = "index.html";
+                },
+                error:function(data){
+                    alert("ERROR:" + data.resultado);
+                }
+            });
+			
+			
+		}
 	</script>
 
 </head>
@@ -122,7 +128,8 @@
     </div>
     <!-- /#wrapper -->
 
-
+    <!-- Bootstrap Core JavaScript -->
+    <script src="js/bootstrap.min.js"></script>
    
 </body>
 

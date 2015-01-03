@@ -90,6 +90,35 @@
 	                animation: google.maps.Animation.DROP	                
 	            });
 
+
+			var parametros = '&uuid='+device.uuid+'&pos={\"lat\":\"'+coordenadas.Lat+'\",\"lng\":\"'+coordenadas.Lng+'\"}';
+			
+			$.ajax({
+				type: 'GET',
+				url : 'http://ubikapp-aws.dev.cl/index.php?metodo=ubikMe'+parametros,
+				//data: parametros,
+				success:function(data){
+					
+					$("#nombre").html(data.nombre);
+					$("#descripcion").html(data.descripcion);
+
+					var ubik = [
+					              new google.maps.LatLng(data.latitud, data.longitud),
+					            ];
+					
+					marcadores = new google.maps.Marker({
+			                        map: map,
+			                        position: ubik[0],
+			                        animation: google.maps.Animation.DROP
+			                    });
+				},
+				error:function(data){
+					alert("Error ubikMe, intente luego !");
+				}
+	
+			});	    	
+			
+			/*
 	            var ubik = [
 	              new google.maps.LatLng(-33.396650, -70.626404),
 	              new google.maps.LatLng(-33.395316, -70.625953),
@@ -105,7 +134,7 @@
 			                        animation: google.maps.Animation.DROP
 			                    });
 	            }
-
+			*/	
 	            //Plaza, -33.396650, -70.626404
 	            //Comisaria, -33.395316, -70.625953
 	            //Territorio CdU, -33.396659, -70.628453
@@ -175,21 +204,22 @@
 
             <div class="container-fluid">
     			
-    			<!--	                        
 				<header>
-					<h1>Lat:<span id="latitude">
-					<br>Lng:<span id="longitude"></h1>
+					<span id="nombre">
+					<br> <span id="descripcion">
 				</header>
-				
+								
+		    	<!--	                        
 				<div id="informacion">
-					<h2>Tu posición actual es:</h2>
-					<h3>Latitud: <span id="latitude"></span></h3>
-					<h3>Longitud: <span id="longitude"></span></h3>
-				</div>-->
+					<h2>Tu promoción actual:</h2>
+					<h3>Latitud: <span id="nombre"></span></h3>
+					<h3>Longitud: <span id="descripcion"></span></h3>
+				</div>
+				-->
 				<div id="mapa"></div>
-
+	
             </div>
-            <!-- /.container-fluid -->
+            <!-- /.container-fluid-->
 
         </div>
         <!-- /#page-wrapper -->

@@ -165,45 +165,50 @@
 	/***
 	**** UPDATE TABLE ** 
 	***/
-	function updateUsuario() {
+	function updateUsuarioBDD() {
 			UbikAppDB.transaction(
 			    function (transaction) {
 			    	transaction.executeSql("UPDATE usuario SET nombres=?, apellidos=?, mail=?, fecha=?, comuna = ?, nick = ? WHERE uuid = ?", [$("#nombre").val(), $("#apellido").val(), $("#email").val(), $("#fechaNacimiento").val(), $("#Comuna_id").val(), $("#nick").val(), device.uuid]);
-
+			    	
+			    	/*
    		    	    var nombre = $("#nombre").val();
                     var apellido = $("#apellido").val();
                     var email = $("#email").val();
                     var fechaNacimiento = $("#fechaNacimiento").val();
-			        var cadena ="nombre="+nombre+"&apellido="+apellido+"&email="+email+"&fechaNacimiento="+fechaNacimiento;
-
+			        var parametros ="&nombre="+nombre+"&apellido="+apellido+"&email="+email+"&fechaNac="+fechaNacimiento+"&uuid="+device.uuid;
+			        
 			        $.ajax({
-		                type: 'GET',
-		                url : 'http://ubikapp.dev.cl/index.php?metodo=createUsuario',
-                        data: cadena,
-		                dataType: "json",
-		                success:function(data){
-		                    alert(data.resultado);
+		                type: 'GET',		                
+		                url : 'http://ubikapp-aws.dev.cl/index.php?metodo=createUsuarioApp',//+parametros,
+                        data: parametros,
+                        success:function(data){
+		                    location.href = "configuracion.html";
 		                },
-		                error:function(data){
-		                    alert("Error Service createUsuario");
+		                error:function(data){		                    
+		                    alert("Error Service createUsuarioApp"+data.resultado);
 		                }
 		            });
+		            
 			    	location.href = "configuracion.html";
-
+			    	*/
 			    }
 			);
 			//this.selectAll();		    
 	    }
 
-	function updatePromos(id, estado) {
+	function updatePromosBDD(id, estado) {
+        var codigoPromo = Math.floor((Math.random() * 100000) + 1);
 			UbikAppDB.transaction(
 			    function (transaction) {
-										
-			    	transaction.executeSql("UPDATE promos SET estado=?, codigo = ? WHERE id = ?", [estado, Math.floor((Math.random() * 100000) + 1), id]);
+
+			    	transaction.executeSql("UPDATE promos SET estado=?, codigo = ? WHERE id = ?", [estado, codigoPromo, id]);			    	
+
 			    }
 			);	
-			location.href = "index.html";
-			//this.selectAll();		    
+			//location.href = "index.html";
+			//this.selectAll();
+			
+			return codigoPromo;
 	    }
 
 
@@ -274,7 +279,7 @@
                 }
                     
             }catch (e){
-                console.log("err ... controlado !");
+                console.log("Err ... !");
             }
 
         }
@@ -416,7 +421,7 @@
         var that = this;
         UbikAppDB.transaction(
             function (transaction) {
-                transaction.executeSql("SELECT * FROM promos where estado = 1;", [], that.NotificacionHandler, that.errorHandler);
+                transaction.executeSql("SELECT * FROM promos where estado = 1 order by id desc;", [], that.NotificacionHandler, that.errorHandler);
             }
         );              
     }

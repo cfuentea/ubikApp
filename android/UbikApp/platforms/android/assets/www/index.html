@@ -20,11 +20,10 @@
     <!-- Custom Fonts -->
     <link href="font-awesome-4.1.0/css/font-awesome.min.css" rel="stylesheet" type="text/css">
 
-    <script type="text/javascript" src="js/jquery.js"></script>
 	<script type="text/javascript" src="cordova.js"></script>
 
     <!-- jQuery -->
-    <script src="js/jquery.js"></script>
+    <script src="js/jquery.js" type="text/javascript" charset="utf-8"></script>
 
 	<script src="js/db_ubikapp.js" type="text/javascript" charset="utf-8"></script>
 
@@ -35,14 +34,27 @@
 	    document.addEventListener("deviceready", onDeviceReady, false);
 	
 		var database = null;
-	
+		var myVar;
+		
 	    // PhoneGap esta listo
 	    function onDeviceReady() {
 	       //Se inicializa BDD SQLite UbikApp
  		   init();
  		   document.addEventListener("backbutton", onBackKeyDown, false);
+ 		   
+ 		   document.addEventListener("resume", onResume, false);
+ 		   
+ 		   document.addEventListener("pause", onPause, false);
        
 	    }
+
+		function onPause() {
+    		myVar=setInterval(function () {showAlert()}, 30000);
+    	}
+
+		function onResume() {
+			myVar=setInterval(function () {showAlert()}, 30000);
+    	}
 
 	  	function registrationCallBack(button){
 	        if(button == 2) {
@@ -86,27 +98,35 @@
         }
 
 
+		function playBeep() {
+        	navigator.notification.beep(1);
+    	}
+    	
 	    // Muestra un cuadro de dialogo personalizado
-	    //
 	    function showAlert() {
 	    	
-	    	alert(device.uuid + " : " + coordenadas.Lat + " / " + coordenadas.Lng)
-	    	
+	    		
+	    	//alert(device.uuid + " : " + coordenadas.Lat + " / " + coordenadas.Lng)
+    	
+    		var parametros = '&uuid='+device.uuid+'&pos={\"lat\":\"'+coordenadas.Lat+'\",\"lng\":\"'+coordenadas.Lng+'\"}';
+			
+
 			$.ajax({
 				type: 'GET',
+				url : 'http://ubikapp-aws.dev.cl/index.php?metodo=ubikMe'+parametros,
 				//data: parametros,
-				url : 'http://ubikapp.dev.cl/index.php?metodo=readCampana',
 				success:function(data){
 				
 					$("#id").val(data.id);
 					$("#nombre").val(data.nombre);					 
 					$("#descripcion").val(data.descripcion);
-					
+
+					playBeep();
+
 			    	navigator.notification.confirm(
 			    			data.nombre + " \n" + data.descripcion,
 			    		 	alertDismissed,
 			    		 	"Ver Promocion", "No, Si");
-
 				},
 				error:function(data){
 					alert("Error Service readCategoria");
@@ -116,13 +136,20 @@
 
 	    }
 
-		var myVar=setInterval(function () {showAlert()}, 30000);
+		myVar=setInterval(function () {showAlert()}, 30000);
+
 
     </script>   
 
 </head>
 
 <body>
+
+	<form>
+		<input type="hidden" name="id" id="id">
+		<input type="hidden" name="nombre" id="nombre">
+		<input type="hidden" name="descripcion" id="descripcion">
+	</form>
 
     <div id="wrapper">
 
@@ -343,15 +370,8 @@
     </div>
     <!-- /#wrapper -->
 
-
     <!-- Bootstrap Core JavaScript -->
     <script src="js/bootstrap.min.js"></script>
-
-    <!-- Morris Charts JavaScript 
-    <script src="js/plugins/morris/raphael.min.js"></script>
-    <script src="js/plugins/morris/morris.min.js"></script>
-    <script src="js/plugins/morris/morris-data.js"></script>
-	-->
 
 </body>
 

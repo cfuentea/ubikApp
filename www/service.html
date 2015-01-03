@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <title>Servicios Disponibles UbikApp</title>
+
+    <!-- Bootstrap Core CSS -->
+    <link href="css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- MetisMenu CSS -->
+    <link href="css/plugins/metisMenu/metisMenu.min.css" rel="stylesheet">
+
+    <!-- DataTables CSS -->
+    <link href="css/plugins/dataTables.bootstrap.css" rel="stylesheet">
+
+    <!-- Custom CSS -->
+    <link href="css/sb-admin-2.css" rel="stylesheet">
+
+    <!-- Custom Fonts -->
+    <link href="font-awesome-4.1.0/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+        <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+        <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+
+</head>
+
+<body>
+
+<div class="row">
+        <div class="col-lg-12">
+            <h1 class="page-header">Servicios Disponibles UbikApp</h1>
+        </div>
+        <!-- /.col-lg-12 -->
+    </div>
+    <!-- /.row -->
+    <div class="row">
+
+        <div class="col-lg-12">
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    Servidor : http://ubikapp-aws.dev.cl
+                    <br>
+                    Url      : http://ubikapp-aws.dev.cl/service.html
+                </div>
+                <!-- /.panel-heading -->
+                <div class="panel-body">
+                    <div class="table-responsive">
+                        <table class="table">
+                            <thead>
+                                <tr>
+                                    <th>#</th>
+                                    <th>Nombre Servicio</th>
+                                    <th>Descripción</th>
+                                    <th>Uso</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr class="success">
+                                    <td>1</td>
+                                    <td>ubikMe</td>
+                                    <td>esta funcion debe ser capaz de recibir parametros y traducirlos en envío de campaña adicionalmente debe dejar un registro de las campañas que se envían en un log (registro BBDD)</td>
+                                    <td>http://ubikapp.dev.cl/index.php?metodo=ubikMe&uuid=312321FSDFSDF&pos={lat:-33.396360,lng:-70.639178}</td>
+                                </tr>
+                                <tr class="info">
+                                    <td>2</td>
+                                    <td>createUsuarioApp</td>
+                                    <td>...</td>
+                                    <td>...</td>
+                                </tr>
+                                <tr class="warning">
+                                    <td>3</td>
+                                    <td>InsCampanaUsuario</td>
+                                    <td>Inserta o Actualiza registros de l usuario, esto para que no se vuelve a enviar la campaña (valoracion es el codigo aleatorio generado por la app)</td>
+                                    <td>http://ubikapp-aws.dev.cl/index.php?metodo=InsCampanaUsuario&idCampana=1&uuid=312321FSDFSDF&valoracion=1234567</td>
+                                </tr>
+                                <tr class="danger">
+                                    <td>4</td>
+                                    <td>readCategoria</td>
+                                    <td>...</td>
+                                    <td>...</td>
+                                </tr>
+
+                                <tr class="success">
+                                    <td>5</td>
+                                    <td>...</td>
+                                    <td>...</td>
+                                    <td>...</td>
+                                </tr>
+                                <tr class="info">
+                                    <td>6</td>
+                                    <td>...</td>
+                                    <td>...</td>
+                                    <td>...</td>
+                                </tr>
+                                <tr class="warning">
+                                    <td>7</td>
+                                    <td>...</td>
+                                    <td>...</td>
+                                    <td>...</td>
+                                </tr>
+                                <tr class="danger">
+                                    <td>8</td>
+                                    <td>...</td>
+                                    <td>...</td>
+                                    <td>...</td>
+                                </tr>
+
+                            </tbody>
+                        </table>
+                    </div>
+                    <!-- /.table-responsive -->
+                </div>
+                <!-- /.panel-body -->
+            </div>
+            <!-- /.panel -->
+        </div>
+    </div>
+
+</div>              
+
+    <!-- jQuery -->
+    <script src="js/jquery.js"></script>
+
+    <!-- Bootstrap Core JavaScript -->
+    <script src="js/bootstrap.min.js"></script>
+
+    <!-- Metis Menu Plugin JavaScript -->
+    <script src="js/plugins/metisMenu/metisMenu.min.js"></script>
+
+    <!-- DataTables JavaScript -->
+    <script src="js/plugins/dataTables/jquery.dataTables.js"></script>
+    <script src="js/plugins/dataTables/dataTables.bootstrap.js"></script>
+
+    <!-- Custom Theme JavaScript -->
+    <script src="js/sb-admin-2.js"></script>
+
+    <!-- Page-Level Demo Scripts - Tables - Use for reference -->
+    <script>
+    $(document).ready(function() {
+        $('#dataTables-example').dataTable();
+    });
+    </script>
+
+</body>
+
+</html>
