@@ -15,7 +15,7 @@ error_reporting(-1);
  function createUsuarioApp($nombre, $apellido, $fechaNac, $email, $uuid) {
  	global $link;
 
- 	$query = 'SELECT id, nombres, apellidos, email, fechaNacimiento, hashValidacion
+ 	$query = 'SELECT id, nombres, apellidos, email, fechaNacimiento, ultimoAcceso, hashValidacion
  				FROM Usuario 
  				WHERE hashValidacion like "'.$uuid.'"';
  	$resultado = mysql_query($query, $link);
@@ -25,7 +25,8 @@ error_reporting(-1);
  						nombres = "'.$nombre.'",
  						apellidos = "'.$apellido.'",
  						email = "'.$email.'",
- 						fechaNacimiento = STR_TO_DATE("'.$fechaNac.'","%Y-%m-%d")
+ 						fechaNacimiento = STR_TO_DATE("'.$fechaNac.'","%Y-%m-%d"),
+ 						ultimoAcceso = now()
  					WHERE
  						hashValidacion = "'.$uuid.'"';
  		$resultado = mysql_query($query, $link);
@@ -642,7 +643,7 @@ function existeCampanaActiva() {
 
 }
 
-function ubikMe($id, $posicion) {
+function ubikMe($uuid, $posicion) {
 	
 	/* 	esta funcion debe ser capaz de recibir parametros y traducirlos en envío de campañas
 		adicionalmente debe dejar un registro de las campañas que se envían en un log (registro BBDD)
