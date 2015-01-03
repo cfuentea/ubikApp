@@ -145,7 +145,7 @@ function updateEmpresa($idUsuario,$datoJSON) {
 function readCampanaSola($id) {
 	global $link;
 
-	$query = 'SELECT
+	$query = "SELECT
  				a.id, 
  				a.Empresa_id, 
  				a.nombre, 
@@ -158,9 +158,9 @@ function readCampanaSola($id) {
  				c.longitud, 
  				a.Estado_id
  	FROM Campana a, CampanaSucursal b, Sucursal c
- 	WHERE a.id = '.$id.'
+ 	WHERE a.id = ".$id."
  	AND a.id = b.Campana_id
- 	AND b.Sucursal_id = c.id';
+ 	AND b.Sucursal_id = c.id";
  	$resultado = mysql_query($query,$link);
  	$row = mysql_fetch_assoc($resultado);
 
