@@ -671,6 +671,7 @@ function ubikMe($uuid, $posicion) {
 				echo readCampanaSola($row['idCampana']);
 				break;
 			} else {
+				echo distancia($row['latitud'],$row['longitud'],$latUser,$lngUser,"K");
 				return '{"resultado":"error_lejano"}';
 				break;
 			}
