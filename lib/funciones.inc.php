@@ -68,6 +68,76 @@ error_reporting(-1);
 
  }
 
+/* Inicio funciones cyanez*/
+function createEmpresa($datoJSON) {
+
+	/* Como funcion adicional, el resultado debe entregar el ID del usuario que creó
+	 * para esto, debemos definir un ID único (podría ser el email) con el cual
+	 * verificar cual es el ID del usuario recién creado
+	 *
+	 * update 14/12/2014: usar mysql_insert_id(); para obtener ultimo id incremental
+	 */
+
+	global $link;
+	$arr = json_decode($datoJSON, true);
+	
+	$nombre = $arr['nombre'];
+	$nombreFantasia = $arr['nombreFantasia'];
+	$rut = $arr['rut'];
+	$direccionCasaCentral = $arr['direccionCasaCentral'];
+	$telefoFijo = $arr['telefoFijo'];
+	$representanteLegal = $arr['representanteLegal'];
+	$emailContacto = $arr['emailContacto'];
+	$fechaIngreso = "now()";
+	$password = $arr['password'];
+
+	$query = 'INSERT INTO Empresa 
+	(nombre, nombreFantasia, rut, direccionCasaCentral, telefoFijo, representanteLegal, emailContacto, fechaIngreso, password) 
+	VALUES 
+	("'.$nombre.'","'.$nombreFantasia.'","'.$rut.'","'.$direccionCasaCentral.'",
+		'.$telefoFijo.',"'.$representanteLegal.'","'.$emailContacto.'",'.$fechaIngreso.',"'.$password.'")';
+
+	$resultado = mysql_query($query,$link);
+	return '{"resultado":"ok"}';
+
+}
+
+function updateEmpresa($idUsuario,$datoJSON) {
+
+	global $link;
+	$arr = json_decode($datoJSON, true);
+	
+	$nombre = $arr['nombre'];
+	$nombreFantasia = $arr['nombreFantasia'];
+	$rut = $arr['rut'];
+	$direccionCasaCentral = $arr['direccionCasaCentral'];
+	$telefoFijo = $arr['telefoFijo'];
+	$representanteLegal = $arr['representanteLegal'];
+	$emailContacto = $arr['emailContacto'];
+	$fechaIngreso = "now()"; 
+	$password = $arr['password'];
+	
+	$query = 'UPDATE Usuario SET 
+	nombre = "'.$nombre.'",
+	nombreFantasia = "'.$nombreFantasia.'",
+	rut = "'.$rut.'",
+	direccionCasaCentral = "'.$direccionCasaCentral.'",
+	telefoFijo = '.$telefoFijo.',
+	representanteLegal = '.$representanteLegal.',
+	emailContacto = '.$emailContacto.',
+	fechaIngreso = '.$fechaIngreso.',
+	password = "'.$password.'"
+	WHERE
+	id = '.$idUsuario.'';
+
+	$resultado = mysql_query($query,$link);
+	return '{"resultado":"ok"}';
+
+
+}
+
+/* Fin funciones cyanez*/
+
 /*
  Inicio CRUD Campana 
  */
