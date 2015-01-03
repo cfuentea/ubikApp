@@ -146,19 +146,21 @@ function readCampanaSola($id) {
 	global $link;
 
 	$query = 'SELECT
- 				id, 
- 				Empresa_id, 
- 				nombre, 
- 				descripcion, 
- 				fechaIngreso, 
- 				distanciaCampana, 
- 				fechaInicio, 
- 				fechaFin,
- 				latitud,
- 				longitud, 
- 				Estado_id
- 	FROM Campana
- 	WHERE id = '.$id.'';
+ 				a.id, 
+ 				a.Empresa_id, 
+ 				a.nombre, 
+ 				a.descripcion, 
+ 				a.fechaIngreso, 
+ 				a.distanciaCampana, 
+ 				a.fechaInicio, 
+ 				a.fechaFin,
+ 				c.latitud,
+ 				c.longitud, 
+ 				a.Estado_id
+ 	FROM Campana a, CampanaSucursal b, Sucursal c
+ 	WHERE a.id = '.$id.'
+ 	AND a.id = b.Campana_id
+ 	AND b.Sucursal_id = c.id';
  	$resultado = mysql_query($query,$link);
  	$row = mysql_fetch_assoc($resultado);
 
