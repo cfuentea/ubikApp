@@ -666,14 +666,8 @@ function ubikMe($uuid, $posicion) {
 		// las compara y si hacen match, las envía
 			if(floatval(distancia($row['latitud'],$row['longitud'],$latUser,$lngUser,"K")) < 0.5) {
 			// si la distancia entre campaña 1 vs posicion usuario es menor a 0.5 Km
-				
-
 				echo readCampanaSola($row['idCampana']);
-				break;
-			} else {
-				echo distancia($row['latitud'],$row['longitud'],$latUser,$lngUser,"K");
-				return '{"resultado":"error_lejano"}';
-				break;
+				break; 
 			}
 		}
 	}
