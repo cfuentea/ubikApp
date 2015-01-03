@@ -670,9 +670,9 @@ function ubikMe($uuid, $posicion) {
 				break; 
 			}
 		}
+	} else {
+		return '{"resultado":"sin_match"}';
 	}
-	return '{"resultado":"sin_match"}';
-	break;
 }
 
 /*
