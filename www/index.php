@@ -2,13 +2,12 @@
 include('../lib/funciones.inc.php');
 
 session_start();
-$_SESSION['pagina'] = "indice";
 
+$_SESSION['pagina'] = "indice";
 if($_SESSION['userId']==0) {
 	header('Location: login.php');
 	exit;
 }
-
 ?>
 <!DOCTYPE html>
 <html lang="en">
