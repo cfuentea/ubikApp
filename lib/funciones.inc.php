@@ -112,27 +112,28 @@ function updateEmpresa($idUsuario,$datoJSON) {
 	$nombreFantasia = $arr['nombreFantasia'];
 	$rut = $arr['rut'];
 	$direccionCasaCentral = $arr['direccionCasaCentral'];
-	$telefoFijo = $arr['telefoFijo'];
+	$telefonoFijo = $arr['telefonoFijo'];
 	$representanteLegal = $arr['representanteLegal'];
 	$emailContacto = $arr['emailContacto'];
 	$fechaIngreso = "now()"; 
 	$password = $arr['password'];
 	
-	$query = 'UPDATE Usuario SET 
+	$query = 'UPDATE Empresa SET 
 	nombre = "'.$nombre.'",
 	nombreFantasia = "'.$nombreFantasia.'",
 	rut = "'.$rut.'",
 	direccionCasaCentral = "'.$direccionCasaCentral.'",
-	telefoFijo = '.$telefoFijo.',
-	representanteLegal = '.$representanteLegal.',
-	emailContacto = '.$emailContacto.',
+	telefonoFijo = "'.$telefonoFijo.'",
+	representanteLegal = "'.$representanteLegal.'",
+	emailContacto = "'.$emailContacto.'",
 	fechaIngreso = '.$fechaIngreso.',
 	password = "'.$password.'"
 	WHERE
 	id = '.$idUsuario.'';
 
+	//return $query;
 	$resultado = mysql_query($query,$link);
-	return '{"resultado":"ok"}';
+	//return '{"resultado":"ok"}';
 
 
 }

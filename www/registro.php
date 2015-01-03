@@ -9,6 +9,13 @@ if($_SESSION['userId']==0) {
 	exit;
 }
 
+if($_POST) {
+    $arr = json_encode($_POST);
+    //echo $arr;    
+    updateEmpresa(getIdEmpresa($_SESSION['userId']),$arr);
+    header("Location:index.php");
+}
+
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -52,69 +59,90 @@ if($_SESSION['userId']==0) {
            <!-- inicio header cfuentea -->
         <?php
         include('header.php');
+
+        global $link;
+
+        $query = "SELECT 
+                    id,
+                    nombre,
+                    nombreFantasia,
+                    rut,
+                    direccionCasaCentral,
+                    telefonoFijo,
+                    telefonoFax,
+                    representanteLegal,
+                    emailContacto,
+                    fechaIngreso,
+                    password
+                FROM Empresa
+                WHERE id = ".getIdEmpresa($_SESSION['userId'])."";
+        
+        $resultado = mysql_query($query,$link);
+        $row = mysql_fetch_assoc($resultado);
+
         ?>
             <!-- fin header cfuentea -->
              
             <!-- inicio -->
            <div class="row">
-        <div class="col-lg-12">
-            <h1 class="page-header">Perfil Empresa: {idEmpresa}</h1>
+        <div class="col-lg-8">
+            <h1 class="page-header">Perfil Empresa: <?=readCliente($_SESSION['userId']);?></h1>
         </div>
         <!-- /.col-lg-12 -->
     </div>
     <!-- /.row -->
     <div class="row">
-        <div class="col-lg-12">
+        <div class="col-lg-8">
             <div class="panel panel-default">
                 <div class="panel-heading">
                     Ingrese sus datos
                 </div>
                 <div class="panel-body">
                     <div class="row">
-                        <form role="form">
+                        <form role="form" method="post">
 
                         <div class="col-lg-6">
 
                                 <div class="form-group">
                                     <label>Nombre</label>
-                                    <input class="form-control" placeholder="Ingrese Nombre" name="nombre">
+                                    <input class="form-control" placeholder="Ingrese Nombre" name="nombre" value="<?=$row['nombre'];?>">
                                 </div>
 
                                 <div class="form-group">
                                     <label>Nombre Fantasia</label>
-                                    <input class="form-control" placeholder="Ingrese Nombre de Fantasia" name="nombreFantasia">
+                                    <input class="form-control" placeholder="Ingrese Nombre de Fantasia" name="nombreFantasia" value="<?=$row['nombreFantasia'];?>">
                                 </div>
 
                                 <div class="form-group">
                                     <label>Rut</label>
-                                    <input class="form-control" placeholder="Ingrese Rut" name="rut">
+                                    <input class="form-control" placeholder="Ingrese Rut" name="rut" value="<?=$row['rut'];?>">
                                 </div>
 
 
                                 <div class="form-group">
                                     <label>Direccion</label>
-                                    <input class="form-control" placeholder="Ingrese Direccion" name="direccion">
+                                    <input class="form-control" placeholder="Ingrese Direccion" name="direccionCasaCentral" value="<?=$row['direccionCasaCentral'];?>">
                                 </div>
 
                                 <div class="form-group">
                                     <label>Telefono</label>
-                                    <input class="form-control" placeholder="Ingrese Telefono" name="telefono">
+                                    <input class="form-control" placeholder="Ingrese Telefono" name="telefonoFijo" value="<?=$row['telefonoFijo'];?>">
                                 </div>                                                              
                         
                                 <div class="form-group">
                                     <label>Representante Legal</label>
-                                    <input class="form-control" placeholder="Enter text" name="representanteLegal">
+                                    <input class="form-control" placeholder="Enter text" name="representanteLegal" value="<?=$row['representanteLegal'];?>">
                                 </div>
 
                                 <div class="form-group input-group">
                                     <span class="input-group-addon">@</span>
-                                    <input type="text" class="form-control" placeholder="e-Mail" name="email">
+                                    <input type="text" class="form-control" placeholder="e-Mail" name="emailContacto" value="<?=$row['emailContacto'];?>">
                                 </div>
                                 
 
                                 <div class="form-group">
                                     <label>Contraseña</label>
-                                    <input type="password" class="form-control" placeholder="Ingrese su contraseña" name="password">
+                                    <input type="password" class="form-control" placeholder="Ingrese su contraseña" name="password" value="">
                                 </div>
                                 <button type="submit" class="btn btn-primary btn-lg">Enviar</button>
                         </div>

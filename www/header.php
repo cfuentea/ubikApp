@@ -20,8 +20,8 @@
                     <ul class="dropdown-menu dropdown-user">
                         <li><a href="registro.php"><i class="fa fa-user fa-fw"></i> Perfil de usuario</a>
                         </li>
-                        <li><a href="#"><i class="fa fa-gear fa-fw"></i> Configuraci&oacute;n</a>
-                        </li>
+                        <!--<li><a href="#"><i class="fa fa-gear fa-fw"></i> Configuraci&oacute;n</a>
+                        </li>-->
                         <li class="divider"></li>
                         <li><a href="logout.php"><i class="fa fa-sign-out fa-fw"></i> Desconectarse</a>
                         </li>
