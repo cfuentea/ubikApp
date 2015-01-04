@@ -182,7 +182,8 @@ function readCampanaSola($id) {
  	FROM Campana a, CampanaSucursal b, Sucursal c
  	WHERE a.id = ".$id."
  	AND a.id = b.Campana_id
- 	AND b.Sucursal_id = c.id";
+ 	AND b.Sucursal_id = c.id
+ 	LIMIT 1";
  	$resultado = mysql_query($query,$link);
  	$row = mysql_fetch_assoc($resultado);
 

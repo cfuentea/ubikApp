@@ -29,6 +29,9 @@ if($_SESSION['userId']==0) {
     <!-- MetisMenu CSS -->
     <link href="css/plugins/metisMenu/metisMenu.min.css" rel="stylesheet">
 
+    <!-- DataTables CSS -->
+    <link href="css/plugins/dataTables.bootstrap.css" rel="stylesheet">
+
     <!-- Custom CSS -->
     <link href="css/sb-admin-2.css" rel="stylesheet">
 
