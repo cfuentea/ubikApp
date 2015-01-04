@@ -9,6 +9,13 @@ if($_SESSION['userId']==0) {
 	exit;
 }
 
+if($_POST) {
+    $arr = json_encode($_POST);
+    //echo $arr;    
+    updateEmpresa(getIdEmpresa($_SESSION['userId']),$arr);
+    header("Location:index.php");
+}
+
 ?>
 <!DOCTYPE html>
 <html lang="en">
