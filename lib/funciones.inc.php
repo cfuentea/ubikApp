@@ -57,11 +57,14 @@ error_reporting(-1);
  				FROM Usuario 
  				WHERE hashValidacion like "'.$uuid.'"';
  	$resultado = mysql_query($query, $link);
+
  	$row = mysql_fetch_assoc($resultado);
  	
  	$queryUC = "SELECT Usuario_id, Campana_id, fechaUso, valoracion
  				FROM UsuarioCampana
- 				WHERE Usuario_id = ".$row['id']."";
+ 				WHERE Usuario_id = ".$row['id']."
+ 				AND Campana_id = ".$idCampana."";
+ 	
  	$resultadoUC = mysql_query($queryUC,$link);
 
  	if(mysql_num_rows($resultadoUC)>0) {
@@ -710,8 +713,8 @@ function ubikMe($uuid, $posicion, $categoria) {
 
 				if(mysql_num_rows($resultCat)>0) {
 					// retorno campaña que hace match y cierro proceso
-					echo readCampanaSola($row['idCampana']);
 					InsCampanaUsuario($row['idCampana'],$uuid,0);
+					echo readCampanaSola($row['idCampana']);
 					//break;
 				} else {
 					return '{"resultado":"sin_match"}';
