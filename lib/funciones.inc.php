@@ -183,7 +183,10 @@ function readCampanaSola($id) {
  	$resultado = mysql_query($query,$link);
  	$row = mysql_fetch_assoc($resultado);
 
- 	return json_encode($row);
+ 	$resultOK = array("resultado" => "ok");
+ 	$todo = array_merge($resultOK,$row);
+ 	
+ 	return json_encode($todo);
 }
 
 function readCampana() {
