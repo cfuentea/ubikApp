@@ -70,7 +70,9 @@ error_reporting(-1);
  					Usuario_id = ".$row['id'].",
  					Campana_id = ".$idCampana.",
  					fechaUso = now(),
- 					valoracion = ".$valoracion."";
+ 					valoracion = ".$valoracion."
+ 					WHERE 
+ 					Usuario_id = ".$row['id']." AND Campana_id = ".$idCampana."";
  		$resultado = mysql_query($query,$link);
 
  	} else {

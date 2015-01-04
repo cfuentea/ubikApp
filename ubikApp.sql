@@ -41,7 +41,7 @@ CREATE TABLE `Campana` (
   KEY `fk_Campana_Empresa1_idx` (`Empresa_id`),
   CONSTRAINT `fk_Campana_Empresa1` FOREIGN KEY (`Empresa_id`) REFERENCES `Empresa` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
   CONSTRAINT `fk_Campana_estado1` FOREIGN KEY (`Estado_id`) REFERENCES `Estado` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION
-) ENGINE=InnoDB AUTO_INCREMENT=11 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=12 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -50,7 +50,7 @@ CREATE TABLE `Campana` (
 
 LOCK TABLES `Campana` WRITE;
 /*!40000 ALTER TABLE `Campana` DISABLE KEYS */;
-INSERT INTO `Campana` VALUES (1,1,'Celulares Gratis','Ve por tu celular a nuestra tienda en Santiago Centro! te va a gustar.','2014-11-26 20:00:03',500,'2014-11-28','2014-11-30',NULL,NULL,NULL,0,3),(4,1,'Super Campa&ntilde;a','Descripcion Campa&ntilde;a','2014-12-02 21:47:47',500,'2014-12-12','2014-12-13',NULL,NULL,NULL,0,3),(5,1,'Nueva Promocion','Esta promocion es la mejor','2014-12-02 21:48:47',500,'2014-12-19','2014-12-20',NULL,NULL,NULL,0,3),(6,1,'Prueba &raquo; 1','Descripcion de Prueba1','2014-12-02 21:57:08',500,'1984-11-23','1985-11-25',NULL,NULL,NULL,0,3),(8,1,'Mega Campa&ntilde;a!','Esta si que es buena','2014-12-10 20:54:10',500,'2014-12-10','2014-12-14',NULL,NULL,NULL,0,3),(9,1,'Hiper Promo','Nada mejor que esto','2014-12-13 20:59:50',500,'2014-12-14','2014-12-30',NULL,NULL,NULL,0,3),(10,1,'Campa&ntilde;a nueva (Valpo)','Esta campa&ntilde;a es una prueba','2014-12-30 12:17:12',500,'2014-12-31','2014-12-31',NULL,NULL,NULL,0,1);
+INSERT INTO `Campana` VALUES (1,1,'Celulares Gratis','Ve por tu celular a nuestra tienda en Santiago Centro! te va a gustar.','2014-11-26 20:00:03',500,'2014-11-28','2014-11-30',NULL,NULL,NULL,0,3),(4,1,'Super Campa&ntilde;a','Descripcion Campa&ntilde;a','2014-12-02 21:47:47',500,'2014-12-12','2014-12-13',NULL,NULL,NULL,0,3),(5,1,'Nueva Promocion','Esta promocion es la mejor','2014-12-02 21:48:47',500,'2014-12-19','2014-12-20',NULL,NULL,NULL,0,3),(6,1,'Prueba &raquo; 1','Descripcion de Prueba1','2014-12-02 21:57:08',500,'1984-11-23','1985-11-25',NULL,NULL,NULL,0,3),(8,1,'Mega Campa&ntilde;a!','Esta si que es buena','2014-12-10 20:54:10',500,'2014-12-10','2014-12-14',NULL,NULL,NULL,0,3),(9,1,'Hiper Promo','Nada mejor que esto','2014-12-13 20:59:50',500,'2014-12-14','2014-12-30',NULL,NULL,NULL,0,3),(10,1,'Campa&ntilde;a nueva (Valpo)','Esta campa&ntilde;a es una prueba','2014-12-30 12:17:12',500,'2014-12-31','2014-12-31',NULL,NULL,NULL,0,3),(11,1,'Campana de Prueba (CYanez)','Solo para pruebas','2015-01-03 20:10:43',500,'2015-01-02','2015-01-10',NULL,NULL,NULL,0,1);
 /*!40000 ALTER TABLE `Campana` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -70,7 +70,7 @@ CREATE TABLE `CampanaCategoria` (
   KEY `fk_CampanaCategoria_Campana1_idx` (`Campana_id`),
   CONSTRAINT `fk_CampanaCategoria_Campana1` FOREIGN KEY (`Campana_id`) REFERENCES `Campana` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
   CONSTRAINT `fk_CampanaCategoria_Categoria1` FOREIGN KEY (`Categoria_id`) REFERENCES `Categoria` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION
-) ENGINE=InnoDB AUTO_INCREMENT=12 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=14 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -79,7 +79,7 @@ CREATE TABLE `CampanaCategoria` (
 
 LOCK TABLES `CampanaCategoria` WRITE;
 /*!40000 ALTER TABLE `CampanaCategoria` DISABLE KEYS */;
-INSERT INTO `CampanaCategoria` VALUES (5,1,8),(6,5,8),(7,9,8),(8,1,9),(9,2,9),(10,2,10),(11,3,10);
+INSERT INTO `CampanaCategoria` VALUES (5,1,8),(6,5,8),(7,9,8),(8,1,9),(9,2,9),(10,2,10),(11,3,10),(12,1,11),(13,2,11);
 /*!40000 ALTER TABLE `CampanaCategoria` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -99,7 +99,7 @@ CREATE TABLE `CampanaSucursal` (
   KEY `fk_CampanaSucursal_Campana1_idx` (`Campana_id`),
   CONSTRAINT `fk_CampanaSucursal_Campana1` FOREIGN KEY (`Campana_id`) REFERENCES `Campana` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
   CONSTRAINT `fk_CampanaSucursal_Sucursal1` FOREIGN KEY (`Sucursal_id`) REFERENCES `Sucursal` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION
-) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -108,7 +108,7 @@ CREATE TABLE `CampanaSucursal` (
 
 LOCK TABLES `CampanaSucursal` WRITE;
 /*!40000 ALTER TABLE `CampanaSucursal` DISABLE KEYS */;
-INSERT INTO `CampanaSucursal` VALUES (4,2,9),(5,4,10);
+INSERT INTO `CampanaSucursal` VALUES (4,2,9),(5,4,10),(6,6,11);
 /*!40000 ALTER TABLE `CampanaSucursal` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -298,7 +298,7 @@ CREATE TABLE `Sucursal` (
   PRIMARY KEY (`id`),
   KEY `fk_sucursalEmpresa_comuna1_idx` (`Comuna_id`),
   CONSTRAINT `fk_sucursalEmpresa_comuna1` FOREIGN KEY (`Comuna_id`) REFERENCES `Comuna` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION
-) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -307,7 +307,7 @@ CREATE TABLE `Sucursal` (
 
 LOCK TABLES `Sucursal` WRITE;
 /*!40000 ALTER TABLE `Sucursal` DISABLE KEYS */;
-INSERT INTO `Sucursal` VALUES (2,1,'Sucursal B','Lira 500',70,'Atencion','2014-11-18 21:52:48','admin',-33.789001,-71.012001),(4,1,'Santiago a 1000','San MartÃ­n 50, Santiago, RegiÃ³n Metropolitana, Chile',70,'Casa Matriz','2014-12-29 16:30:19','Form_WEB',-33.443951,-70.657524),(5,1,'Nueva sucursal central','San MartÃ­n 90, Santiago, RegiÃ³n Metropolitana, Chile',70,'Casa Matriz','2014-12-31 18:22:55','Form_WEB',-33.442902,-70.657661);
+INSERT INTO `Sucursal` VALUES (2,1,'Sucursal B','Lira 500',70,'Atencion','2014-11-18 21:52:48','admin',-33.789001,-71.012001),(4,1,'Santiago a 1000','San MartÃ­n 50, Santiago, RegiÃ³n Metropolitana, Chile',70,'Casa Matriz','2014-12-29 16:30:19','Form_WEB',-33.443951,-70.657524),(5,1,'Nueva sucursal central','San MartÃ­n 90, Santiago, RegiÃ³n Metropolitana, Chile',70,'Casa Matriz','2014-12-31 18:22:55','Form_WEB',-33.442902,-70.657661),(6,1,'Casa C.Yanez','PerÃº 653, Recoleta, RegiÃ³n Metropolitana, Chile',70,'Bodega','2015-01-03 20:10:08','Form_WEB',-33.425797,-70.639641);
 /*!40000 ALTER TABLE `Sucursal` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -332,7 +332,7 @@ CREATE TABLE `Usuario` (
   PRIMARY KEY (`id`),
   KEY `fk_usuarios_comuna1_idx` (`Comuna_id`),
   CONSTRAINT `fk_usuarios_comuna1` FOREIGN KEY (`Comuna_id`) REFERENCES `Comuna` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION
-) ENGINE=InnoDB AUTO_INCREMENT=27 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=29 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -341,7 +341,7 @@ CREATE TABLE `Usuario` (
 
 LOCK TABLES `Usuario` WRITE;
 /*!40000 ALTER TABLE `Usuario` DISABLE KEYS */;
-INSERT INTO `Usuario` VALUES (1,'Paulina','Bulboa','paulibulboa@gmail.com','2010-10-07',70,NULL,NULL,'2014-10-24 22:06:17','2014-10-24 22:06:27'),(2,'Carlos','Fuentealba','carlosfuentealba@gmail.com','2007-05-10',70,NULL,NULL,'2014-10-29 01:10:30',NULL),(15,'Pedron','Urdemales','pedro@dev.cl','1960-05-10',70,'facil123',NULL,'2014-11-02 14:13:41',NULL),(25,'Cristian','Yanez','cyanez@ubikapp.cl','1981-01-19',70,NULL,'312321FSDFSDF','2014-12-31 15:42:08',NULL),(26,'Jorge','Nitales','hola@google.com','1983-03-24',70,NULL,'AAAEEFF','2015-01-03 15:52:11',NULL);
+INSERT INTO `Usuario` VALUES (1,'Paulina','Bulboa','paulibulboa@gmail.com','2010-10-07',70,NULL,NULL,'2014-10-24 22:06:17','2014-10-24 22:06:27'),(2,'Carlos','Fuentealba','carlosfuentealba@gmail.com','2007-05-10',70,NULL,NULL,'2014-10-29 01:10:30',NULL),(15,'Pedron','Urdemales','pedro@dev.cl','1960-05-10',70,'facil123',NULL,'2014-11-02 14:13:41',NULL),(25,'Cristian','Yanez','cyanez2@ubikapp.cl','1981-01-19',70,NULL,'312321FSDFSDF','2014-12-31 15:42:08',NULL),(27,'Cristian Mauricio','Yanez M','cyanez2.0@ubikapp.cl','1981-01-19',70,NULL,'6ff66c85ebeca8db','2015-01-03 19:53:04',NULL),(28,'cristian','yanez','cyanezm@ubikapp.cl','1981-01-19',70,NULL,'c64faa2825940675','2015-01-03 20:02:27','2015-01-03 23:49:52');
 /*!40000 ALTER TABLE `Usuario` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -362,7 +362,7 @@ CREATE TABLE `UsuarioCampana` (
   PRIMARY KEY (`id`),
   KEY `fk_UsuarioCampana_Usuario1_idx` (`Usuario_id`),
   CONSTRAINT `fk_UsuarioCampana_Usuario1` FOREIGN KEY (`Usuario_id`) REFERENCES `Usuario` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION
-) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=16 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -412,4 +412,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2015-01-03 16:26:13
+-- Dump completed on 2015-01-04 16:16:26
