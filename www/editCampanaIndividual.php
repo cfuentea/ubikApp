@@ -48,7 +48,7 @@ error_reporting(-1);
         <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
         <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
     <![endif]-->
-        
+    <script src="js/jsvalidator.js" type="text/javascript"></script>
 </head>
 
 <body>
@@ -99,7 +99,7 @@ error_reporting(-1);
 						?>
                         <!-- /.panel-heading -->                        
                         <div class="panel-body">
-	                     <form role="form" action="editCampanaIndividual.php" method="get">
+	                     <form role="form" action="editCampanaIndividual.php" method="get" id="formulario">
                         	<div class="form-group">
                         		<label>Nombre de campaña</label>
                         		<input name="nombre" class="form-control" placeholder="Promoci&oacute;n imperdible!" value="<?=$arr['nombre'];?>">
@@ -144,7 +144,19 @@ error_reporting(-1);
 
     </div>
     <!-- /#wrapper -->
+    <!-- validador formulario -->
+    <script  type="text/javascript">
+        var frmvalidator = new Validator("formulario");
+        frmvalidator.addValidation("nombre","req","Debes ingresar el nombre de la campaña");
+        frmvalidator.addValidation("nombre","maxlen=20", "Largo máximo para el nombre es de 20 caracteres");
 
+        frmvalidator.addValidation("descripcion","req");
+        frmvalidator.addValidation("descripcion","maxlen=100");
+
+        frmvalidator.addValidation("fechaInicio","req");
+        frmvalidator.addValidation("fechaFin","req");
+
+    </script>
     <!-- jQuery 
     <script src="js/jquery.js"></script> -->
     <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>

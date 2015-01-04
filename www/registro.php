@@ -48,7 +48,7 @@ if($_POST) {
         <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
         <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
         <![endif]-->
-
+    <script src="js/jsvalidator.js" type="text/javascript"></script>
     </head>
 
     <body>
@@ -99,7 +99,7 @@ if($_POST) {
                 </div>
                 <div class="panel-body">
                     <div class="row">
-                        <form role="form" method="post">
+                        <form role="form" method="post" id="formulario">
 
                         <div class="col-lg-6">
 
@@ -167,7 +167,11 @@ if($_POST) {
 
     </div>
     <!-- /#wrapper -->
-
+    <!-- validador formulario -->
+    <script  type="text/javascript">
+        var frmvalidator = new Validator("formulario");
+        frmvalidator.addValidation("password","req","Debes ingresar una contraseña");
+    </script>
     <!-- jQuery -->
     <!--<script src="js/jquery.js"></script>-->
     <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>

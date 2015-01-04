@@ -47,7 +47,7 @@ error_reporting(-1);
 		<script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
 		<script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
 		<![endif]-->
-
+	<script src="js/jsvalidator.js" type="text/javascript"></script>
 </head>
 
 <body>
@@ -88,7 +88,7 @@ error_reporting(-1);
 						?>
 						<!-- /.panel-heading -->                        
 						<div class="panel-body">
-							<form role="form" action="addSucursal.php" method="get">
+							<form role="form" action="addSucursal.php" method="get" id="formulario">
 								<div class="form-group">
 									<label>Nombre de Sucursal</label>
 									<input name="nombre" class="form-control" placeholder="Ej: Sucursal Santiago Centro">
@@ -168,7 +168,17 @@ error_reporting(-1);
 
 			</div>
 			<!-- /#wrapper -->
+			<!-- validador formulario -->
+    		<script  type="text/javascript">
+        		var frmvalidator = new Validator("formulario");
+        		frmvalidator.addValidation("nombre","req","Debes ingresar el nombre de la Sucursal");
+        		frmvalidator.addValidation("nombre","maxlen=20", "Largo máximo para el nombre es de 20 caracteres");
 
+        		frmvalidator.addValidation("tipoSucursal","req");
+
+        		frmvalidator.addValidation("lat","req","Debes ingresar la dirección exacta de la sucursal");
+
+    		</script>
 			<!-- jQuery -->
 			<!--<script src="js/jquery.js"></script>-->
 

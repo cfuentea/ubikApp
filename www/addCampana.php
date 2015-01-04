@@ -47,24 +47,25 @@ error_reporting(-1);
     <!--[if lt IE 9]>
         <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
         <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
-    <![endif]-->
-        
-</head>
+        <![endif]-->
+        <!-- validador formularios (JS) -->
+        <script src="js/jsvalidator.js" type="text/javascript"></script>
+    </head>
 
-<body>
-	
-    <div id="wrapper">
+    <body>
 
-        <!-- Navigation -->
-        <!-- inicio header cfuentea -->
-        <?php
-        include('header.php');
-        ?>
+        <div id="wrapper">
+
+            <!-- Navigation -->
+            <!-- inicio header cfuentea -->
+            <?php
+            include('header.php');
+            ?>
             <!-- fin header cfuentea -->
             <!-- /.navbar-top-links -->
-			<!-- barra de menu -->
+            <!-- barra de menu -->
             <?php
-            	include('menu.general.php');
+            include('menu.general.php');
             ?>
             <!-- fin barra de menu -->
         </nav>
@@ -81,56 +82,68 @@ error_reporting(-1);
                 <div class="col-lg-8-">
                     <div class="panel panel-default">
                         <?php 
-							if($_GET) {
-								echo createCampana(getIdEmpresa($_SESSION['userId']),$_GET);
-								print_r($_GET);
-							} 
-						?>
+                        if($_GET) {
+                            echo createCampana(getIdEmpresa($_SESSION['userId']),$_GET);
+                            print_r($_GET);
+                        } 
+                        ?>
                         <!-- /.panel-heading -->                        
                         <div class="panel-body">
-	                     <form role="form" action="addCampana.php" method="get">
-                        	<div class="form-group">
-                        		<label>Nombre de campaña</label>
-                        		<input name="nombre" class="form-control" placeholder="Promoci&oacute;n imperdible!">
-                        	</div>
-							<div class="form-group">
-								<label>Descripci&oacute;n</label>
-								<textarea name="descripcion" class="form-control" placeholder="Descripci&oacute;n del producto" rows="3"></textarea>
-							</div>
-							<div class="form-group">
-								<label>Fecha de inicio</label>
-								<input type="date" name="fechaInicio" class="form-control" placeholder="AAAA-mm-dd hh:mm:ss">
-							</div>
-							<div class="form-group">
-								<label>Fecha de fin</label>
-								<input type="date" name="fechaFin" min="2014-01-02 00:00:00" class="form-control" placeholder="AAAA-mm-dd hh:mm:ss">
-							</div>
-							<div class="form-group">
-								<label>Categorias</label>
-								<?=readCategorias();?>
-							</div>
-							<div class="form-group">
-								<label>Tiendas & Sucursales</label>
-								<?=readSucursal(getIdEmpresa($_SESSION['userId']));?>
-							</div>
-                		   <input type="submit" class="btn btn-lg btn-success btn-block" value="Enviar">
-				           <!-- <a href="index.html" class="btn btn-lg btn-success btn-block">Login</a>-->
-                		 </form>
-            			</div>
-                        <!-- /.panel-body -->
-                    </div>
-                    <!-- /.table-responsive -->
-                    </div>
+                          <form role="form" action="addCampana.php" method="get" id="formulario">
+                           <div class="form-group">
+                              <label>Nombre de campaña</label>
+                              <input name="nombre" class="form-control" placeholder="Promoci&oacute;n imperdible!">
+                          </div>
+                          <div class="form-group">
+                            <label>Descripci&oacute;n</label>
+                            <textarea name="descripcion" class="form-control" placeholder="Descripci&oacute;n del producto" rows="3"></textarea>
+                        </div>
+                        <div class="form-group">
+                            <label>Fecha de inicio</label>
+                            <input type="date" name="fechaInicio" class="form-control" placeholder="AAAA-mm-dd hh:mm:ss">
+                        </div>
+                        <div class="form-group">
+                            <label>Fecha de fin</label>
+                            <input type="date" name="fechaFin" min="2014-01-02 00:00:00" class="form-control" placeholder="AAAA-mm-dd hh:mm:ss">
+                        </div>
+                        <div class="form-group">
+                            <label>Categorias</label>
+                            <?=readCategorias();?>
+                        </div>
+                        <div class="form-group">
+                            <label>Tiendas & Sucursales</label>
+                            <?=readSucursal(getIdEmpresa($_SESSION['userId']));?>
+                        </div>
+                        <input type="submit" class="btn btn-lg btn-success btn-block" value="Enviar">
+                        <!-- <a href="index.html" class="btn btn-lg btn-success btn-block">Login</a>-->
+                    </form>
                 </div>
-                <!-- /.col-lg-4 -->
+                <!-- /.panel-body -->
             </div>
-            <!-- /.row -->
+            <!-- /.table-responsive -->
         </div>
-        <!-- /#page-wrapper -->
-
     </div>
-    <!-- /#wrapper -->
+    <!-- /.col-lg-4 -->
+</div>
+<!-- /.row -->
+</div>
+<!-- /#page-wrapper -->
 
+</div>
+<!-- /#wrapper -->
+<!-- validador formulario -->
+    <script  type="text/javascript">
+        var frmvalidator = new Validator("formulario");
+        frmvalidator.addValidation("nombre","req","Debes ingresar el nombre de la campaña");
+        frmvalidator.addValidation("nombre","maxlen=20", "Largo máximo para el nombre es de 20 caracteres");
+
+        frmvalidator.addValidation("descripcion","req");
+        frmvalidator.addValidation("descripcion","maxlen=100");
+
+        frmvalidator.addValidation("fechaInicio","req");
+        frmvalidator.addValidation("fechaFin","req");
+
+    </script>
     <!-- jQuery 
     <script src="js/jquery.js"></script> -->
     <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
