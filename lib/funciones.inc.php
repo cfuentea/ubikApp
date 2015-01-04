@@ -62,7 +62,7 @@ error_reporting(-1);
  	$queryUC = "SELECT Usuario_id, Campana_id, fechaUso, valoracion
  				FROM UsuarioCampana
  				WHERE Usuario_id = ".$row['id']."";
- 	$resultadoUC = mysql_query($qeryUC,$link);
+ 	$resultadoUC = mysql_query($queryUC,$link);
 
  	if(mysql_num_rows($resultado)>0) {
 
