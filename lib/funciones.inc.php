@@ -64,24 +64,24 @@ error_reporting(-1);
  				WHERE Usuario_id = ".$row['id']."";
  	$resultadoUC = mysql_query($queryUC,$link);
 
- 	if(mysql_num_rows($resultado)>0) {
+ 	if(mysql_num_rows($resultadoUC)>0) {
 
- 		$query = "UPDATE UsuarioCampana SET
+ 		$queryB = "UPDATE UsuarioCampana SET
  					Usuario_id = ".$row['id'].",
  					Campana_id = ".$idCampana.",
  					fechaUso = now(),
  					valoracion = ".$valoracion."
  					WHERE 
  					Usuario_id = ".$row['id']." AND Campana_id = ".$idCampana."";
- 		$resultado = mysql_query($query,$link);
+ 		$resultadoB = mysql_query($queryB,$link);
 
  	} else {
  		
- 		$query = 'INSERT INTO UsuarioCampana
+ 		$queryB = 'INSERT INTO UsuarioCampana
  					(Usuario_id, Campana_id) 
  					VALUES 
  					('.$row['id'].','.$idCampana.')';
- 		$resultado = mysql_query($query, $link);
+ 		$resultadoB = mysql_query($queryB, $link);
 
  	}
  	return '{"resultado":"ok"}';
