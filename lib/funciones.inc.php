@@ -59,14 +59,30 @@ error_reporting(-1);
  	$resultado = mysql_query($query, $link);
  	$row = mysql_fetch_assoc($resultado);
  	
- 	$query = 'INSERT INTO UsuarioCampana
- 				(Usuario_id, Campana_id, fechaUso, valoracion) 
- 				VALUES 
- 				('.$row['id'].','.$idCampana.',now(), "'.$valoracion.'")';
- 	$resultado = mysql_query($query, $link);
- 	
- 	return '{"resultado":"ok"}';
+ 	$queryUC = "SELECT Usuario_id, Campana_id, fechaUso, valoracion
+ 				FROM UsuarioCampana
+ 				WHERE Usuario_id = ".$row['id']."";
+ 	$resultadoUC = mysql_query($qeryUC,$link);
 
+ 	if(mysql_num_rows($resultado)>0) {
+
+ 		$query = "UPDATE UsuarioCampana SET
+ 					Usuario_id = ".$row['id'].",
+ 					Campana_id = ".$idCampana.",
+ 					fechaUso = now(),
+ 					valoracion = ".$valoracion."";
+ 		$resultado = mysql_query($query,$link);
+
+ 	} else {
+ 		
+ 		$query = 'INSERT INTO UsuarioCampana
+ 					(Usuario_id, Campana_id) 
+ 					VALUES 
+ 					('.$row['id'].','.$idCampana.')';
+ 		$resultado = mysql_query($query, $link);
+
+ 	}
+ 	return '{"resultado":"ok"}';
  }
 
 /* Inicio funciones cyanez*/
@@ -661,8 +677,6 @@ function ubikMe($uuid, $posicion, $categoria) {
 	$latUser = $pos['lat'];
 	$lngUser = $pos['lng'];
 	$listaCategoria = $cat['categoria'];
-	//$listaCategoria = array(explode(",", $cat['categoria']));
-	//$categorias = explode(",",$listaCategoria);
 
 	if(existeCampanaActiva()) { // si existen campañas activas
 		$query = "SELECT a.id as idCampana, a.Estado_id, b.Sucursal_id, c.id, c.latitud, c.longitud
@@ -683,14 +697,18 @@ function ubikMe($uuid, $posicion, $categoria) {
 										WHERE b.id = ".$row['idCampana']."
 										AND b.id = a.Campana_id
 										AND a.Categoria_id IN (".$listaCategoria.")";
-				//echo $queryCategoria;
 				$resultCat = mysql_query($queryCategoria,$link);
 
 				if(mysql_num_rows($resultCat)>0) {
 					// retorno campaña que hace match y cierro proceso
 					echo readCampanaSola($row['idCampana']);
-					break;
-				} 
+					InsCampanaUsuario($row['idCampana'],$uuid,0);
+					//break;
+				} else {
+					return '{"resultado":"sin_match"}';
+				}
+			} else {
+				return '{"resultado":"sin_match"}';
 			}
 		}
 	} else {
