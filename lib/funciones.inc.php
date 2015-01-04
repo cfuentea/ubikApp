@@ -689,12 +689,12 @@ function ubikMe($uuid, $posicion, $categoria) {
 					WHERE a.Estado_id = 1 
 					AND a.id = b.Campana_id 
 					AND b.Sucursal_id = c.id
-					AND a.id NOT IN (SELECT a.id 
+					AND a.id NOT IN (SELECT a.Campana_id
 										FROM UsuarioCampana a, Usuario b 
 										WHERE a.Usuario_id = b.id 
 										AND b.hashValidacion LIKE '".$uuid."' )
 					LIMIT 1";
-
+		
 		$resultado = mysql_query($query,$link);
 
 		while($row = mysql_fetch_assoc($resultado)) {
