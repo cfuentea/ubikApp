@@ -9,13 +9,6 @@ if($_SESSION['userId']==0) {
 	exit;
 }
 
-if($_POST) {
-    $arr = json_encode($_POST);
-    //echo $arr;    
-    updateEmpresa(getIdEmpresa($_SESSION['userId']),$arr);
-    header("Location:index.php");
-}
-
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -28,7 +21,7 @@ if($_POST) {
     <meta name="description" content="">
     <meta name="author" content="">
 
-    <title>UbikApp - Editar Campa&ntilde;a</title>
+    <title>UbikApp - Editar Perfil</title>
 
     <!-- Bootstrap Core CSS -->
     <link href="css/bootstrap.min.css" rel="stylesheet">
@@ -38,9 +31,6 @@ if($_POST) {
 
     <!-- Custom CSS -->
     <link href="css/sb-admin-2.css" rel="stylesheet">
-
-    <!-- DataTables CSS -->
-    <link href="css/plugins/dataTables.bootstrap.css" rel="stylesheet">
 
     <!-- Custom Fonts -->
     <link href="font-awesome-4.1.0/css/font-awesome.min.css" rel="stylesheet" type="text/css">
@@ -55,7 +45,7 @@ if($_POST) {
     </head>
 
     <body>
-       
+
         <div id="wrapper">
 
             <!-- Navigation -->
@@ -64,7 +54,6 @@ if($_POST) {
         include('header.php');
 
         global $link;
-
         $query = "SELECT 
                     id,
                     nombre,
@@ -82,27 +71,30 @@ if($_POST) {
         
         $resultado = mysql_query($query,$link);
         $row = mysql_fetch_assoc($resultado);
-
         ?>
             <!-- fin header cfuentea -->
-             
-            <!-- inicio -->
-           <div class="row">
-        <div class="col-lg-12">
-            <h1 class="page-header">Perfil Empresa: <?=readCliente($_SESSION['userId']);?></h1>
-        </div>
-        <!-- /.col-lg-12 -->
-    </div>
-    <!-- /.row -->
-    <div class="row">
-        <div class="col-lg-12">
-            <div class="panel panel-default">
-                <div class="panel-heading">
-                    Ingrese sus datos
+             <!-- /.navbar-top-links -->
+                <!-- barra de menu -->
+                <?php
+                include('menu.general.php');
+                ?>
+                <!-- fin barra de menu -->
+            </nav>
+
+            <div id="page-wrapper">
+                <div class="row">
+                    <div class="col-lg-12">
+                        <h1 class="page-header">Edici&oacute;n de Perfil - <?=readCliente($_SESSION['userId']);?></h1>
+                    </div>
+                    <!-- /.col-lg-12 -->
                 </div>
-                <div class="panel-body">
-                    <div class="row">
-                        <form role="form" method="post" id="formulario">
+                <!-- /.row -->
+                <div class="row">
+                    <div class="col-lg-8-">
+                        <div class="panel panel-default">
+                            <!-- /.panel-heading -->
+                            <div class="panel-body">
+                                 <form role="form" method="post" id="formulario">
 
                         <div class="col-lg-6">
 
@@ -151,19 +143,14 @@ if($_POST) {
                         </div>
                                                 
                         </form>
-                        <!-- /.col-lg-6 (nested) -->
+                            </div>
+                            <!-- /.panel-body -->
+                        </div>
+                        <!-- /.table-responsive -->
                     </div>
-                    <!-- /.row (nested) -->
                 </div>
-                <!-- /.panel-body -->
+                <!-- /.col-lg-4 -->
             </div>
-            <!-- /.panel -->
-        </div>
-        <!-- /.col-lg-12 -->
-    </div>
-
-
-            <!-- fin -->
             <!-- /.row -->
         </div>
         <!-- /#page-wrapper -->
@@ -176,8 +163,7 @@ if($_POST) {
         frmvalidator.addValidation("password","req","Debes ingresar una contraseña");
     </script>
     <!-- jQuery -->
-    <!--<script src="js/jquery.js"></script>-->
-    <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+    <script src="js/jquery.js"></script>
 
     <!-- Bootstrap Core JavaScript -->
     <script src="js/bootstrap.min.js"></script>
