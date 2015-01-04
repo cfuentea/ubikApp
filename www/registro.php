@@ -39,6 +39,9 @@ if($_POST) {
     <!-- Custom CSS -->
     <link href="css/sb-admin-2.css" rel="stylesheet">
 
+    <!-- DataTables CSS -->
+    <link href="css/plugins/dataTables.bootstrap.css" rel="stylesheet">
+
     <!-- Custom Fonts -->
     <link href="font-awesome-4.1.0/css/font-awesome.min.css" rel="stylesheet" type="text/css">
 

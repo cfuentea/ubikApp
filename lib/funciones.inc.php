@@ -537,9 +537,9 @@ function checkStatusCampana($id,$idCampana) {
 	$row = mysql_fetch_assoc($resultado);
 
 	if($row['id'] == 1) {
-		return "<a href='?id=".$idCampana."&op=deshab'><button style='background-color: red; color:white;' type='button'>Deshabilitar</button></a>";
+		return "<a href='?id=".$idCampana."&op=deshab'><button class='btn btn-danger' type='button'>Deshabilitar</button></a>";
 	} else {
-		return "<a href='?id=".$idCampana."&op=hab'><button style='background-color: green; color:white;' type='button'>Habilitar</button></a>";
+		return "<a href='?id=".$idCampana."&op=hab'><button class='btn btn-success' type='button'>Habilitar</button></a>";
 	}
 }
 
@@ -548,7 +548,7 @@ function listarCampanaEditar($idEmpresa) {
 	$query = 'SELECT id, nombre, descripcion,Estado_id FROM Campana WHERE Empresa_id = '.$idEmpresa.'';
 	$resultado = mysql_query($query,$link);
 	
-	echo '<table border="0" width="100%">
+	echo '<table border="0" width="100%" class="table table-striped table-bordered table-hover">
 	<tr align="center" bgcolor="#ccc">
 	<td>Nro</td>
 	<td>&nbsp;Nombre Campa&ntilde;a&nbsp;</td>
@@ -562,7 +562,7 @@ function listarCampanaEditar($idEmpresa) {
 		<td>'.$row['id'].'</td>
 		<td>'.$row['nombre'].'</td>
 		<td>'.$row['descripcion'].'</td>
-		<td><a href="editCampanaIndividual.php?idCampana='.$row['id'].'"><button type="button">Editar</button></a></td>
+		<td><a href="editCampanaIndividual.php?idCampana='.$row['id'].'"><button type="button" class="btn btn-default">Editar</button></a></td>
 		<td>'.checkStatusCampana($row['Estado_id'],$row['id']).'</td>				
 		</tr>';
 	}
@@ -592,13 +592,12 @@ function listarSucursalEditar($idEmpresa) {
 	FROM Sucursal WHERE idEmpresa = '.$idEmpresa.'';
 	$resultado = mysql_query($query,$link);
 	
-	echo '<table border="0" width="100%">
+	echo '<table border="0" width="100%" class="table table-striped table-bordered table-hover">
 	<tr align="center" bgcolor="#ccc">
 	<td>Nro</td>
 	<td>&nbsp;Nombre Sucursal&nbsp;</td>
 	<td>Direcci&oacute;n</td>
 	<td>Tipo de Sucursal</td>
-	<td></td>
 	<td></td>
 	</tr>';
 
@@ -608,8 +607,7 @@ function listarSucursalEditar($idEmpresa) {
 		<td>'.$row['nombre'].'</td>
 		<td>'.$row['direccion'].'</td>
 		<td>'.$row['tipoSucursal'].'</td>
-		<td></td>
-		<td><a href="?id='.$row['id'].'&op=del"><button type="button" style="background-color: red; color:white;">Eliminar</button></a></td>			
+		<td><a href="?id='.$row['id'].'&op=del"><button type="button" class="btn btn-danger">Eliminar</button></a></td>			
 		</tr>';
 	}
 	echo '</table>';
@@ -782,7 +780,7 @@ function estadisticaArea($idEmpresa) {
 			var options = {
           	title: 'Cantidad de uso de campañas',
           	curveType: 'function',
-          	hAxis: {title: 'Year',  titleTextStyle: {color: '#333'}},
+          	hAxis: {title: 'Año',  titleTextStyle: {color: '#333'}},
           	vAxis: {minValue: 0}
         	};
 
