@@ -648,22 +648,30 @@ function existeCampanaActiva() {
 
 }
 
-function ubikMe($uuid, $posicion) {
+function ubikMe($uuid, $posicion, $categoria) {
 	
 	/* 	esta funcion debe ser capaz de recibir parametros y traducirlos en envío de campañas
 		adicionalmente debe dejar un registro de las campañas que se envían en un log (registro BBDD)
 	*/
 	global $link;
 	
+	$cat = json_decode($categoria,true);
 	$pos = json_decode($posicion,true);
 
 	$latUser = $pos['lat'];
 	$lngUser = $pos['lng'];
+	$listaCategoria = $cat['categoria'];
+	//$listaCategoria = array(explode(",", $cat['categoria']));
+	//$categorias = explode(",",$listaCategoria);
 
 	if(existeCampanaActiva()) { // si existen campañas activas
 		$query = "SELECT a.id as idCampana, a.Estado_id, b.Sucursal_id, c.id, c.latitud, c.longitud
 					FROM Campana a, CampanaSucursal b, Sucursal c
-					WHERE a.Estado_id = 1 AND a.id = b.Campana_id AND b.Sucursal_id = c.id";
+					WHERE a.Estado_id = 1 
+					AND a.id = b.Campana_id 
+					AND b.Sucursal_id = c.id
+					AND a.id NOT IN (SELECT Campana_id FROM UsuarioCampana)
+					LIMIT 1";
 		$resultado = mysql_query($query,$link);
 
 		while($row = mysql_fetch_assoc($resultado)) {
@@ -671,8 +679,18 @@ function ubikMe($uuid, $posicion) {
 		// las compara y si hacen match, las envía
 			if(floatval(distancia($row['latitud'],$row['longitud'],$latUser,$lngUser,"K")) < 0.5) {
 			// si la distancia entre campaña 1 vs posicion usuario es menor a 0.5 Km
-				echo readCampanaSola($row['idCampana']);
-				break; 
+				$queryCategoria = "SELECT a.*, b.* FROM CampanaCategoria a, Campana b
+										WHERE b.id = ".$row['idCampana']."
+										AND b.id = a.Campana_id
+										AND a.Categoria_id IN (".$listaCategoria.")";
+				//echo $queryCategoria;
+				$resultCat = mysql_query($queryCategoria,$link);
+
+				if(mysql_num_rows($resultCat)>0) {
+					// retorno campaña que hace match y cierro proceso
+					echo readCampanaSola($row['idCampana']);
+					break;
+				} 
 			}
 		}
 	} else {
