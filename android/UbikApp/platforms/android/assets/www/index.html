@@ -38,8 +38,11 @@
 		
 	    // PhoneGap esta listo
 	    function onDeviceReady() {
+	       
 	       //Se inicializa BDD SQLite UbikApp
  		   init();
+ 		   selectCategoriasJSON();
+ 		   
  		   document.addEventListener("backbutton", onBackKeyDown, false);
  		   
  		   document.addEventListener("resume", onResume, false);
@@ -72,6 +75,23 @@
 	        if(button == 2) {
 	            insertPromos($("#id").val(), $("#nombre").val(), $("#descripcion").val());
 	            location.href = "notificaciones.html";
+	        }else{
+
+				var parametros = '&idCampana='+$("#id").val()+'&uuid='+device.uuid+'&valoracion=-1';
+
+	            $.ajax({
+	                type: 'GET',
+	                url: 'http://ubikapp-aws.dev.cl/index.php?metodo=InsCampanaUsuario',
+	                data: parametros,
+	                success:function(data){
+	                    //alert("OK:" + data.resultado);
+	                    location.href = "index.html";
+	                },
+	                error:function(data){
+	                    alert("ERROR:" + data.resultado);
+	                }
+	            });	        	
+
 	        }
 	    }
 
@@ -101,40 +121,41 @@
 		function playBeep() {
         	navigator.notification.beep(1);
     	}
-    	
+
 	    // Muestra un cuadro de dialogo personalizado
 	    function showAlert() {
-	    	
-	    		
-	    	//alert(device.uuid + " : " + coordenadas.Lat + " / " + coordenadas.Lng)
-    	
+
     		var parametros = '&uuid='+device.uuid+'&pos={\"lat\":\"'+coordenadas.Lat+'\",\"lng\":\"'+coordenadas.Lng+'\"}';
-			
+
+    		var cat = "&cat=" + $("#categoriasJSON").val();
 
 			$.ajax({
 				type: 'GET',
-				url : 'http://ubikapp-aws.dev.cl/index.php?metodo=ubikMe'+parametros,
-				//data: parametros,
+				url : 'http://ubikapp-aws.dev.cl/index.php?metodo=ubikMe',
+				data: parametros + cat,
 				success:function(data){
-				
-					$("#id").val(data.id);
-					$("#nombre").val(data.nombre);					 
-					$("#descripcion").val(data.descripcion);
 
-					playBeep();
+					if (data.resultado!='sin_match'){
+						$("#id").val(data.id);
+						$("#nombre").val(data.nombre);					 
+						$("#descripcion").val(data.descripcion);
 
-			    	navigator.notification.confirm(
-			    			data.nombre + " \n" + data.descripcion,
-			    		 	alertDismissed,
-			    		 	"Ver Promocion", "No, Si");
+						playBeep();
+
+				    	navigator.notification.confirm(
+				    			data.nombre + " \n" + data.descripcion,
+				    		 	alertDismissed,
+				    		 	"Ver Promocion", "No, Si");
+			    	}
+
 				},
-				error:function(data){
-					alert("Error Service readCategoria");
+				error:function(data){				
 				}
-	
+
 			});	    	
 
 	    }
+
 
 		myVar=setInterval(function () {showAlert()}, 30000);
 
@@ -149,6 +170,7 @@
 		<input type="hidden" name="id" id="id">
 		<input type="hidden" name="nombre" id="nombre">
 		<input type="hidden" name="descripcion" id="descripcion">
+		<input type="hidden" name="categoriasJSON" id="categoriasJSON">
 	</form>
 
     <div id="wrapper">

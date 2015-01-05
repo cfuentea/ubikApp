@@ -79,9 +79,9 @@
                         transaction.executeSql("INSERT INTO usuario( uuid ) VALUES ( ? )", [ device.uuid ]);
 			            transaction.executeSql("insert into promos (id, nombre, descripcion, estado) values (?, ?, ?, ?)", [1, "Falabella 40% dscto.", "Deportes y Outdoor", 1]);
                         transaction.executeSql("insert into promos (id, nombre, descripcion, estado) values (?, ?, ?, ?)", [2, "Cine Hoyts a Luka", "Solo por este fin de semana", 1]);
-                        transaction.executeSql("insert into promos (id, nombre, descripcion, estado) values (?, ?, ?, ?)", [3, "Ripley 50% dscto.", "Deportes y Outdoor", 1]);
-                        transaction.executeSql("insert into promos (id, nombre, descripcion, estado) values (?, ?, ?, ?)", [4, "Falabella 40% dscto.", "Toda la tecnologia a tu alcance", 1]);
-                        transaction.executeSql("insert into promos (id, nombre, descripcion, estado) values (?, ?, ?, ?)", [5, "Falabella 50% dscto.", "Cds y vinilos Clasicos", 1]);
+                        //transaction.executeSql("insert into promos (id, nombre, descripcion, estado) values (?, ?, ?, ?)", [3, "Ripley 50% dscto.", "Deportes y Outdoor", 1]);
+                        //transaction.executeSql("insert into promos (id, nombre, descripcion, estado) values (?, ?, ?, ?)", [4, "Falabella 40% dscto.", "Toda la tecnologia a tu alcance", 1]);
+                        //transaction.executeSql("insert into promos (id, nombre, descripcion, estado) values (?, ?, ?, ?)", [5, "Falabella 50% dscto.", "Cds y vinilos Clasicos", 1]);
                         transaction.executeSql("insert into promos (id, nombre, descripcion, estado) values (?, ?, ?, ?)", [6, "Ipciisa 50% dscto.", "En tu matricula 2015", 1]);
                         /*
                         transaction.executeSql("insert into categoria (id, nombre, descripcion) values (?, ?, ?)", [1, "Deportes y Outdoor", ""]);
@@ -358,7 +358,7 @@
         
     }
 
-    
+   
     function CategoriasWebHandler( transaction, results ) {
         var i=0,
             row,
@@ -430,7 +430,7 @@
         var that = this;
         UbikAppDB.transaction(
             function (transaction) {
-                transaction.executeSql("SELECT * FROM promos where estado = 2;", [], that.UsadasHandler, that.errorHandler);
+                transaction.executeSql("SELECT * FROM promos where estado = 2 order by id desc;", [], that.UsadasHandler, that.errorHandler);
             }
         );              
     }
@@ -444,6 +444,37 @@
         );              
     }
 
+
+    function selectCategoriasJSON() {
+        var that = this;
+        var categorias = "";
+        UbikAppDB.transaction(
+            function (transaction) {
+                transaction.executeSql("SELECT * FROM categoria;", [], 
+                        function(transaction, results) {
+                            var i=0,
+                                row,
+                                res="",
+                                categorias="";
+                            
+                            for (i ; i<results.rows.length; i++) {
+                                        
+                                row = results.rows.item(i);  
+                                res += row['id'] + ',';
+    
+                            }
+                            categorias = '&cat={\"categoria\":\"' + res + '0\"}';
+                            $("#categoriasJSON").val(categorias);
+                            
+                        }        
+                        ,
+                        that.errorHandler);
+            }
+        );
+
+    }
+
+            
     function selectCategoriaWeb() {
         var that = this;
         UbikAppDB.transaction(
@@ -466,7 +497,7 @@
 			    	transaction.executeSql("DROP TABLE promos;", [], that.nullDataHandler, that.errorHandler);
 			    }
 			);
-			console.log("Tabls borradas");
+			console.log("Tablas borradas");
 			//location.reload();			
 		}
 	    

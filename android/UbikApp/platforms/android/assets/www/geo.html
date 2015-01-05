@@ -46,8 +46,13 @@
 
 	<script type="text/javascript" src="cordova.js"></script>
 
-	<script type="text/javascript">
+    <!-- jQuery -->
+    <script src="js/jquery.js" type="text/javascript" charset="utf-8"></script>
+
+	<script src="js/db_ubikapp.js" type="text/javascript" charset="utf-8"></script>
 	
+	<script type="text/javascript">
+		
 	    document.addEventListener("backbutton", onBackKeyDown, false);
 	
 	    function onBackKeyDown() {
@@ -86,59 +91,42 @@
 	            var infowindow = new google.maps.InfoWindow({
 	                map: map,
 	                position: new google.maps.LatLng(coordenadas.Lat, coordenadas.Lng),
-	                content: 'Aqui Estoy !',
-	                animation: google.maps.Animation.DROP	                
+	                content: '<img src="images/icon.png"> &nbsp;Aqui Estoy! <br> Espera tu Promo',
+	                animation: google.maps.Animation.DROP
 	            });
 
-
+			/*
 			var parametros = '&uuid='+device.uuid+'&pos={\"lat\":\"'+coordenadas.Lat+'\",\"lng\":\"'+coordenadas.Lng+'\"}';
-			
+			var cat = $("#categoriasJSON").val();
+				
 			$.ajax({
 				type: 'GET',
-				url : 'http://ubikapp-aws.dev.cl/index.php?metodo=ubikMe'+parametros,
-				//data: parametros,
+				url : 'http://ubikapp-aws.dev.cl/index.php?metodo=ubikMe',
+				data: parametros+cat,
 				success:function(data){
-					
-					$("#nombre").html(data.nombre);
-					$("#descripcion").html(data.descripcion);
-
-					var ubik = [
-					              new google.maps.LatLng(data.latitud, data.longitud),
-					            ];
-					
-					marcadores = new google.maps.Marker({
-			                        map: map,
-			                        position: ubik[0],
-			                        animation: google.maps.Animation.DROP
-			                    });
+					if (data.resultado!='sin_match'){
+						$("#nombre").html(data.nombre);
+						$("#descripcion").html(data.descripcion);
+	
+						var ubik = [
+						              new google.maps.LatLng(data.latitud, data.longitud),
+						            ];
+						
+						marcadores = new google.maps.Marker({
+				                        map: map,
+				                        position: ubik[0],
+				                        animation: google.maps.Animation.DROP
+				                    });
+			        }
 				},
 				error:function(data){
-					alert("Error ubikMe, intente luego !");
+					alert(data.resultado);
+					//alert("Error ubikMe, intente luego !");
 				}
 	
-			});	    	
-			
-			/*
-	            var ubik = [
-	              new google.maps.LatLng(-33.396650, -70.626404),
-	              new google.maps.LatLng(-33.395316, -70.625953),
-	              new google.maps.LatLng(-33.396659, -70.628453)
-	            ];
+			});
+			*/
 
-
-				var marcadores = "";
-	            for (var i = 0; i < ubik.length; i++) {
-	            	marcadores = new google.maps.Marker({
-			                        map: map,
-			                        position: ubik[i],
-			                        animation: google.maps.Animation.DROP
-			                    });
-	            }
-			*/	
-	            //Plaza, -33.396650, -70.626404
-	            //Comisaria, -33.395316, -70.625953
-	            //Territorio CdU, -33.396659, -70.628453
-	
 	        }
 
 	
@@ -153,13 +141,23 @@
 	        }
 	        
 	    }
+		
+		function iniciarXY(){
+			initDatabase();
+			selectCategoriasJSON();
+			iniciar();		
+		}
 
 	</script>
 
 </head>
 
-<body onload="iniciar()">
+<body onload="iniciarXY()">
 
+	<form>
+		<input type="hidden" name="categoriasJSON" id="categoriasJSON">
+	</form>
+	
     <div id="wrapper">
 
         <!-- Navigation -->
@@ -204,12 +202,13 @@
 
             <div class="container-fluid">
     			
+    			<!--
 				<header>
-					<span id="nombre">
-					<br> <span id="descripcion">
+					<h3><span id="nombre">
+					<br><span id="descripcion"></h3>
 				</header>
 								
-		    	<!--	                        
+		    		                        
 				<div id="informacion">
 					<h2>Tu promoción actual:</h2>
 					<h3>Latitud: <span id="nombre"></span></h3>
