@@ -85,7 +85,7 @@ error_reporting(-1);
 								// echo createCampana(getIdEmpresa($_SESSION['userId']),$_GET);
                                 // Escribir funcion que permita hacer Update de los valores desplegados
                                 echo "<b style='color:red'>Error, sin datos ingresados</b>";
-								print_r($_GET);
+								//print_r($_GET);
 							} else {
                                 global $link;
                                 $query = "SELECT id, Empresa_id, nombre, descripcion, fechaInicio, fechaFin

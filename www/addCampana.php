@@ -84,7 +84,7 @@ error_reporting(-1);
                         <?php 
                         if($_GET) {
                             echo createCampana(getIdEmpresa($_SESSION['userId']),$_GET);
-                            print_r($_GET);
+                            //print_r($_GET);
                         } 
                         ?>
                         <!-- /.panel-heading -->                        

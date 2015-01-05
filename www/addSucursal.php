@@ -82,7 +82,7 @@ error_reporting(-1);
 						<?php 
 						if($_GET) {
 							echo createSucursal(getIdEmpresa($_SESSION['userId']),$_GET);
-							print_r($_GET)."<br />";
+							//print_r($_GET)."<br />";
 
 						} 
 						?>
